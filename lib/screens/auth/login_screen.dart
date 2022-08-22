@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
+import '../../providers/app_provider.dart';
 import '../../utilities/app_image.dart';
 import '../../utilities/custom_services.dart';
 import '../../utilities/custom_validator.dart';
@@ -9,10 +11,11 @@ import '../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../widgets/custom_widgets/custom_textformfield.dart';
 import '../../widgets/custom_widgets/password_textformfield.dart';
 import '../../widgets/custom_widgets/show_loading.dart';
+import '../main_screen/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
-  static const String routeName = '/LoginScreen';
+  static const String routeName = '/login';
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -83,9 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = true;
       });
       if (user != null) {
-        // Provider.of<AppProvider>(context, listen: false).onTabTapped(0);
-        // Navigator.of(context).pushNamedAndRemoveUntil(
-        //     MainScreen.rotueName, (Route<dynamic> route) => false);
+        Provider.of<AppProvider>(context, listen: false).onTabTapped(0);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            MainScreen.rotueName, (Route<dynamic> route) => false);
       }
     }
   }
