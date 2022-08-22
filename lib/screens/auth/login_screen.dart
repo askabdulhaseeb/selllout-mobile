@@ -64,6 +64,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
               _forgetPassword(),
               const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    '''Don't have an account?''',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      // Navigator.of(context)
+                      //     .pushReplacementNamed(RegisterScreen.routeName);
+                    },
+                    child: const Text('Register'),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

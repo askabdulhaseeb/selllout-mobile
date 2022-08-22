@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'providers/app_provider.dart';
+import 'providers/app_theme.dart';
 import 'routies.dart';
 import 'screens/auth/login_screen.dart';
 
@@ -26,15 +27,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AppProvider>(
           create: (BuildContext context) => AppProvider(),
         ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Selllout',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        ChangeNotifierProvider<AppThemeProvider>(
+          create: (BuildContext context) => AppThemeProvider(),
         ),
-        home: const LoginScreen(),
-        routes: routes,
+      ],
+      child: Consumer<AppThemeProvider>(
+        builder: (BuildContext context, AppThemeProvider theme,_) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Selllout',
+            theme: AppThemes.light,
+            darkTheme: AppThemes.dark,
+            themeMode: theme.themeMode,
+            home: const LoginScreen(),
+            routes: routes,
+          );
+        }
       ),
     );
   }
