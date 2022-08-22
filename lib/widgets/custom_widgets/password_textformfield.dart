@@ -47,6 +47,7 @@ class PasswordTextFormFieldState extends State<PasswordTextFormField> {
         validator: (String? value) => CustomValidator.password(value),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          hintText: 'Password',
           suffixIcon: IconButton(
             onPressed: () => setState(() {
               _notVisible = !_notVisible;
