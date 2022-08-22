@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async{
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MyApp());
 }
 
@@ -18,3 +23,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// Platform  Firebase App Id
+// android   1:278140333975:android:32494f3707d3caebc15ed2
+// ios       1:278140333975:ios:ab0854391d0cd79fc15ed2

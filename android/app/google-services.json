@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "278140333975",
+    "project_id": "selll-out",
+    "storage_bucket": "selll-out.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278140333975:android:32494f3707d3caebc15ed2",
+        "android_client_info": {
+          "package_name": "com.selllout.selllout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278140333975-rgfns8b42a69e0d4rqbc4ob4o3ou1kmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA53ztuE-Kq42RRPRn5t1FyjGK7DbXi2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278140333975-rgfns8b42a69e0d4rqbc4ob4o3ou1kmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
