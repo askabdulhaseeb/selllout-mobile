@@ -16,9 +16,11 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLines = 1,
     this.maxLength,
     this.showPrefixIcon = true,
+    this.showSuffixIcon = true,
     this.readOnly = false,
     this.autoFocus = false,
     this.textAlign = TextAlign.start,
+    this.style,
     this.border,
     Key? key,
   })  : _controller = controller,
@@ -28,6 +30,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final void Function(String)? onChanged;
   final bool showPrefixIcon;
+  final bool showSuffixIcon;
   final String? Function(String? value)? validator;
   final EdgeInsetsGeometry? contentPadding;
   final int? minLines;
@@ -40,6 +43,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool autoFocus;
   final TextAlign textAlign;
   final InputBorder? border;
+  final TextStyle? style;
   @override
   CustomTextFormFieldState createState() => CustomTextFormFieldState();
 }
@@ -83,27 +87,30 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
         minLines: widget.minLines,
         maxLines: (widget._controller!.text.isEmpty) ? 1 : widget.maxLines,
         maxLength: widget.maxLength,
+        style: widget.style,
         validator: (String? value) => widget.validator!(value),
         cursorColor: Theme.of(context).colorScheme.secondary,
         decoration: InputDecoration(
-          fillColor: widget.color ?? Colors.grey[300],
+          fillColor: widget.color ??
+              Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
           contentPadding: widget.contentPadding ??
               const EdgeInsets.symmetric(horizontal: 12),
           hintText: widget.hint,
           hintStyle: widget.hint!.length > 15
               ? const TextStyle(fontSize: 14)
               : const TextStyle(fontSize: 15),
-          suffixIcon: (widget._controller!.text.isEmpty)
-              ? const SizedBox(width: 0, height: 0)
-              : (widget.showPrefixIcon == false)
-                  ? const SizedBox(width: 0, height: 0)
-                  : IconButton(
-                      splashRadius: 16,
-                      onPressed: () => setState(() {
-                        widget._controller!.clear();
-                      }),
-                      icon: const Icon(CupertinoIcons.clear, size: 18),
-                    ),
+          suffixIcon:
+              (widget._controller!.text.isEmpty || !widget.showSuffixIcon)
+                  ? null
+                  : (widget.showPrefixIcon == false)
+                      ? const SizedBox(width: 0, height: 0)
+                      : IconButton(
+                          splashRadius: 16,
+                          onPressed: () => setState(() {
+                            widget._controller!.clear();
+                          }),
+                          icon: const Icon(CupertinoIcons.clear, size: 18),
+                        ),
           focusColor: Theme.of(context).primaryColor,
           border: widget.border ??
               OutlineInputBorder(

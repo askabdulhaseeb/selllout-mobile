@@ -2,11 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'database/auth_methods.dart';
 import 'firebase_options.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
+import 'providers/auth_provider.dart';
 import 'routies.dart';
-import 'screens/auth/login_screen.dart';
+import 'screens/auth/phone_number_screen.dart';
+import 'screens/main_screen/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,25 +27,30 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       // ignore: always_specify_types
       providers: [
-        ChangeNotifierProvider<AppProvider>(
-          create: (BuildContext context) => AppProvider(),
-        ),
         ChangeNotifierProvider<AppThemeProvider>(
           create: (BuildContext context) => AppThemeProvider(),
         ),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (BuildContext context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider<AppProvider>(
+          create: (BuildContext context) => AppProvider(),
+        ),
       ],
       child: Consumer<AppThemeProvider>(
-        builder: (BuildContext context, AppThemeProvider theme,_) {
+        builder: (BuildContext context, AppThemeProvider theme, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Selllout',
             theme: AppThemes.light,
             darkTheme: AppThemes.dark,
             themeMode: theme.themeMode,
-            home: const LoginScreen(),
+            home: AuthMethods.getCurrentUser == null
+                ? const PhoneNumberScreen()
+                : const MainScreen(),
             routes: routes,
           );
-        }
+        },
       ),
     );
   }

@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../enums/gender_type_enum.dart';
+import 'number_details.dart';
 
 class AppUser {
   AppUser({
     required this.uid,
+    required this.phoneNumber,
     this.displayName = '',
     this.username = '',
     this.gender = GenderTypesEnum.male,
     this.dob = '',
-    this.countryCode = '',
-    this.phoneNumber = '',
     this.email = '',
     this.isPublicProfile = true,
     this.imageURL = '',
@@ -26,10 +26,9 @@ class AppUser {
   final String? displayName;
   final String? username;
   final String? imageURL;
+  final NumberDetails phoneNumber;
   final GenderTypesEnum? gender;
   final String? dob;
-  final String? countryCode;
-  final String? phoneNumber;
   final String? email;
   final bool? isPublicProfile;
   final bool? isBlock;
@@ -44,12 +43,11 @@ class AppUser {
     return <String, dynamic>{
       'uid': uid,
       'display_name': displayName ?? '',
+      'number_details': phoneNumber.toMap(),
       'username': username ?? '',
       'image_url': imageURL ?? '',
       'gender': GenderConverter.genderToString(gender ?? GenderTypesEnum.male),
       'dob': dob ?? '',
-      'country_code': countryCode ?? '',
-      'phone_number': phoneNumber ?? '',
       'email': email ?? '',
       'is_public_profile': isPublicProfile ?? true,
       'is_block': isBlock ?? false,
@@ -67,8 +65,6 @@ class AppUser {
       'display_name': displayName ?? '',
       'username': username ?? '',
       'image_url': imageURL ?? '',
-      // 'country_code': countryCode ?? '',
-      // 'phone_number': phoneNumber ?? '',
       'is_public_profile': isPublicProfile ?? true,
       'bio': bio ?? '',
     };
@@ -85,28 +81,26 @@ class AppUser {
   factory AppUser.fromMap(Map<String, dynamic> map) {
     return AppUser(
       uid: map['uid'] ?? '',
+      phoneNumber: NumberDetails.fromMap(map['number_details']),
       displayName: map['display_name'] ?? '',
       username: map['username'] ?? '',
       imageURL: map['image_url'],
       email: map['email'] ?? '',
       rating: double.parse(map['rating']),
-      countryCode: '',
       dob: '',
       gender: GenderConverter.stringToGender(map['gender']),
-      phoneNumber: '',
     );
   }
   // ignore: sort_constructors_first
   factory AppUser.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     return AppUser(
       uid: doc.data()!['uid'] ?? '',
+      phoneNumber: NumberDetails.fromMap(doc.data()!['number_details'] ?? ''),
       displayName: doc.data()!['display_name'] ?? '',
       username: doc.data()!['username'] ?? '',
       imageURL: doc.data()!['image_url'],
       gender: GenderConverter.stringToGender(doc.data()!['gender']),
       dob: doc.data()!['dob'] ?? '',
-      countryCode: doc.data()!['country_code'] ?? '',
-      phoneNumber: doc.data()!['phone_number'] ?? '',
       email: doc.data()!['email'] ?? '',
       isPublicProfile: doc.data()!['is_public_profile'] ?? false,
       isBlock: doc.data()!['is_block'],

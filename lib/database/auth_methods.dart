@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
+import 'user_api.dart';
 
 class AuthMethods {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -7,54 +8,21 @@ class AuthMethods {
   static User? get getCurrentUser => _auth.currentUser;
   static String get uid => _auth.currentUser?.uid ?? '';
 
-  Future<User?>? signupWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
+  Future<int> verifyOTP(String verificationId, String otp) async {
     try {
-      final UserCredential result = await _auth
-          .createUserWithEmailAndPassword(
-        email: email.toLowerCase().trim(),
-        password: password.trim(),
-      )
-          .catchError((Object obj) {
-        CustomToast.errorToast(message: obj.toString());
-      });
-      final User? user = result.user;
-      assert(user != null);
-      return user;
-    } catch (signUpError) {
-      CustomToast.errorToast(message: signUpError.toString());
-      return null;
-    }
-  }
+      PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: otp);
+      final UserCredential authCredential =
+          await _auth.signInWithCredential(phoneAuthCredential);
 
-  Future<User?> loginWithEmailAndPassword(String email, String password) async {
-    try {
-      final UserCredential result = await _auth
-          .signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      )
-          .catchError((Object obj) {
-        CustomToast.errorToast(message: obj.toString());
-      });
-      final User? user = result.user;
-      return user;
-    } catch (signUpError) {
-      CustomToast.errorToast(message: signUpError.toString());
-      return null;
+      if (authCredential.user != null) {
+        return 1;
+      }
+      return -1;
+    } catch (ex) {
+      CustomToast.errorToast(message: ex.toString());
+      return -1;
     }
-  }
-
-  Future<bool> forgetPassword(String email) async {
-    try {
-      _auth.sendPasswordResetEmail(email: email.trim());
-      return true;
-    } catch (error) {
-      CustomToast.errorToast(message: error.toString());
-    }
-    return false;
   }
 
   Future<void> signOut() async {

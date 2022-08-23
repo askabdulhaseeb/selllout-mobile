@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'screens/auth/login_screen.dart';
+import 'screens/auth/otp_screen.dart';
+import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   // AuthTypeScreen.routeName: (_) => const AuthTypeScreen(),
-  LoginScreen.routeName: (_) => const LoginScreen(),
+  PhoneNumberScreen.routeName: (_) => const PhoneNumberScreen(),
+  OTPScreen.routeName: (_) => const OTPScreen(),
   // ForgetPasswordScreen.routeName: (_) => const ForgetPasswordScreen(),
   // RegisterScreen.routeName: (_) => const RegisterScreen(),
   MainScreen.rotueName: (_) => const MainScreen(),
