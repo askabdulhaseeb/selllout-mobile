@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
-import 'user_api.dart';
 
 class AuthMethods {
   static final FirebaseAuth _auth = FirebaseAuth.instance;

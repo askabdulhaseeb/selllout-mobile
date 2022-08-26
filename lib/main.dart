@@ -22,6 +22,10 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  // TODO: Package need to add
+  // User Currency: https://pub.dev/packages/currency_picker
+  // Lottie: https://pub.dev/packages/lottie
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
