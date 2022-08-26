@@ -7,6 +7,7 @@ import 'firebase_options.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
 import 'providers/auth_provider.dart';
+import 'providers/product/app_product_provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';
@@ -39,6 +40,13 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AppProvider>(
           create: (BuildContext context) => AppProvider(),
+        ),
+
+        //
+        // PRODUCT
+        //
+        ChangeNotifierProvider<AddProductProvider>(
+          create: (BuildContext context) => AddProductProvider(),
         ),
       ],
       child: Consumer<AppThemeProvider>(

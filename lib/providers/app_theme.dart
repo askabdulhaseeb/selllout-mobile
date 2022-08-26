@@ -32,11 +32,11 @@ class AppThemes {
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
-      centerTitle: true,
+      centerTitle: false,
       titleTextStyle: TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
+        color: _primary,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
       iconTheme: IconThemeData(color: Colors.white),
     ),
@@ -61,11 +61,11 @@ class AppThemes {
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
-      centerTitle: true,
+      centerTitle: false,
       titleTextStyle: TextStyle(
-        color: Colors.black,
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
+        color: _primary,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
       iconTheme: IconThemeData(color: Colors.black),
     ),
