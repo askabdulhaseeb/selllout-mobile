@@ -8,6 +8,7 @@ import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
 import 'providers/auth_provider.dart';
 import 'providers/product/app_product_provider.dart';
+import 'providers/product/product_category_provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';
@@ -23,9 +24,8 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // TODO: Package need to add
-  // User Currency: https://pub.dev/packages/currency_picker
-  // Lottie: https://pub.dev/packages/lottie
+  // TODO:  Dependencies need to add
+  // URL Luncher
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,9 @@ class MyApp extends StatelessWidget {
         //
         // PRODUCT
         //
+        ChangeNotifierProvider<ProdCatProvider>(
+          create: (BuildContext context) => ProdCatProvider(),
+        ),
         ChangeNotifierProvider<AddProductProvider>(
           create: (BuildContext context) => AddProductProvider(),
         ),

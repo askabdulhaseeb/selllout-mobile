@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/app_provider.dart';
 import 'main_bottom_navigation_bar.dart';
+import 'pages/add_product_page/add_product_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   static const List<Widget> _pages = <Widget>[
     Center(child: Text('HomePage(),')),
     Center(child: Text('BetScreen(),')),
-    Center(child: Text('AddPage(),')),
+    AddProductPage(),
     Center(child: Text('MessagePage(),')),
     Center(child: Text('MyProdilePage(),')),
   ];

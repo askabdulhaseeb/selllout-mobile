@@ -22,7 +22,7 @@ class Product {
     this.quantity = 1,
     this.acceptOffers = true,
     this.privacy = ProdPrivacyTypeEnum.public,
-    this.delivery = DeliveryTypeEnum.delivery,
+    this.delivery = ProdDeliveryTypeEnum.delivery,
     this.deliveryFree = 0,
     this.timestamp,
     this.isAvailable = true,
@@ -43,7 +43,7 @@ class Product {
   late int quantity;
   late bool acceptOffers;
   late ProdPrivacyTypeEnum privacy;
-  late DeliveryTypeEnum delivery;
+  late ProdDeliveryTypeEnum delivery;
   late double deliveryFree;
   late int? timestamp;
   late bool isAvailable; // available for sale any more are not
@@ -65,7 +65,7 @@ class Product {
       'quantity': quantity,
       'accept_offers': acceptOffers,
       'privacy': ProdPrivacyTypeEnumConvertor.enumToString(privacy: privacy),
-      'delivery': DeliveryTypeEnumConvertor.enumToString(delivery: delivery),
+      'delivery': ProdDeliveryTypeEnumConvertor.enumToString(delivery: delivery),
       'delivery_free': deliveryFree,
       'timestamp': timestamp,
       'is_available': isAvailable,
@@ -96,7 +96,7 @@ class Product {
       acceptOffers: doc.data()!['accept_offers'] ?? false,
       privacy: ProdPrivacyTypeEnumConvertor.stringToEnum(
           privacy: doc.data()!['privacy']),
-      delivery: DeliveryTypeEnumConvertor.stringToEnum(
+      delivery: ProdDeliveryTypeEnumConvertor.stringToEnum(
           delivery: doc.data()!['delivery']),
       deliveryFree: doc.data()!['delivery_free']?.toDouble() ?? 0.0,
       timestamp: doc.data()!['timestamp']?.toInt(),

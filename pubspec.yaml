@@ -25,7 +25,8 @@ dependencies:
   provider: ^6.0.3
 
   cached_network_image: ^3.2.1
-  cache_video_player: ^0.0.4
+  cached_video_player: ^2.0.3
+  lottie: ^1.4.2
   file_picker: ^4.6.1
 
   font_awesome_flutter: ^10.1.0
@@ -34,6 +35,7 @@ dependencies:
   fluttertoast: ^8.0.9
 
   dropdown_search: ^2.0.1
+  currency_picker: ^2.0.11
   intl_phone_field: ^3.1.0
 
   carousel_slider: ^4.1.1
