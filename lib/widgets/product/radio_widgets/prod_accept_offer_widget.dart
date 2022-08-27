@@ -34,7 +34,7 @@ class _ProdAcceptOfferWidgetState extends State<ProdAcceptOfferWidget> {
           ),
         ),
         InkWell(
-          onTap: () => widget.onChanged!(true),
+          onTap: () => widget.onChanged!(false),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -43,7 +43,7 @@ class _ProdAcceptOfferWidgetState extends State<ProdAcceptOfferWidget> {
                 value: false,
                 groupValue: widget.acceptOffer,
                 activeColor: Theme.of(context).primaryColor,
-                onChanged: (bool? value) => widget.onChanged!(true),
+                onChanged: (bool? value) => widget.onChanged!(false),
               ),
               const Text('No'),
             ],

@@ -1,12 +1,22 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../database/auth_methods.dart';
+import '../../database/product_api.dart';
 import '../../enums/product/prod_condition_enum.dart';
 import '../../enums/product/prod_delivery_type.dart';
 import '../../enums/product/prod_privacy_type.dart';
-import '../../functions/unique_id_functions.dart';
+import '../../functions/time_date_functions.dart';
+import '../../models/product/product.dart';
+import '../../models/product/product_url.dart';
 import '../../utilities/custom_services.dart';
+import '../../utilities/utilities.dart';
 import '../../widgets/custom_widgets/custom_toast.dart';
+import '../app_provider.dart';
+import 'product_category_provider.dart';
 
 class AddProductProvider extends ChangeNotifier {
   //
@@ -14,6 +24,7 @@ class AddProductProvider extends ChangeNotifier {
   //
   onDeliveryTypeUpdate(ProdDeliveryTypeEnum? value) {
     if (value == null) return;
+    if (value == ProdDeliveryTypeEnum.collocation) _deliveryFee.text = '0';
     _delivery = value;
     notifyListeners();
   }
@@ -68,7 +79,7 @@ class AddProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  onPost() async {
+  onPost({required BuildContext context}) async {
     if (_key.currentState!.validate()) {
       if (_files[0] == null) {
         CustomToast.errorToast(message: 'Add Images of the product');
@@ -77,7 +88,73 @@ class AddProductProvider extends ChangeNotifier {
       CustomService.dismissKeyboard();
       _isloading = true;
       notifyListeners();
-      String pid = UniqueIdFunctions.postID;
+      int timestamp = TimeDateFunctions.timestamp;
+      String pid = AuthMethods.uid + timestamp.toString();
+      ProdCatProvider catPro =
+          Provider.of<ProdCatProvider>(context, listen: false);
+      List<ProductURL> urls = <ProductURL>[];
+      for (int i = 0; i < 10; i++) {
+        if (_files[i] != null) {
+          String? tempURL = await ProductAPI().uploadImage(
+            pid: pid,
+            file: File(_files[i]!.path!),
+          );
+          urls.add(
+            ProductURL(
+              url: tempURL ?? '',
+              isVideo: Utilities.isVideo(extension: _files[i]!.extension!),
+              index: i,
+            ),
+          );
+        }
+      }
+      Product product = Product(
+        pid: pid,
+        uid: AuthMethods.uid,
+        title: _title.text.trim(),
+        prodURL: urls,
+        thumbnail: '',
+        condition: _condition,
+        description: _description.text.trim(),
+        categories: <String>[catPro.selectedCategroy?.catID ?? ''],
+        subCategories: <String>[catPro.selectedSubCategory?.subCatID ?? ''],
+        price: double.parse(_price.text),
+        acceptOffers: _acceptOffer,
+        privacy: _privacy,
+        delivery: _delivery,
+        deliveryFree: double.parse(_deliveryFee.text.trim()),
+        quantity: int.parse(_quantity.text.trim()),
+        isAvailable: true,
+        timestamp: timestamp,
+      );
+      final bool uploaded = await ProductAPI().addProduct(product);
+      _isloading = false;
+      if (uploaded) {
+        // ignore: use_build_context_synchronously
+        Provider.of<AppProvider>(context, listen: false).onTabTapped(0);
+        _reset();
+        CustomToast.successToast(message: 'Uploaded Successfully');
+      } else {
+        CustomToast.errorToast(message: 'Error');
+      }
+    }
+  }
+
+  //
+  // PRIVATE FUNCTIONS
+  //
+  void _reset() {
+    _title.clear();
+    _description.clear();
+    _price.clear();
+    _quantity.text = '1';
+    _deliveryFee.text = '0';
+    _condition = ProdConditionEnum.NEW;
+    _privacy = ProdPrivacyTypeEnum.public;
+    _delivery = ProdDeliveryTypeEnum.delivery;
+    _files.clear();
+    for (int i = 0; i < 10; i++) {
+      _files.add(null);
     }
   }
 
@@ -85,6 +162,7 @@ class AddProductProvider extends ChangeNotifier {
   // VAIABLES
   //
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // ignore: prefer_final_fields
   ProdConditionEnum _condition = ProdConditionEnum.NEW;
   ProdPrivacyTypeEnum _privacy = ProdPrivacyTypeEnum.public;
@@ -137,4 +215,5 @@ class AddProductProvider extends ChangeNotifier {
 
   // KEY
   GlobalKey<FormState> get key => _key;
+  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
 }

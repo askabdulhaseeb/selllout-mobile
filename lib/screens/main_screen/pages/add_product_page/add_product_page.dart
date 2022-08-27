@@ -12,23 +12,19 @@ import '../../../../widgets/product/add_prod_basic_info.dart';
 import '../../../../widgets/product/add_product_additional_info.dart';
 import '../../../../widgets/product/pick_product_attachments.dart';
 
-class AddProductPage extends StatefulWidget {
+class AddProductPage extends StatelessWidget {
   const AddProductPage({Key? key}) : super(key: key);
 
   @override
-  State<AddProductPage> createState() => _AddProductPageState();
-}
-
-class _AddProductPageState extends State<AddProductPage> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Start Selling'),
-      ),
-      body: Consumer<AddProductProvider>(
-          builder: (BuildContext context, AddProductProvider addPro, _) {
-        return Padding(
+    return Consumer<AddProductProvider>(
+        builder: (BuildContext context, AddProductProvider addPro, _) {
+      return Scaffold(
+        key: addPro.scaffoldKey,
+        appBar: AppBar(
+          title: const Text('Start Selling'),
+        ),
+        body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Form(
             key: addPro.key,
@@ -54,7 +50,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   //
                   GetProductAttachments(
                     file: addPro.files,
-                    onTap: () {},
+                    onTap: () => addPro.fetchMedia(),
                   ),
                   const AddProdBasicInfo(),
                   const AddProdAdditionalInfo(),
@@ -62,15 +58,15 @@ class _AddProductPageState extends State<AddProductPage> {
                       ? const ShowLoading()
                       : CustomElevatedButton(
                           title: 'Post',
-                          onTap: () {},
+                          onTap: () => addPro.onPost(context: context),
                         ),
                   const SizedBox(height: 40),
                 ],
               ),
             ),
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 }

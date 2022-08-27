@@ -53,7 +53,7 @@ class Product {
       'pid': pid,
       'uid': uid,
       'title': title,
-      'prodURL': prodURL.map((ProductURL e) => e.toMap()).toList(),
+      'prod_urls': prodURL.map((ProductURL e) => e.toMap()).toList(),
       'thumbnail': thumbnail,
       'condition':
           ProdConditionEnumConvertor.enumToString(condition: condition),
