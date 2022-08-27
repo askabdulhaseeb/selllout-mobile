@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../database/auth_methods.dart';
+import '../../../../models/app_user.dart';
 import '../../../../providers/product/app_product_provider.dart';
+import '../../../../providers/user_provider.dart';
 import '../../../../utilities/app_image.dart';
 import '../../../../utilities/custom_validator.dart';
 import '../../../../widgets/custom_widgets/custom_elevated_button.dart';
@@ -17,8 +20,13 @@ class AddProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AddProductProvider>(
-        builder: (BuildContext context, AddProductProvider addPro, _) {
+    return Consumer2<AddProductProvider, UserProvider>(builder: (
+      BuildContext context,
+      AddProductProvider addPro,
+      UserProvider userPro,
+      _,
+    ) {
+      final AppUser _me = userPro.user(uid: AuthMethods.uid);
       return Scaffold(
         key: addPro.scaffoldKey,
         appBar: AppBar(
@@ -33,7 +41,7 @@ class AddProductPage extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      CustomProfileImage(imageURL: AppImages.doneURL),
+                      CustomProfileImage(imageURL: _me.imageURL ?? ''),
                       const SizedBox(width: 10),
                       Flexible(
                         child: CustomTextFormField(

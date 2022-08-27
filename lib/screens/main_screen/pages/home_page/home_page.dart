@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../database/auth_methods.dart';
 import '../../../../models/product/product.dart';
 import '../../../../providers/product/product_provider.dart';
 import '../../../../widgets/product/product_tile.dart';
@@ -23,8 +22,14 @@ class HomePage extends StatelessWidget {
           return ListView.separated(
             shrinkWrap: true,
             itemCount: prods.length,
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(thickness: 2),
+            separatorBuilder: (BuildContext context, int index) => Divider(
+              thickness: 4,
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .color!
+                  .withOpacity(0.08),
+            ),
             itemBuilder: (BuildContext context, int index) =>
                 ProductTile(product: prods[index]),
           );

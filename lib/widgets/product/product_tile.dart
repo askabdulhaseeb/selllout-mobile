@@ -5,7 +5,6 @@ import '../../database/auth_methods.dart';
 import '../../functions/time_date_functions.dart';
 import '../../models/app_user.dart';
 import '../../models/product/product.dart';
-import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/custom_elevated_button.dart';
