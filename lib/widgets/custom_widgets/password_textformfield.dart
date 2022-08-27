@@ -37,6 +37,7 @@ class PasswordTextFormFieldState extends State<PasswordTextFormField> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
+        border: Border.all(color: Colors.grey),
       ),
       child: TextFormField(
         controller: widget._controller,
@@ -58,9 +59,7 @@ class PasswordTextFormFieldState extends State<PasswordTextFormField> {
                 : const Icon(CupertinoIcons.eye_slash),
           ),
           focusColor: Theme.of(context).primaryColor,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
+          border: InputBorder.none,
         ),
       ),
     );

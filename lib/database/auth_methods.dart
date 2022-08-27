@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import '../models/app_user.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
+import 'user_api.dart';
 
 class AuthMethods {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static User? get getCurrentUser => _auth.currentUser;
   static String get uid => _auth.currentUser?.uid ?? '';
+ static String get phoneNumber => _auth.currentUser?.phoneNumber ?? '';
 
   Future<int> verifyOTP(String verificationId, String otp) async {
     try {
@@ -15,9 +18,12 @@ class AuthMethods {
           await _auth.signInWithCredential(phoneAuthCredential);
 
       if (authCredential.user != null) {
-        return 1;
+        final AppUser? appUser =
+            await UserAPI().user(uid: authCredential.user!.uid);
+        if (appUser == null) return 0; // User is New on App
+        return 1; // User Already Exist NO new info needed
       }
-      return -1;
+      return -1; // ERROR while Entering OTP
     } catch (ex) {
       CustomToast.errorToast(message: ex.toString());
       return -1;

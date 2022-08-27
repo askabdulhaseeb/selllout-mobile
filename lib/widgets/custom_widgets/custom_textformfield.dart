@@ -64,10 +64,13 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
+      padding:
+          widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: widget.color ??
             Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
+        border: Border.all(color: Colors.grey),
       ),
       child: TextFormField(
         initialValue: widget.initialValue,
@@ -91,8 +94,6 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
         decoration: InputDecoration(
           fillColor: widget.color ??
               Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
-          contentPadding: widget.contentPadding ??
-              const EdgeInsets.symmetric(horizontal: 12),
           hintText: widget.hint,
           hintStyle: widget.hint!.length > 15
               ? const TextStyle(fontSize: 14)
@@ -109,10 +110,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
                   icon: const Icon(CupertinoIcons.clear, size: 18),
                 ),
           focusColor: Theme.of(context).primaryColor,
-          border: widget.border ??
-              OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
+          border: widget.border ?? InputBorder.none,
         ),
       ),
     );

@@ -11,6 +11,7 @@ import 'providers/product/app_product_provider.dart';
 import 'providers/product/product_category_provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
+import 'screens/auth/register_screen.dart';
 import 'screens/main_screen/main_screen.dart';
 
 Future<void> main() async {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
 
   // TODO:  Dependencies need to add
   // URL Luncher
+  // HTTPS: to check the users location and update it on mobile number country
 
   @override
   Widget build(BuildContext context) {

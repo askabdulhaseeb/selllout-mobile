@@ -1,13 +1,18 @@
 class Utilities {
-  final double _videoAspectRatio = 4 / 3;
-  final double _imageAspectRatio = 4 / 3;
+  static int get usernameMaxLength => _usernameMaxLenght;
+  static int get bioMaxLength => _bioMaxLength;
 
-  double get videoAspectRatio => _videoAspectRatio;
-  double get imageAspectRatio => _imageAspectRatio;
+  static double get videoAspectRatio => _videoAspectRatio;
+  static double get imageAspectRatio => _imageAspectRatio;
+
   static double get borderRadius => 24;
 
-  static String get agoraID => 'dad9c77f168046f9b9c0397add34220c';
-  static String get agoraToken => '499cccaf590c47008f154cf99bfe3829';
+  static bool isVideo({required String extension}) {
+    if (_listOfVideoExtensions.contains(extension.toLowerCase())) {
+      return true;
+    }
+    return false;
+  }
 
   static List<String> get videosAndImages => <String>[
         'heic',
@@ -48,10 +53,13 @@ class Utilities {
     '3g2',
     'svi',
   ];
-  static bool isVideo({required String extension}) {
-    if (_listOfVideoExtensions.contains(extension.toLowerCase())) {
-      return true;
-    }
-    return false;
-  }
+
+  static const int _usernameMaxLenght = 32;
+  static const int _bioMaxLength = 160;
+
+  static const double _videoAspectRatio = 4 / 3;
+  static const double _imageAspectRatio = 4 / 3;
+
+  static String get agoraID => 'dad9c77f168046f9b9c0397add34220c';
+  static String get agoraToken => '499cccaf590c47008f154cf99bfe3829';
 }

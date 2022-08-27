@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class CustomValidator {
   static String? email(String? value) {
     if (!RegExp(
@@ -12,6 +14,18 @@ class CustomValidator {
     if (value!.length < 6) {
       return 'Password should be greater then 6 digits';
     }
+    return null;
+  }
+
+  static String? username(String? value) {
+    if (value == null) return 'Enter the username';
+    if (value.length < 4) return 'Most be more then 3 words';
+    if (!RegExp(r'^[A-Za-z_.]+$').hasMatch(value[0])) {
+      return 'Must be start with Alphabet';
+    }
+    if (!RegExp(r'^[a-zA-Z0-9.a-zA-Z0-9._]+$').hasMatch(value.substring(1))) {
+      return ''' Only '.' and '_' signs are allowed''';
+    } else {}
     return null;
   }
 

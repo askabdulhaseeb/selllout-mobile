@@ -15,20 +15,21 @@ class PhoneNumberScreen extends StatefulWidget {
 }
 
 class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
-  init() async {
-    // try {
-    //   http.Response response =
-    //       await http.get(Uri.parse('http://ip-api.com/json'));
-    //   // ignore: always_specify_types
-    //   Map data = json.decode(response.body);
-    //   countryCode = data['countryCode'];
-    //   dialCode = CountryCode.fromCountryCode(countryCode).dialCode ?? '+1';
+  // TODO: Select Default Country
+  // init() async {
+  //   try {
+  //     http.Response response =
+  //         await http.get(Uri.parse('http://ip-api.com/json'));
+  //     // ignore: always_specify_types
+  //     Map data = json.decode(response.body);
+  //     countryCode = data['countryCode'];
+  //     dialCode = CountryCode.fromCountryCode(countryCode).dialCode ?? '+1';
 
-    //   setState(() {});
-    // } catch (e) {
-    //   CustomToast.errorToast(message: 'Something went wrong');
-    // }
-  }
+  //     setState(() {});
+  //   } catch (e) {
+  //     CustomToast.errorToast(message: 'Something went wrong');
+  //   }
+  // }
   @override
   Widget build(BuildContext context) {
     return SafeArea(

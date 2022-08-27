@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_widgets/custom_textformfield.dart';
+import '../main_screen/main_screen.dart';
+import 'register_screen.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({Key? key}) : super(key: key);
@@ -37,9 +39,22 @@ class _OTPScreenState extends State<OTPScreen> {
                 ),
                 CustomTextFormField(
                   controller: _otp,
+                  maxLength: 6,
                   onChanged: (String? value) async {
                     if (value!.length == 6) {
-                      await authPro.varifyOTP(value);
+                      final int num = await authPro.varifyOTP(value);
+                      if (!mounted) return;
+                      if (num == 0) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          RegisterScreen.routeName,
+                          (Route<dynamic> route) => false,
+                        );
+                      } else if (num == 1) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          MainScreen.rotueName,
+                          (Route<dynamic> route) => false,
+                        );
+                      }
                     }
                   },
                   textAlign: TextAlign.center,
