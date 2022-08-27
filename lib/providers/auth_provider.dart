@@ -35,6 +35,7 @@ class AuthProvider extends ChangeNotifier {
       final AppUser appuser = AppUser(
         uid: AuthMethods.uid,
         displayName: _name.text.trim(),
+        username: _username.text.trim(),
         bio: _bio.text.trim(),
         imageURL: url ?? '',
         isPublicProfile: _isPublicProfile,

@@ -26,7 +26,7 @@ class AddProductPage extends StatelessWidget {
       UserProvider userPro,
       _,
     ) {
-      final AppUser _me = userPro.user(uid: AuthMethods.uid);
+      final AppUser me = userPro.user(uid: AuthMethods.uid);
       return Scaffold(
         key: addPro.scaffoldKey,
         appBar: AppBar(
@@ -41,7 +41,7 @@ class AddProductPage extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      CustomProfileImage(imageURL: _me.imageURL ?? ''),
+                      CustomProfileImage(imageURL: me.imageURL ?? ''),
                       const SizedBox(width: 10),
                       Flexible(
                         child: CustomTextFormField(

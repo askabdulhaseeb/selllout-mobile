@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
   // TODO:  Dependencies need to add
   // URL Luncher
   // HTTPS: to check the users location and update it on mobile number country
+  // Rating: to show the ratings and to apply the ratings
 
   @override
   Widget build(BuildContext context) {

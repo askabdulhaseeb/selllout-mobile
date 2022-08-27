@@ -7,6 +7,7 @@ import '../../providers/user_provider.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page/add_product_page.dart';
 import 'pages/home_page/home_page.dart';
+import 'pages/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     Center(child: Text('BetScreen(),')),
     AddProductPage(),
     Center(child: Text('MessagePage(),')),
-    Center(child: Text('MyProdilePage(),')),
+    ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
