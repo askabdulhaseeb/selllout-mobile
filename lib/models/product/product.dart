@@ -65,7 +65,8 @@ class Product {
       'quantity': quantity,
       'accept_offers': acceptOffers,
       'privacy': ProdPrivacyTypeEnumConvertor.enumToString(privacy: privacy),
-      'delivery': ProdDeliveryTypeEnumConvertor.enumToString(delivery: delivery),
+      'delivery':
+          ProdDeliveryTypeEnumConvertor.enumToString(delivery: delivery),
       'delivery_free': deliveryFree,
       'timestamp': timestamp,
       'is_available': isAvailable,
@@ -75,7 +76,7 @@ class Product {
   // ignore: sort_constructors_first
   factory Product.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     List<ProductURL> prodURL = <ProductURL>[];
-    doc.data()!['prodURL'].forEach((dynamic e) {
+    doc.data()!['prod_urls'].forEach((dynamic e) {
       prodURL.add(ProductURL.fromMap(e));
     });
     return Product(

@@ -9,9 +9,10 @@ import 'providers/app_theme.dart';
 import 'providers/auth_provider.dart';
 import 'providers/product/app_product_provider.dart';
 import 'providers/product/product_category_provider.dart';
+import 'providers/product/product_provider.dart';
+import 'providers/user_provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
-import 'screens/auth/register_screen.dart';
 import 'screens/main_screen/main_screen.dart';
 
 Future<void> main() async {
@@ -43,7 +44,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AppProvider>(
           create: (BuildContext context) => AppProvider(),
         ),
-
+        //
+        // USER
+        //
+        ChangeNotifierProvider<UserProvider>(
+          create: (BuildContext context) => UserProvider(),
+        ),
         //
         // PRODUCT
         //
@@ -52,6 +58,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AddProductProvider>(
           create: (BuildContext context) => AddProductProvider(),
+        ),
+        ChangeNotifierProvider<ProductProvider>(
+          create: (BuildContext context) => ProductProvider(),
         ),
       ],
       child: Consumer<AppThemeProvider>(

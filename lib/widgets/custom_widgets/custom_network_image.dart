@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'show_loading.dart';
+
 class CustomNetworkImage extends StatelessWidget {
   const CustomNetworkImage({
     required this.imageURL,
@@ -17,8 +19,7 @@ class CustomNetworkImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageURL,
       fit: fit,
-      placeholder: (BuildContext context, String url) =>
-          const CircularProgressIndicator(),
+      placeholder: (BuildContext context, String url) => const ShowLoading(),
       errorWidget: (BuildContext context, String url, _) =>
           const Icon(Icons.error),
     );

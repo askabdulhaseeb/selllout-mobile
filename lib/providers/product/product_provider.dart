@@ -9,6 +9,11 @@ class ProductProvider extends ChangeNotifier {
   List<Product> get products => _products;
 
   Future<void> init() async {
+    if (_products.isNotEmpty) return;
+    await _load();
+  }
+
+  Future<void> refresh() async {
     await _load();
   }
 
