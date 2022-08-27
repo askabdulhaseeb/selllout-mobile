@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
     // Provider.of<UserProvider>(context).init();
     // Provider.of<ProdProvider>(context).init();
     return Scaffold(
-      body: _pages[currentIndex],
+      body: IndexedStack(index: currentIndex, children: _pages),
       bottomNavigationBar: const MainBottomNavigationBar(),
     );
   }
