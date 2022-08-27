@@ -15,7 +15,7 @@ class GridViewOfProducts extends StatelessWidget {
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
       ),
-      primary: false,
+      primary: true,
       shrinkWrap: true,
       itemCount: posts.length,
       itemBuilder: (BuildContext context, int index) => InkWell(
@@ -31,8 +31,7 @@ class GridViewOfProducts extends StatelessWidget {
           //   ),
           // );
         },
-        child: Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+        child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

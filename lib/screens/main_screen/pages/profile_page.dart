@@ -16,36 +16,36 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer2<UserProvider, ProductProvider>(builder: (
-        BuildContext context,
-        UserProvider userPro,
-        ProductProvider prodPro,
-        _,
-      ) {
-        final AppUser me = userPro.user(uid: AuthMethods.uid);
-        final List<Product> prods = prodPro.userProducts(AuthMethods.uid);
-        return NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                title: Text(
+      body: Consumer2<UserProvider, ProductProvider>(
+        builder: (
+          BuildContext context,
+          UserProvider userPro,
+          ProductProvider prodPro,
+          _,
+        ) {
+          final AppUser me = userPro.user(uid: AuthMethods.uid);
+          final List<Product> prods = prodPro.userProducts(AuthMethods.uid);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20, bottom: 10),
+                child: Text(
                   me.username!,
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyText1!.color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
                 ),
               ),
-            ];
-          },
-          body: Column(
-            children: <Widget>[
               ProfileHeaderWidget(user: me),
               ProfileScoreWidget(user: me),
               Expanded(child: GridViewOfProducts(posts: prods)),
             ],
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }
