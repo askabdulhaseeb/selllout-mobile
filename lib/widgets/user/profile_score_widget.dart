@@ -4,8 +4,13 @@ import '../../models/app_user.dart';
 import '../custom_widgets/custom_icon_button.dart';
 
 class ProfileScoreWidget extends StatelessWidget {
-  const ProfileScoreWidget({required this.user, Key? key}) : super(key: key);
+  const ProfileScoreWidget({
+    required this.user,
+    required this.postLenth,
+    Key? key,
+  }) : super(key: key);
   final AppUser user;
+  final int postLenth;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class ProfileScoreWidget extends StatelessWidget {
               },
             ),
             _CustomScoreButton(
-              score: '123',
+              score: postLenth.toString(),
               title: 'Posts',
               height: boxWidth - 10,
               width: boxWidth,

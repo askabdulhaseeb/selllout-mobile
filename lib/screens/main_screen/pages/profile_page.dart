@@ -40,7 +40,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               ProfileHeaderWidget(user: me),
-              ProfileScoreWidget(user: me),
+              ProfileScoreWidget(user: me, postLenth: prods.length),
               Expanded(child: GridViewOfProducts(posts: prods)),
             ],
           );
