@@ -55,7 +55,6 @@ class GroupChatScreen extends StatelessWidget {
             builder:
                 (BuildContext context, AsyncSnapshot<List<Message>> snapshot) {
               if (snapshot.hasError) {
-                print(snapshot.error);
                 return const Center(child: Text('Facinf some error'));
               } else if (snapshot.hasData) {
                 final List<Message> messages = snapshot.data!;

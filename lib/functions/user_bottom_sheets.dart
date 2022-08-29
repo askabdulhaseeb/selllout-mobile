@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../database/auth_methods.dart';
-import '../database/chat_api.dart';
 import '../models/app_user.dart';
 import '../models/chat/chat.dart';
 import '../screens/chat_screens/personal_chat_page/personal_chat_screen.dart';
