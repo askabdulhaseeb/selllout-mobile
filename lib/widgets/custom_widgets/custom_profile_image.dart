@@ -24,12 +24,11 @@ class CustomProfileImage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: const FittedBox(
-                child: Text(
-              'No\nImage',
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
-            )),
+              child: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+            ),
           )
         : ClipRRect(
             borderRadius: BorderRadius.circular(10),

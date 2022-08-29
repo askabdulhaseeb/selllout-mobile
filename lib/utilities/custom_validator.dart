@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class CustomValidator {
   static String? email(String? value) {
     if (!RegExp(

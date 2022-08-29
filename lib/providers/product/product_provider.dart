@@ -35,8 +35,8 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future<void> _load() async {
-    List<Product> _temp = await ProductAPI().getProducts();
-    _products = _temp;
+    List<Product> temp = await ProductAPI().getProducts();
+    _products = temp;
     notifyListeners();
   }
 

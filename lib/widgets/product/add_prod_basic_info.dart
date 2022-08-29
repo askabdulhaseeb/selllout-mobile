@@ -24,8 +24,8 @@ class AddProdBasicInfo extends StatelessWidget {
       ProdCatProvider catPro,
       _,
     ) {
-      final List<ProdCategory> _categories = catPro.category;
-      final List<ProdSubCategory> _subCategories = catPro.subCategory;
+      final List<ProdCategory> categories = catPro.category;
+      final List<ProdSubCategory> subCategories = catPro.subCategory;
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +44,7 @@ class AddProdBasicInfo extends StatelessWidget {
           ),
           CustomTitleText(title: 'Category'.toUpperCase()),
           ProdCatDropdown(
-            items: _categories,
+            items: categories,
             borderRadius: BorderRadius.circular(Utilities.borderRadius / 2),
             hintText: 'Select...',
             selectedItem: catPro.selectedCategroy,
@@ -54,7 +54,7 @@ class AddProdBasicInfo extends StatelessWidget {
           ),
           CustomTitleText(title: 'Sub Category'.toUpperCase()),
           ProdSubCatDropdown(
-            items: _subCategories,
+            items: subCategories,
             hintText: 'Select...',
             selectedItem: catPro.selectedSubCategory,
             onChanged: (ProdSubCategory? update) {

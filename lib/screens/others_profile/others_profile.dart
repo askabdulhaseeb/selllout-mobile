@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
+import '../../functions/unique_id_functions.dart';
 import '../../models/app_user.dart';
+import '../../models/chat/chat.dart';
 import '../../models/product/product.dart';
 import '../../providers/product/product_provider.dart';
 import '../../providers/user_provider.dart';
@@ -11,6 +13,7 @@ import '../../widgets/product/grid_view_of_prod.dart';
 import '../../widgets/user/private_account_widget.dart';
 import '../../widgets/user/profile_header_widget.dart';
 import '../../widgets/user/profile_score_widget.dart';
+import '../chat_screens/personal_chat_page/personal_chat_screen.dart';
 
 class OthersProfile extends StatelessWidget {
   const OthersProfile({required this.user, Key? key}) : super(key: key);
@@ -21,6 +24,7 @@ class OthersProfile extends StatelessWidget {
     final bool isSupporter =
         user.supporters?.contains(AuthMethods.uid) ?? false;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           user.username!,
@@ -56,16 +60,10 @@ class OthersProfile extends StatelessWidget {
   }
 }
 
-class _SuppoertAndMessageButton extends StatefulWidget {
+class _SuppoertAndMessageButton extends StatelessWidget {
   const _SuppoertAndMessageButton({required this.user, Key? key})
       : super(key: key);
   final AppUser user;
-  @override
-  State<_SuppoertAndMessageButton> createState() =>
-      _SuppoertAndMessageButtonState();
-}
-
-class _SuppoertAndMessageButtonState extends State<_SuppoertAndMessageButton> {
   @override
   Widget build(BuildContext context) {
     final BorderRadius borderRadius = BorderRadius.circular(4);
@@ -79,7 +77,7 @@ class _SuppoertAndMessageButtonState extends State<_SuppoertAndMessageButton> {
     return Consumer<UserProvider>(
         builder: (BuildContext context, UserProvider userPro, _) {
       // final AppUser me = userPro.user(uid: AuthMethods.uid);
-      final AppUser otherLive = userPro.user(uid: widget.user.uid);
+      final AppUser otherLive = userPro.user(uid: user.uid);
       final bool isSupporter =
           otherLive.supporters?.contains(AuthMethods.uid) ?? false;
       return Padding(
@@ -99,19 +97,32 @@ class _SuppoertAndMessageButtonState extends State<_SuppoertAndMessageButton> {
               ),
             ),
             const SizedBox(width: 6),
-            if (isSupporter || (widget.user.isPublicProfile ?? false))
-              Flexible(
-                child: CustomElevatedButton(
-                  borderRadius: borderRadius,
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(7.5),
-                  border: border,
-                  bgColor: Colors.transparent,
-                  textStyle: textStyle,
-                  title: 'Message',
-                  onTap: () {},
-                ),
+            // if (isSupporter || (user.isPublicProfile ?? false))
+            Flexible(
+              child: CustomElevatedButton(
+                borderRadius: borderRadius,
+                margin: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(7.5),
+                border: border,
+                bgColor: Colors.transparent,
+                textStyle: textStyle,
+                title: 'Message',
+                onTap: () {
+                  final String chatID =
+                      UniqueIdFunctions.personalChatID(chatWith: user.uid);
+                  Navigator.of(context).push(
+                    MaterialPageRoute<PersonalChatScreen>(
+                      builder: (BuildContext context) => PersonalChatScreen(
+                          chatWith: user,
+                          chat: Chat(
+                            chatID: chatID,
+                            persons: <String>[AuthMethods.uid, user.uid],
+                          )),
+                    ),
+                  );
+                },
               ),
+            ),
           ],
         ),
       );

@@ -8,7 +8,6 @@ import '../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../widgets/custom_widgets/custom_file_image_box.dart';
 import '../../widgets/custom_widgets/custom_textformfield.dart';
 import '../../widgets/custom_widgets/show_loading.dart';
-import '../../widgets/custom_widgets/title_text.dart';
 import '../../widgets/user/profile_visibility_type.dart';
 
 class RegisterScreen extends StatefulWidget {

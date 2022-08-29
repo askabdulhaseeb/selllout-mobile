@@ -6,6 +6,7 @@ import '../../providers/product/product_provider.dart';
 import '../../providers/user_provider.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page/add_product_page.dart';
+import 'pages/chat_page.dart';
 import 'pages/home_page/home_page.dart';
 import 'pages/profile_page.dart';
 
@@ -22,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     HomePage(),
     Center(child: Text('BetScreen(),')),
     AddProductPage(),
-    Center(child: Text('MessagePage(),')),
+    ChatPage(),
     ProfilePage(),
   ];
   @override

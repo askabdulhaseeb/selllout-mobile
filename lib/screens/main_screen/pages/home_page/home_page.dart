@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(title: const Text('Selllout')),
       body: Consumer<ProductProvider>(
         builder: (BuildContext context, ProductProvider prodPro, _) {

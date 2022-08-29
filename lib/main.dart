@@ -7,6 +7,7 @@ import 'firebase_options.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
 import 'providers/auth_provider.dart';
+import 'providers/chat/chat_page_provider.dart';
 import 'providers/product/app_product_provider.dart';
 import 'providers/product/product_category_provider.dart';
 import 'providers/product/product_provider.dart';
@@ -25,8 +26,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // TODO:  Dependencies need to add
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +59,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ProductProvider>(
           create: (BuildContext context) => ProductProvider(),
         ),
+        //
+        // CHAT
+        //
+        ChangeNotifierProvider<ChatPageProvider>(
+          create: (BuildContext context) => ChatPageProvider(),
+        ),
       ],
       child: Consumer<AppThemeProvider>(
         builder: (BuildContext context, AppThemeProvider theme, _) {
@@ -79,6 +84,12 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+  // TODO: BUGES
+  // Product Tile to Other Profile Screen HERO Issue
+  // TODO:  Dependencies need to add
+  // Dropdown version update
 
 // Platform  Firebase App Id
 // android   1:278140333975:android:32494f3707d3caebc15ed2
