@@ -3,10 +3,13 @@ import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
 import '../../functions/time_date_functions.dart';
+import '../../functions/unique_id_functions.dart';
 import '../../models/app_user.dart';
+import '../../models/chat/chat.dart';
 import '../../models/product/product.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
+import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
 import '../../screens/others_profile/others_profile.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/custom_elevated_button.dart';
@@ -26,10 +29,7 @@ class ProductTile extends StatelessWidget {
         _Header(product: product, user: user),
         AspectRatio(
           aspectRatio: Utilities.imageAspectRatio,
-          child: Hero(
-            tag: product.pid,
-            child: ProductURLsSlider(urls: product.prodURL),
-          ),
+          child: ProductURLsSlider(urls: product.prodURL),
         ),
         _InfoCard(product: product),
         _ButtonSection(user: user, product: product),
@@ -164,14 +164,22 @@ class _ButtonSection extends StatelessWidget {
                     if (user.displayName == null || user.displayName == '') {
                       return;
                     }
-                    // Navigator.of(context)
-                    //     .push(MaterialPageRoute<ProductChatScreen>(
-                    //   builder: (BuildContext context) => ProductChatScreen(
-                    //     otherUser: user,
-                    //     chatID: '${AuthMethods.uid}${product.pid}',
-                    //     product: product,
-                    //   ),
-                    // ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute<ProductChatScreen>(
+                      builder: (BuildContext context) => ProductChatScreen(
+                        chatWith: user,
+                        chat: Chat(
+                          chatID: UniqueIdFunctions.productID(product.pid),
+                          persons: <String>[
+                            AuthMethods.uid,
+                            product.uid,
+                          ],
+                          pid: product.pid,
+                          prodIsVideo: product.prodURL[0].isVideo,
+                        ),
+                        product: product,
+                      ),
+                    ));
                   },
                 ),
               ],

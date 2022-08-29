@@ -7,6 +7,7 @@ import '../../../models/chat/chat.dart';
 import '../../../models/product/product.dart';
 import '../../../providers/product/product_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
 import '../../custom_widgets/custom_profile_image.dart';
 import '../../custom_widgets/network_video_player.dart';
 
@@ -28,15 +29,15 @@ class ProductChatDashboardTile extends StatelessWidget {
               .indexWhere((String element) => element != AuthMethods.uid)]);
       return ListTile(
         onTap: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute<ProductChatScreen>(
-          //     builder: (_) => ProductChatScreen(
-          //       otherUser: user,
-          //       chatID: chat.chatID,
-          //       product: product,
-          //     ),
-          //   ),
-          // );
+          Navigator.of(context).push(
+            MaterialPageRoute<ProductChatScreen>(
+              builder: (_) => ProductChatScreen(
+                chatWith: user,
+                chat: chat,
+                product: product,
+              ),
+            ),
+          );
         },
         dense: true,
         leading: Stack(
