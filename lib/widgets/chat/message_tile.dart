@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
 import '../../enums/chat/message_type_enum.dart';
 import '../../functions/time_date_functions.dart';
+import '../../models/app_user.dart';
+import '../../models/chat/chat.dart';
 import '../../models/chat/message.dart';
 import '../../models/chat/message_attachment.dart';
+import '../../providers/user_provider.dart';
 import '../../screens/chat_screens/message_attachment_screen.dart';
+import '../../screens/others_profile/others_profile.dart';
 import '../custom_widgets/custom_network_image.dart';
 import '../custom_widgets/network_video_player.dart';
 
 class MessageTile extends StatelessWidget {
-  const MessageTile({required this.message, Key? key}) : super(key: key);
+  const MessageTile({required this.message, this.chat, Key? key})
+      : super(key: key);
   final Message message;
+  final Chat? chat;
 
   static const double _borderRadius = 12;
   @override
@@ -39,39 +46,74 @@ class MessageTile extends StatelessWidget {
                   : Theme.of(context).scaffoldBackgroundColor,
             ),
             alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                if (message.attachment.isNotEmpty)
-                  DisplayAttachment(
-                    isMe: isMe,
-                    borderRadius: _borderRadius,
-                    attachments: message.attachment,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      if (message.type != MessageTypeEnum.announcement &&
+                          !isMe &&
+                          (chat?.isGroup ?? false) == true)
+                        Consumer<UserProvider>(
+                          builder:
+                              (BuildContext context, UserProvider userPro, _) {
+                            final AppUser senderInfo =
+                                userPro.user(uid: message.sendBy);
+                            return InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute<OthersProfile>(
+                                  builder: (BuildContext context) =>
+                                      OthersProfile(user: senderInfo),
+                                ));
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
+                                child: Text(
+                                  senderInfo.displayName ?? 'null',
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      if (message.attachment.isNotEmpty)
+                        DisplayAttachment(
+                          isMe: isMe,
+                          borderRadius: _borderRadius,
+                          attachments: message.attachment,
+                        ),
+                      if (message.text != null && message.text!.isNotEmpty)
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.70,
+                            minWidth: 100,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            child: SelectableText(
+                              message.text ?? 'no message',
+                              textAlign: TextAlign.left,
+                              style: isMe
+                                  ? const TextStyle(color: Colors.black)
+                                  : null,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                if (message.text != null && message.text!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.70,
-                        minWidth: 100,
-                      ),
-                      child: SelectableText(
-                        message.text ?? 'no message',
-                        textAlign: TextAlign.left,
-                        style:
-                            isMe ? const TextStyle(color: Colors.black) : null,
-                      ),
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, bottom: 4),
-                  child: Text(
+                  Text(
                     TimeDateFunctions.timeInDigits(message.timestamp),
                     style: const TextStyle(color: Colors.grey),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

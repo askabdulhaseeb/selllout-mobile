@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import '../../../database/auth_methods.dart';
 import '../../../enums/chat/message_tabbar_enum.dart';
+import '../../../functions/user_bottom_sheets.dart';
+import '../../../models/app_user.dart';
 import '../../../providers/chat/chat_page_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../widgets/chat/chat_person_search.dart';
+import '../../chat_screens/group_chat_page/create_group_screen.dart';
 import '../../chat_screens/group_chat_page/group_chat_dashboard.dart';
 import '../../chat_screens/personal_chat_page/personal_chat_dashboard.dart';
 
@@ -35,18 +40,19 @@ class ChatPage extends StatelessWidget {
                 const SizedBox(width: 10),
                 IconButton(
                   onPressed: () {
-                    // if (page.currentTab == MessageTabBarEnum.chat) {
-                    //   final List<AppUser> suppters =
-                    //       Provider.of<UserProvider>(context, listen: false)
-                    //           .supporters(uid: AuthMethods.uid);
-                    //   UserBottomSheets().showNewChatPersons(
-                    //     context: context,
-                    //     users: suppters,
-                    //   );
-                    // } else if (page.currentTab == MessageTabBarEnum.group) {
-                    //   Navigator.of(context)
-                    //       .pushNamed(CreateChatGroupScreen.routeName);
-                    // } else {
+                    if (page.currentTab == MessageTabBarEnum.chat) {
+                      final List<AppUser> suppters =
+                          Provider.of<UserProvider>(context, listen: false)
+                              .supporters(uid: AuthMethods.uid);
+                      UserBottomSheets().showNewChatPersons(
+                        context: context,
+                        users: suppters,
+                      );
+                    } else if (page.currentTab == MessageTabBarEnum.group) {
+                      Navigator.of(context)
+                          .pushNamed(CreateChatGroupScreen.routeName);
+                    }
+                    // else {
                     //   Navigator.of(context)
                     //       .pushNamed(AddMediaStoryScreen.routeName);
                     // }

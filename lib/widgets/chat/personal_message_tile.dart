@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../database/auth_methods.dart';
-import '../../../functions/time_date_functions.dart';
-import '../../../models/chat/message.dart';
+import '../../database/auth_methods.dart';
+import '../../functions/time_date_functions.dart';
+import '../../models/chat/message.dart';
 
 class PersonalMessageTile extends StatelessWidget {
   const PersonalMessageTile({

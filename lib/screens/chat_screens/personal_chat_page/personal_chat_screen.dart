@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../../database/chat_api.dart';
 import '../../../models/app_user.dart';
 import '../../../models/chat/chat.dart';
 import '../../../models/chat/message.dart';
 import '../../../widgets/chat/chat_message_tile.dart';
-import '../../../widgets/chat/message_tile.dart';
+import '../../../widgets/chat/messages_list.dart';
 import '../../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../others_profile/others_profile.dart';
@@ -65,6 +64,7 @@ class PersonalChatScreen extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<List<Message>> snapshot) {
                 if (snapshot.hasError) {
+                  print(snapshot.error);
                   return const Center(child: Text('Facinf some error'));
                 } else if (snapshot.hasData) {
                   final List<Message> messages = snapshot.data!;
@@ -88,7 +88,7 @@ class PersonalChatScreen extends StatelessWidget {
                             ],
                           ),
                         )
-                      : _MessageLists(messages: messages);
+                      : MessageLists(messages: messages);
                 } else {
                   return const ShowLoading();
                 }
@@ -96,50 +96,6 @@ class PersonalChatScreen extends StatelessWidget {
             ),
             ChatMessageTile(chat: chat),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _MessageLists extends StatefulWidget {
-  const _MessageLists({
-    required this.messages,
-    Key? key,
-  }) : super(key: key);
-
-  final List<Message> messages;
-
-  @override
-  State<_MessageLists> createState() => _MessageListsState();
-}
-
-class _MessageListsState extends State<_MessageLists>
-    with WidgetsBindingObserver {
-  final ScrollController _controller = ScrollController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _controller.jumpTo(_controller.position.maxScrollExtent);
-    });
-    return Expanded(
-      child: Container(
-        constraints: const BoxConstraints(
-          minWidth: 100,
-        ),
-        child: ListView.builder(
-          shrinkWrap: true,
-          controller: _controller,
-          itemCount: widget.messages.length,
-          itemBuilder: (BuildContext context, int index) =>
-              MessageTile(message: widget.messages[index]),
         ),
       ),
     );

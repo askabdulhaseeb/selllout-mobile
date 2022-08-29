@@ -1,5 +1,3 @@
-
-
 import '../../enums/chat/group_member_role_enum.dart';
 
 class ChatGroupMember {
@@ -20,7 +18,7 @@ class ChatGroupMember {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
-      'role': role,
+      'role': GroupMemberRoleEnumConvertor.toJson(role),
       'added_by': addedBy,
       'invitation_accepted': invitationAccepted,
       'member_since': memberSince,
@@ -34,7 +32,7 @@ class ChatGroupMember {
       role: GroupMemberRoleEnumConvertor.fromMap(map['role']),
       addedBy: map['added_by'] ?? '',
       invitationAccepted: map['invitation_accepted'] ?? false,
-      memberSince: int.parse(map['member_since'] ?? '0'),
+      memberSince: int.parse(map['member_since']?.toString() ?? '0'),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
 import 'providers/auth_provider.dart';
 import 'providers/chat/chat_page_provider.dart';
+import 'providers/chat/group_chat_provider.dart';
 import 'providers/product/app_product_provider.dart';
 import 'providers/product/product_category_provider.dart';
 import 'providers/product/product_provider.dart';
@@ -64,6 +65,9 @@ class MyApp extends StatelessWidget {
         //
         ChangeNotifierProvider<ChatPageProvider>(
           create: (BuildContext context) => ChatPageProvider(),
+        ),
+        ChangeNotifierProvider<GroupChatProvider>(
+          create: (BuildContext context) => GroupChatProvider(),
         ),
       ],
       child: Consumer<AppThemeProvider>(

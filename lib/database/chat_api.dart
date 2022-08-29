@@ -34,10 +34,32 @@ class ChatAPI {
     // Firebase Index need to add
     // Composite Index
     // Collection ID -> chat
-    // Field Indexed -> persons Arrays timestamp Descending
+    // Field Indexed -> persons Arrays is_group Ascending timestamp Descending
     return _instance
         .collection(_collection)
         .where('persons', arrayContains: AuthMethods.uid)
+        .where('is_group', isEqualTo: false)
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .asyncMap((QuerySnapshot<Map<String, dynamic>> event) {
+      List<Chat> chats = <Chat>[];
+      for (DocumentSnapshot<Map<String, dynamic>> element in event.docs) {
+        final Chat temp = Chat.fromMap(element.data()!);
+        chats.add(temp);
+      }
+      return chats;
+    });
+  }
+
+  Stream<List<Chat>> groups() {
+    // Firebase Index need to add
+    // Composite Index
+    // Collection ID -> chat
+    // Field Indexed -> persons Arrays is_group Descending timestamp Descending
+    return _instance
+        .collection(_collection)
+        .where('persons', arrayContains: AuthMethods.uid)
+        .where('is_group', isEqualTo: true)
         .orderBy('timestamp', descending: true)
         .snapshots()
         .asyncMap((QuerySnapshot<Map<String, dynamic>> event) {
@@ -76,7 +98,23 @@ class ChatAPI {
   }) async {
     try {
       TaskSnapshot snapshot = await FirebaseStorage.instance
-          .ref('salam-chat/${AuthMethods.uid}/$attachmentID}')
+          .ref('chat/personal/${AuthMethods.uid}/$attachmentID}')
+          .putFile(file);
+      String url = (await snapshot.ref.getDownloadURL()).toString();
+      return url;
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+      return null;
+    }
+  }
+
+  Future<String?> uploadGroupImage({
+    required File file,
+    required String attachmentID,
+  }) async {
+    try {
+      TaskSnapshot snapshot = await FirebaseStorage.instance
+          .ref('chat/group/${AuthMethods.uid}/$attachmentID}')
           .putFile(file);
       String url = (await snapshot.ref.getDownloadURL()).toString();
       return url;

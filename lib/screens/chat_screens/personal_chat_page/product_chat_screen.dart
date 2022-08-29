@@ -7,8 +7,9 @@ import '../../../models/chat/chat.dart';
 import '../../../models/chat/message.dart';
 import '../../../models/product/product.dart';
 import '../../../widgets/chat/chat_message_tile.dart';
-import '../../../widgets/chat/dashboard_tiles/personal_message_tile.dart';
+import '../../../widgets/chat/personal_message_tile.dart';
 import '../../../widgets/chat/message_tile.dart';
+import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/product/custom_slideable_urls_tile.dart';
 import '../../others_profile/others_profile.dart';
 
@@ -38,9 +39,7 @@ class ProductChatScreen extends StatelessWidget {
                     AsyncSnapshot<List<Message>> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
+                      return const ShowLoading();
                     default:
                       if (snapshot.hasData) {
                         List<Message> messages = snapshot.data ?? <Message>[];

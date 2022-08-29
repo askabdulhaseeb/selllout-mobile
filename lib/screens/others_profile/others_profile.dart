@@ -97,32 +97,32 @@ class _SuppoertAndMessageButton extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 6),
-            // if (isSupporter || (user.isPublicProfile ?? false))
-            Flexible(
-              child: CustomElevatedButton(
-                borderRadius: borderRadius,
-                margin: const EdgeInsets.all(0),
-                padding: const EdgeInsets.all(7.5),
-                border: border,
-                bgColor: Colors.transparent,
-                textStyle: textStyle,
-                title: 'Message',
-                onTap: () {
-                  final String chatID =
-                      UniqueIdFunctions.personalChatID(chatWith: user.uid);
-                  Navigator.of(context).push(
-                    MaterialPageRoute<PersonalChatScreen>(
-                      builder: (BuildContext context) => PersonalChatScreen(
-                          chatWith: user,
-                          chat: Chat(
-                            chatID: chatID,
-                            persons: <String>[AuthMethods.uid, user.uid],
-                          )),
-                    ),
-                  );
-                },
+            if (isSupporter || (user.isPublicProfile ?? false))
+              Flexible(
+                child: CustomElevatedButton(
+                  borderRadius: borderRadius,
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(7.5),
+                  border: border,
+                  bgColor: Colors.transparent,
+                  textStyle: textStyle,
+                  title: 'Message',
+                  onTap: () {
+                    final String chatID =
+                        UniqueIdFunctions.personalChatID(chatWith: user.uid);
+                    Navigator.of(context).push(
+                      MaterialPageRoute<PersonalChatScreen>(
+                        builder: (BuildContext context) => PersonalChatScreen(
+                            chatWith: user,
+                            chat: Chat(
+                              chatID: chatID,
+                              persons: <String>[AuthMethods.uid, user.uid],
+                            )),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
           ],
         ),
       );
