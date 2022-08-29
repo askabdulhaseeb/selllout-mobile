@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../database/user_api.dart';
 import '../models/app_user.dart';
+import '../models/number_details.dart';
 
 class UserProvider extends ChangeNotifier {
   final List<AppUser> _user = <AppUser>[];
@@ -65,21 +66,23 @@ class UserProvider extends ChangeNotifier {
 
   AppUser user({required String uid}) {
     int index = _indexOf(uid);
-    return _user[index];
-  }
-
-  void _fetchData(String uid) async {
-    // final AppUser? userInfo = await UserAPI().getInfo(uid: uid);
-    // _user.add(userInfo!);
-    notifyListeners();
+    return index < 0 ? _null : _user[index];
   }
 
   int _indexOf(String uid) {
     int index = _user.indexWhere((AppUser element) => element.uid == uid);
-    if (index < 0) {
-      _fetchData(uid);
-      index = _user.indexWhere((AppUser element) => element.uid == uid);
-    }
     return index;
   }
+
+  static AppUser get _null => AppUser(
+        uid: 'null',
+        displayName: 'null',
+        phoneNumber: NumberDetails(
+          countryCode: 'null',
+          number: 'null',
+          completeNumber: 'null',
+          isoCode: 'null',
+          timestamp: 0,
+        ),
+      );
 }

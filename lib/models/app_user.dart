@@ -98,17 +98,20 @@ class AppUser {
       phoneNumber: NumberDetails.fromMap(doc.data()!['number_details'] ?? ''),
       displayName: doc.data()!['display_name'] ?? '',
       username: doc.data()!['username'] ?? '',
-      imageURL: doc.data()!['image_url'],
-      gender: GenderConverter.stringToGender(doc.data()!['gender']),
-      dob: doc.data()!['dob'] ?? '',
-      email: doc.data()!['email'] ?? '',
-      isPublicProfile: doc.data()!['is_public_profile'] ?? false,
-      isBlock: doc.data()!['is_block'],
-      rating: doc.data()!['rating']?.toDouble(),
-      bio: doc.data()!['bio'],
-      posts: List<String>.from(doc.data()!['posts']),
-      supporting: List<String>.from(doc.data()!['supporting']),
-      supporters: List<String>.from(doc.data()!['supporters']),
+      imageURL: doc.data()?['image_url'] ?? '',
+      gender: GenderConverter.stringToGender(
+        doc.data()?['gender'] ??
+            GenderConverter.genderToString(GenderTypesEnum.male),
+      ),
+      dob: doc.data()?['dob'] ?? '',
+      email: doc.data()?['email'] ?? '',
+      isPublicProfile: doc.data()?['is_public_profile'] ?? false,
+      isBlock: doc.data()?['is_block'],
+      rating: doc.data()?['rating']?.toDouble(),
+      bio: doc.data()?['bio'],
+      posts: List<String>.from(doc.data()?['posts'] ?? <String>[]),
+      supporting: List<String>.from(doc.data()?['supporting'] ?? <String>[]),
+      supporters: List<String>.from(doc.data()?['supporters'] ?? <String>[]),
     );
   }
 }

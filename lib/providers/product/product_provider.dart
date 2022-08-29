@@ -10,7 +10,7 @@ class ProductProvider extends ChangeNotifier {
   List<Product> userProducts(String uid) {
     final List<Product> temp = <Product>[];
     for (Product element in _products) {
-      temp.add(element);
+      if (element.uid == uid) temp.add(element);
     }
     return temp;
   }

@@ -5,7 +5,9 @@ import '../../database/auth_methods.dart';
 import '../../functions/time_date_functions.dart';
 import '../../models/app_user.dart';
 import '../../models/product/product.dart';
+import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
+import '../../screens/others_profile/others_profile.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/custom_elevated_button.dart';
 import '../custom_widgets/custom_profile_image.dart';
@@ -108,7 +110,7 @@ class _ButtonSection extends StatelessWidget {
       TextStyle(color: Colors.white, fontSize: 16);
   @override
   Widget build(BuildContext context) {
-    return user.uid != AuthMethods.uid
+    return user.uid == AuthMethods.uid
         ? const SizedBox()
         : Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -190,14 +192,14 @@ class _Header extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       child: GestureDetector(
         onTap: () {
-          // user.uid == AuthMethods.uid
-          //     ? Provider.of<AppProvider>(context, listen: false).onTabTapped(4)
-          //     : Navigator.of(context).push(
-          //         MaterialPageRoute<OthersProfile>(
-          //           builder: (BuildContext context) =>
-          //               OthersProfile(user: user),
-          //         ),
-          //       );
+          user.uid == AuthMethods.uid
+              ? Provider.of<AppProvider>(context, listen: false).onTabTapped(4)
+              : Navigator.of(context).push(
+                  MaterialPageRoute<OthersProfile>(
+                    builder: (BuildContext context) =>
+                        OthersProfile(user: user),
+                  ),
+                );
         },
         child: Row(
           children: <Widget>[
