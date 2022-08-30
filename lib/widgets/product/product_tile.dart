@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
+import '../../functions/report_bottom_sheets.dart';
 import '../../functions/time_date_functions.dart';
 import '../../functions/unique_id_functions.dart';
 import '../../models/app_user.dart';
@@ -232,6 +233,7 @@ class _Header extends StatelessWidget {
             const Spacer(),
             IconButton(
               onPressed: () {
+                ReportBottomSheets().productReport(context, product);
                 // TODO: Notification Seller Button click
                 // showInfoDialog(
                 //   context,

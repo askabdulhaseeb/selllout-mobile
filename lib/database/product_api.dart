@@ -43,6 +43,18 @@ class ProductAPI {
     return products;
   }
 
+  Future<bool> report(Product product) async {
+    try {
+      final Map<String, dynamic>? value = product.report();
+      if (value == null) return false;
+      // ignore: always_specify_types
+      await _instance.collection(_collection).doc(product.pid).update(value);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> addProduct(Product product) async {
     try {
       // ignore: always_specify_types

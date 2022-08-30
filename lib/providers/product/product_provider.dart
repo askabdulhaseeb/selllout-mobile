@@ -7,6 +7,15 @@ import '../../models/product/product.dart';
 import '../../models/product/product_url.dart';
 
 class ProductProvider extends ChangeNotifier {
+  Future<void> report(Product product) async {
+    final int index =
+        _products.indexWhere((Product element) => element.pid == product.pid);
+    if (index < 0) return;
+    _products[index] = product;
+    notifyListeners();
+    await ProductAPI().report(product);
+  }
+
   List<Product> userProducts(String uid) {
     final List<Product> temp = <Product>[];
     for (Product element in _products) {

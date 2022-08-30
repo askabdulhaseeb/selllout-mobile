@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../enums/product/prod_condition_enum.dart';
 import '../../enums/product/prod_delivery_type.dart';
 import '../../enums/product/prod_privacy_type.dart';
+import '../reports/report_product.dart';
 import 'product_url.dart';
 
 class Product {
@@ -24,6 +25,7 @@ class Product {
     this.privacy = ProdPrivacyTypeEnum.public,
     this.delivery = ProdDeliveryTypeEnum.delivery,
     this.deliveryFree = 0,
+    this.reports,
     this.timestamp,
     this.isAvailable = true,
   });
@@ -45,6 +47,7 @@ class Product {
   late ProdPrivacyTypeEnum privacy;
   late ProdDeliveryTypeEnum delivery;
   late double deliveryFree;
+  List<ReportProduct>? reports;
   late int? timestamp;
   late bool isAvailable; // available for sale any more are not
 
@@ -68,8 +71,17 @@ class Product {
       'delivery':
           ProdDeliveryTypeEnumConvertor.enumToString(delivery: delivery),
       'delivery_free': deliveryFree,
+      'reports': <ReportProduct>[],
       'timestamp': timestamp,
       'is_available': isAvailable,
+    };
+  }
+
+  Map<String, dynamic>? report() {
+    if (reports == null) return null;
+    return <String, dynamic>{
+      'reports': FieldValue.arrayUnion(
+          reports!.map((ReportProduct e) => e.toMap()).toList()),
     };
   }
 
@@ -79,6 +91,12 @@ class Product {
     doc.data()!['prod_urls'].forEach((dynamic e) {
       prodURL.add(ProductURL.fromMap(e));
     });
+    List<ReportProduct> reportInfo = <ReportProduct>[];
+    if (doc.data()!['reports'] != null) {
+      doc.data()!['reports'].forEach((dynamic e) {
+        reportInfo.add(ReportProduct.fromMap(e));
+      });
+    }
     return Product(
       pid: doc.data()!['pid'] ?? '',
       uid: doc.data()!['uid'] ?? '',
@@ -100,6 +118,7 @@ class Product {
       delivery: ProdDeliveryTypeEnumConvertor.stringToEnum(
           delivery: doc.data()!['delivery']),
       deliveryFree: doc.data()!['delivery_free']?.toDouble() ?? 0.0,
+      reports: reportInfo,
       timestamp: doc.data()!['timestamp']?.toInt(),
       isAvailable: doc.data()!['is_available'] ?? false,
     );
