@@ -7,6 +7,7 @@ import '../../../widgets/chat/chat_message_tile.dart';
 import '../../../widgets/chat/messages_list.dart';
 import '../../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
+import 'group_info_screen.dart';
 
 class GroupChatScreen extends StatelessWidget {
   const GroupChatScreen({required this.chat, Key? key}) : super(key: key);
@@ -18,12 +19,11 @@ class GroupChatScreen extends StatelessWidget {
       appBar: AppBar(
         title: InkWell(
           onTap: () {
-            // Navigator.of(context).push(
-            //   MaterialPageRoute<OthersProfile>(
-            //     builder: (BuildContext context) =>
-            //         OthersProfile(user: chatWith),
-            //   ),
-            // );
+            Navigator.of(context).push(
+              MaterialPageRoute<GroupInfoScreen>(
+                builder: (BuildContext context) => GroupInfoScreen(chat: chat),
+              ),
+            );
           },
           child: Row(
             children: <Widget>[

@@ -5,6 +5,7 @@ import '../../../../../widgets/custom_widgets/custom_textformfield.dart';
 import '../../../../../widgets/custom_widgets/show_loading.dart';
 import '../../../providers/chat/group_chat_provider.dart';
 import '../../../utilities/custom_validator.dart';
+import '../../../utilities/utilities.dart';
 import '../../../widgets/custom_widgets/custom_file_image_box.dart';
 import '../../../widgets/custom_widgets/title_text.dart';
 
@@ -57,6 +58,7 @@ class _CreateChatGroupScreenState extends State<CreateChatGroupScreen> {
                     readOnly: groupPro.isLoading,
                     hint: 'Add group description',
                     maxLines: 4,
+                    maxLength: Utilities.groupDescriptionMaxLength,
                     validator: (String? value) =>
                         CustomValidator.retaunNull(value),
                   ),

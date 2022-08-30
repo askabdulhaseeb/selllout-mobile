@@ -1,5 +1,6 @@
 class Utilities {
   static int get usernameMaxLength => _usernameMaxLenght;
+  static int get groupDescriptionMaxLength => _groupDescriptionMaxLength;
   static int get bioMaxLength => _bioMaxLength;
 
   static double get videoAspectRatio => _videoAspectRatio;
@@ -56,6 +57,7 @@ class Utilities {
 
   static const int _usernameMaxLenght = 32;
   static const int _bioMaxLength = 160;
+  static const int _groupDescriptionMaxLength = 160;
 
   static const double _videoAspectRatio = 4 / 3;
   static const double _imageAspectRatio = 4 / 3;
