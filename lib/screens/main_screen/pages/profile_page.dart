@@ -45,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        showBottomSheet(
+                        showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) =>
                               const ProfileMoreDrawer(),

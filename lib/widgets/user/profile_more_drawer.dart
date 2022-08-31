@@ -11,6 +11,24 @@ class ProfileMoreDrawer extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        Container(
+          height: 6,
+          width: 100,
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            'More',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        const Divider(thickness: 0.2),
         ListTile(
           onTap: () {},
           leading: const Icon(Icons.settings),

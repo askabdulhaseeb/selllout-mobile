@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_widgets/custom_textformfield.dart';
+import '../../widgets/custom_widgets/show_loading.dart';
 import '../main_screen/main_screen.dart';
 import 'register_screen.dart';
 
@@ -77,6 +78,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     ),
                   ],
                 ),
+                if (_otp.text.length == 6) const ShowLoading(),
               ],
             ),
           );
