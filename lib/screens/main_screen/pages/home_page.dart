@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../models/product/product.dart';
-import '../../../../providers/product/product_provider.dart';
-import '../../../../widgets/product/product_tile.dart';
+import '../../../models/product/product.dart';
+import '../../../providers/product/product_provider.dart';
+import '../../../widgets/product/product_tile.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
