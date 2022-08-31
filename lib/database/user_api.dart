@@ -11,6 +11,17 @@ class UserAPI {
   static const String _collection = 'users';
   static final FirebaseFirestore _instance = FirebaseFirestore.instance;
   // functions
+  Future<void> report({required AppUser user}) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(user.uid)
+          .update(user.report());
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
   Future<bool> register({required AppUser user}) async {
     try {
       await _instance.collection(_collection).doc(user.uid).set(user.toMap());

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../database/auth_methods.dart';
 import '../enums/gender_type_enum.dart';
 import 'number_details.dart';
+import 'reports/report_user.dart';
 
 class AppUser {
   AppUser({
@@ -17,6 +19,9 @@ class AppUser {
     this.isVerified = false,
     this.rating = 0.0,
     this.bio = '',
+    this.reports,
+    this.blockTo,
+    this.blockedBy,
     this.posts,
     this.supporting,
     this.supporters,
@@ -35,6 +40,9 @@ class AppUser {
   final bool? isVerified;
   final double? rating;
   final String? bio;
+  final List<ReportUser>? reports;
+  final List<String>? blockTo;
+  final List<String>? blockedBy;
   final List<String>? posts;
   final List<String>? supporting;
   final List<String>? supporters;
@@ -77,22 +85,25 @@ class AppUser {
     };
   }
 
-  // ignore: sort_constructors_first
-  factory AppUser.fromMap(Map<String, dynamic> map) {
-    return AppUser(
-      uid: map['uid'] ?? '',
-      phoneNumber: NumberDetails.fromMap(map['number_details']),
-      displayName: map['display_name'] ?? '',
-      username: map['username'] ?? '',
-      imageURL: map['image_url'],
-      email: map['email'] ?? '',
-      rating: double.parse(map['rating']),
-      dob: '',
-      gender: GenderConverter.stringToGender(map['gender']),
-    );
+  Map<String, dynamic> report() {
+    if (!(blockedBy?.contains(AuthMethods.uid) ?? false)) {
+      blockedBy?.add(AuthMethods.uid);
+    }
+    return <String, dynamic>{
+      'report': FieldValue.arrayUnion(
+          reports!.map((ReportUser e) => e.toMap()).toList()),
+      'blocked_by': FieldValue.arrayUnion(blockedBy!),
+    };
   }
+
   // ignore: sort_constructors_first
   factory AppUser.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
+    List<ReportUser> reportInfo = <ReportUser>[];
+    if (doc.data()!['reports'] != null) {
+      doc.data()!['reports'].forEach((dynamic e) {
+        reportInfo.add(ReportUser.fromMap(e));
+      });
+    }
     return AppUser(
       uid: doc.data()!['uid'] ?? '',
       phoneNumber: NumberDetails.fromMap(doc.data()!['number_details'] ?? ''),
@@ -109,7 +120,10 @@ class AppUser {
       isBlock: doc.data()?['is_block'],
       rating: doc.data()?['rating']?.toDouble(),
       bio: doc.data()?['bio'],
+      reports: reportInfo,
       posts: List<String>.from(doc.data()?['posts'] ?? <String>[]),
+      blockTo: List<String>.from(doc.data()?['block_to'] ?? <String>[]),
+      blockedBy: List<String>.from(doc.data()?['blocked_by'] ?? <String>[]),
       supporting: List<String>.from(doc.data()?['supporting'] ?? <String>[]),
       supporters: List<String>.from(doc.data()?['supporters'] ?? <String>[]),
     );

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
+import '../../functions/report_bottom_sheets.dart';
 import '../../functions/unique_id_functions.dart';
+import '../../functions/user_bottom_sheets.dart';
 import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../models/product/product.dart';
@@ -34,6 +36,14 @@ class OthersProfile extends StatelessWidget {
             fontSize: 18,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () =>
+                ReportBottomSheets().otherUserProfileMoreButton(context, user),
+            splashRadius: 16,
+            icon: const Icon(Icons.more_vert_rounded),
+          )
+        ],
       ),
       body: Consumer<ProductProvider>(
         builder: (BuildContext context, ProductProvider prodPro, _) {
@@ -92,7 +102,11 @@ class _SuppoertAndMessageButton extends StatelessWidget {
                 bgColor: isSupporter ? Colors.transparent : null,
                 border: isSupporter ? border : null,
                 textStyle: isSupporter ? textStyle : null,
-                title: isSupporter ? 'Supporting' : 'Support',
+                title: isSupporter
+                    ? 'Supporting'
+                    : (otherLive.supporting?.contains(user.uid) ?? false)
+                        ? 'Support Back'
+                        : 'Support',
                 onTap: () {},
               ),
             ),

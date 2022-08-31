@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../database/user_api.dart';
 import '../models/app_user.dart';
 import '../models/number_details.dart';
+import '../models/reports/report_user.dart';
 
 class UserProvider extends ChangeNotifier {
   final List<AppUser> _user = <AppUser>[];
@@ -30,6 +31,14 @@ class UserProvider extends ChangeNotifier {
 
   void reset() {
     _user.clear();
+  }
+
+  report(AppUser user, ReportUser repo) async {
+    int index = _indexOf(user.uid);
+    if (index < 0) return;
+    _user[index].reports?.add(repo);
+    notifyListeners();
+    await UserAPI().report(user: _user[index]);
   }
 
   List<AppUser> supporters({required String uid}) {

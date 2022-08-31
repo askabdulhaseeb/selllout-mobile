@@ -2,14 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../database/auth_methods.dart';
+import '../models/app_user.dart';
 import '../models/product/product.dart';
 import '../models/reports/report_product.dart';
+import '../models/reports/report_user.dart';
 import '../providers/product/product_provider.dart';
+import '../providers/user_provider.dart';
 import '../widgets/custom_widgets/custom_elevated_button.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'time_date_functions.dart';
 
 class ReportBottomSheets {
+  otherUserProfileMoreButton(BuildContext context, AppUser user) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const _Handle(),
+            const SizedBox(height: 20),
+            const Center(
+              child: Text(
+                'Report User',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Divider(thickness: 0.2),
+            ListTile(
+              onTap: () =>
+                  _reportConfirmSheet(context, user, 'report', 'Report'),
+              leading: const Icon(Icons.report),
+              title: const Text('Report'),
+            ),
+            ListTile(
+              onTap: () => _reportConfirmSheet(context, user, 'block', 'Block'),
+              leading: const Icon(Icons.block),
+              title: const Text('Block'),
+            ),
+            ListTile(
+              onTap: () => _reportConfirmSheet(
+                  context, user, 'report-block', 'Report & Block'),
+              leading: const Icon(Icons.person_off_outlined),
+              title: const Text('Report & Block'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   productReport(BuildContext context, Product product) {
     showModalBottomSheet(
         context: context,
@@ -257,6 +300,68 @@ _showreportcompletedbottom(
             },
           ),
         ]),
+      );
+    },
+  );
+}
+
+_reportConfirmSheet(
+  BuildContext context,
+  AppUser user,
+  String id,
+  String comment,
+) {
+  Navigator.of(context).pop();
+  return showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const _Handle(),
+          const SizedBox(height: 20),
+          RichText(
+            text: TextSpan(
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color),
+              children: <TextSpan>[
+                const TextSpan(text: 'Sre you sure to '),
+                TextSpan(
+                  text: ' "$comment" ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                TextSpan(text: user.displayName),
+              ],
+            ),
+          ),
+          const SizedBox(height: 30),
+          TextButton(
+            child: const Text('Cancel this report'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: CustomElevatedButton(
+              title: 'Done',
+              onTap: () async {
+                ReportUser repo = ReportUser(
+                  reportBy: AuthMethods.uid,
+                  category: id,
+                  comment: comment,
+                  timestamp: TimeDateFunctions.timestamp,
+                );
+                Navigator.of(context).pop();
+                await Provider.of<UserProvider>(context, listen: false)
+                    .report(user, repo);
+              },
+            ),
+          ),
+        ],
       );
     },
   );
