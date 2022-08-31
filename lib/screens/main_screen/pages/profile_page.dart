@@ -8,6 +8,7 @@ import '../../../providers/product/product_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../widgets/product/grid_view_of_prod.dart';
 import '../../../widgets/user/profile_header_widget.dart';
+import '../../../widgets/user/profile_more_drawer.dart';
 import '../../../widgets/user/profile_score_widget.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -16,6 +17,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: const ProfileMoreDrawer(),
       body: Consumer2<UserProvider, ProductProvider>(
         builder: (
           BuildContext context,
@@ -30,13 +32,29 @@ class ProfilePage extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, bottom: 10),
-                child: Text(
-                  me.username!,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1!.color,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      me.username!,
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              const ProfileMoreDrawer(),
+                        );
+                      },
+                      splashRadius: 16,
+                      icon: const Icon(Icons.menu),
+                    )
+                  ],
                 ),
               ),
               ProfileHeaderWidget(user: me),

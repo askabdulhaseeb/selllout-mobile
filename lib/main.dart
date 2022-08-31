@@ -70,8 +70,9 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => GroupChatProvider(),
         ),
       ],
-      child: Consumer<AppThemeProvider>(
-        builder: (BuildContext context, AppThemeProvider theme, _) {
+      child: Consumer2<AppThemeProvider, AuthProvider>(
+        builder: (BuildContext context, AppThemeProvider theme,
+            AuthProvider authPro, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Selllout',

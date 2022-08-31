@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/phone_number.dart';
 
 import '../database/auth_methods.dart';
@@ -108,6 +111,29 @@ class AuthProvider extends ChangeNotifier {
     if (_verificationId == null) return 0;
     final int num = await AuthMethods().verifyOTP(_verificationId!, otp);
     return num;
+  }
+
+  //
+  // INIT
+  //
+  init() async {
+    try {
+      http.Response response =
+          await http.get(Uri.parse('http://ip-api.com/json'));
+      // ignore: always_specify_types
+      Map data = json.decode(response.body);
+      log(data['countryCode']);
+      if (response.statusCode == 200) {
+        _phoneNumber!.countryCode = data['countryCode'];
+        // dialCode = CountryCode.fromCountryCode(countryCode).dialCode ?? '+1';
+
+      } else {
+        _phoneNumber!.countryCode = 'UK';
+      }
+    } catch (e) {
+      _phoneNumber!.countryCode = 'UK';
+    }
+    notifyListeners();
   }
 
   //

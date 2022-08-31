@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:provider/provider.dart';
@@ -15,21 +17,6 @@ class PhoneNumberScreen extends StatefulWidget {
 }
 
 class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
-  // TODO: Select Default Country
-  // init() async {
-  //   try {
-  //     http.Response response =
-  //         await http.get(Uri.parse('http://ip-api.com/json'));
-  //     // ignore: always_specify_types
-  //     Map data = json.decode(response.body);
-  //     countryCode = data['countryCode'];
-  //     dialCode = CountryCode.fromCountryCode(countryCode).dialCode ?? '+1';
-
-  //     setState(() {});
-  //   } catch (e) {
-  //     CustomToast.errorToast(message: 'Something went wrong');
-  //   }
-  // }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,6 +43,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 ),
                 const SizedBox(height: 16),
                 PhoneNumberField(
+                  initialCountryCode: authPro.phoneNumber?.countryCode ?? 'UK',
                   bgColor: Colors.transparent,
                   onChange: (PhoneNumber? value) =>
                       authPro.onPhoneNumberChange(value),

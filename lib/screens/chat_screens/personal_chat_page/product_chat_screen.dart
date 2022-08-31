@@ -62,7 +62,6 @@ class ProductChatScreen extends StatelessWidget {
                               )
                             : ListView.builder(
                                 shrinkWrap: true,
-                                reverse: true,
                                 itemCount: messages.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return MessageTile(message: messages[index]);
@@ -157,6 +156,7 @@ class _ProductTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black54),
           borderRadius: BorderRadius.circular(12),

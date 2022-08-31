@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +15,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Selllout')),
       body: Consumer<ProductProvider>(
         builder: (BuildContext context, ProductProvider prodPro, _) {
-          log('Home');
           final List<Product> prods = prodPro.products;
           prods.shuffle();
           return ListView.separated(

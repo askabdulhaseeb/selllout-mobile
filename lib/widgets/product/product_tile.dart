@@ -241,7 +241,7 @@ class _Header extends StatelessWidget {
                 //   message: 'This is a part of next milestone',
                 // );
               },
-              icon: const Icon(Icons.more_vert_outlined),
+              icon: Icon(Icons.adaptive.more),
             )
           ],
         ),
