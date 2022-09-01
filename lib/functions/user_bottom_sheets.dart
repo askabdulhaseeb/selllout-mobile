@@ -3,7 +3,7 @@ import '../database/auth_methods.dart';
 import '../models/app_user.dart';
 import '../models/chat/chat.dart';
 import '../screens/chat_screens/personal_chat_page/personal_chat_screen.dart';
-import '../screens/others_profile/others_profile.dart';
+import '../screens/user_screens/others_profile.dart';
 import '../widgets/custom_widgets/custom_profile_image.dart';
 import 'unique_id_functions.dart';
 

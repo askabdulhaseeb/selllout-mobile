@@ -9,7 +9,7 @@ import '../../../widgets/chat/chat_message_tile.dart';
 import '../../../widgets/chat/message_tile.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/product/custom_slideable_urls_tile.dart';
-import '../../others_profile/others_profile.dart';
+import '../../user_screens/others_profile.dart';
 
 class ProductChatScreen extends StatelessWidget {
   const ProductChatScreen({

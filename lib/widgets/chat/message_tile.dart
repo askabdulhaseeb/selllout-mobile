@@ -10,7 +10,7 @@ import '../../models/chat/message.dart';
 import '../../models/chat/message_attachment.dart';
 import '../../providers/user_provider.dart';
 import '../../screens/chat_screens/message_attachment_screen.dart';
-import '../../screens/others_profile/others_profile.dart';
+import '../../screens/user_screens/others_profile.dart';
 import '../custom_widgets/custom_network_image.dart';
 import '../custom_widgets/network_video_player.dart';
 

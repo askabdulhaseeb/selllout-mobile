@@ -8,7 +8,7 @@ import '../../../widgets/chat/chat_message_tile.dart';
 import '../../../widgets/chat/messages_list.dart';
 import '../../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
-import '../../others_profile/others_profile.dart';
+import '../../user_screens/others_profile.dart';
 
 class PersonalChatScreen extends StatelessWidget {
   const PersonalChatScreen({

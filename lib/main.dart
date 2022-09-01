@@ -70,9 +70,8 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => GroupChatProvider(),
         ),
       ],
-      child: Consumer2<AppThemeProvider, AuthProvider>(
-        builder: (BuildContext context, AppThemeProvider theme,
-            AuthProvider authPro, _) {
+      child: Consumer<AppThemeProvider>(
+        builder: (BuildContext context, AppThemeProvider theme, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Selllout',
@@ -94,7 +93,6 @@ class MyApp extends StatelessWidget {
   // TODO: BUGES
   // Product Tile to Other Profile Screen HERO Issue
   // TODO:  Dependencies need to add
-  // Dropdown version update
 
 // Platform  Firebase App Id
 // android   1:278140333975:android:32494f3707d3caebc15ed2
