@@ -85,6 +85,20 @@ class AppUser {
     };
   }
 
+  block() {
+    return <String, dynamic>{
+      'block_to': FieldValue.arrayUnion(supporting ?? <String>[]),
+      'blocked_by': FieldValue.arrayUnion(supporters ?? <String>[]),
+    };
+  }
+
+  unblock() {
+    return <String, dynamic>{
+      'block_to': FieldValue.arrayRemove(supporting ?? <String>[]),
+      'blocked_by': FieldValue.arrayRemove(supporters ?? <String>[]),
+    };
+  }
+
   Map<String, dynamic> report() {
     if (!(blockedBy?.contains(AuthMethods.uid) ?? false)) {
       blockedBy?.add(AuthMethods.uid);

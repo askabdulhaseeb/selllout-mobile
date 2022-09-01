@@ -11,6 +11,7 @@ class ProdSubCatDropdown extends StatelessWidget {
     this.borderRadius,
     this.color,
     this.hintText = 'Sub Category',
+    this.padding,
     this.margin,
     Key? key,
   }) : super(key: key);
@@ -20,13 +21,14 @@ class ProdSubCatDropdown extends StatelessWidget {
   final void Function(ProdSubCategory?) onChanged;
   final Color? color;
   final String hintText;
+  final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 8),
       margin: margin ?? const EdgeInsets.symmetric(vertical: 4),
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -37,24 +39,21 @@ class ProdSubCatDropdown extends StatelessWidget {
         border: Border.all(color: Colors.grey),
       ),
       child: DropdownSearch<ProdSubCategory>(
-        showSearchBox: true,
-        dropdownSearchTextAlignVertical: TextAlignVertical.center,
-        mode: Mode.MENU,
         selectedItem: selectedItem,
         items: items,
-        dropdownSearchBaseStyle: TextStyle(
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
         itemAsString: (ProdSubCategory? item) => item!.title,
         onChanged: (ProdSubCategory? value) => onChanged(value),
         validator: (ProdSubCategory? value) {
           if (value == null) return 'Sub Category Required';
           return null;
         },
-        dropdownSearchDecoration: InputDecoration(
-          hintText: hintText,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          border: InputBorder.none,
+        dropdownDecoratorProps: DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+            hintText: hintText,
+            contentPadding: padding ??
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            border: InputBorder.none,
+          ),
         ),
       ),
     );

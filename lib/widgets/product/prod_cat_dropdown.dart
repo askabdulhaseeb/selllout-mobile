@@ -39,25 +39,21 @@ class ProdCatDropdown extends StatelessWidget {
         border: Border.all(color: Colors.grey),
       ),
       child: DropdownSearch<ProdCategory>(
-        showSearchBox: true,
-        dropdownSearchTextAlignVertical: TextAlignVertical.center,
-        mode: Mode.MENU,
         selectedItem: selectedItem,
         items: items,
-        dropdownSearchBaseStyle: TextStyle(
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
         itemAsString: (ProdCategory? item) => item!.title,
         onChanged: (ProdCategory? value) => onChanged(value),
         validator: (ProdCategory? value) {
           if (value == null) return 'Category Required';
           return null;
         },
-        showAsSuffixIcons: true,
-        dropdownSearchDecoration: InputDecoration(
-          hintText: hintText,
-          contentPadding: padding ?? const EdgeInsets.symmetric(horizontal: 10),
-          border: InputBorder.none,
+        dropdownDecoratorProps: DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+            hintText: hintText,
+            contentPadding: padding ??
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            border: InputBorder.none,
+          ),
         ),
       ),
     );

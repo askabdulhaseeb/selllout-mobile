@@ -156,6 +156,7 @@ class AddProductProvider extends ChangeNotifier {
     for (int i = 0; i < 10; i++) {
       _files.add(null);
     }
+    notifyListeners();
   }
 
   //
