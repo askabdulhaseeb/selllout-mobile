@@ -12,7 +12,7 @@ import 'providers/chat/group_chat_provider.dart';
 import 'providers/product/app_product_provider.dart';
 import 'providers/product/product_category_provider.dart';
 import 'providers/product/product_provider.dart';
-import 'providers/user_provider.dart';
+import 'providers/user/user_provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';

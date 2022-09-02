@@ -9,7 +9,7 @@ import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../models/product/product.dart';
 import '../../providers/product/product_provider.dart';
-import '../../providers/user_provider.dart';
+import '../../providers/user/user_provider.dart';
 import '../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../widgets/product/grid_view_of_prod.dart';
 import '../../widgets/user/private_account_widget.dart';

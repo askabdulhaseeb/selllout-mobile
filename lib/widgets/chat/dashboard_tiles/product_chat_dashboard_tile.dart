@@ -6,7 +6,7 @@ import '../../../models/app_user.dart';
 import '../../../models/chat/chat.dart';
 import '../../../models/product/product.dart';
 import '../../../providers/product/product_provider.dart';
-import '../../../providers/user_provider.dart';
+import '../../../providers/user/user_provider.dart';
 import '../../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
 import '../../custom_widgets/custom_profile_image.dart';
 import '../../custom_widgets/network_video_player.dart';

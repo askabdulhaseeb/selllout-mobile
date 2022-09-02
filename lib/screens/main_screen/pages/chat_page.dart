@@ -6,7 +6,7 @@ import '../../../enums/chat/message_tabbar_enum.dart';
 import '../../../functions/user_bottom_sheets.dart';
 import '../../../models/app_user.dart';
 import '../../../providers/chat/chat_page_provider.dart';
-import '../../../providers/user_provider.dart';
+import '../../../providers/user/user_provider.dart';
 import '../../../widgets/chat/chat_person_search.dart';
 import '../../chat_screens/group_chat_page/create_group_screen.dart';
 import '../../chat_screens/group_chat_page/group_chat_dashboard.dart';

@@ -8,7 +8,7 @@ import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../models/chat/message.dart';
 import '../../models/chat/message_attachment.dart';
-import '../../providers/user_provider.dart';
+import '../../providers/user/user_provider.dart';
 import '../../screens/chat_screens/message_attachment_screen.dart';
 import '../../screens/user_screens/others_profile.dart';
 import '../custom_widgets/custom_network_image.dart';

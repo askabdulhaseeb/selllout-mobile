@@ -28,18 +28,18 @@ class AppUser {
   });
 
   final String uid;
-  final String? displayName;
-  final String? username;
-  final String? imageURL;
+  String? displayName;
+  String? username;
+  String? imageURL;
   final NumberDetails phoneNumber;
   final GenderTypesEnum? gender;
   final String? dob;
   final String? email;
-  final bool? isPublicProfile;
+  bool? isPublicProfile;
   final bool? isBlock;
   final bool? isVerified;
   final double? rating;
-  final String? bio;
+  String? bio;
   final List<ReportUser>? reports;
   final List<String>? blockTo;
   final List<String>? blockedBy;

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../database/auth_methods.dart';
 import '../../../../models/app_user.dart';
 import '../../../../providers/product/app_product_provider.dart';
-import '../../../../providers/user_provider.dart';
+import '../../../providers/user/user_provider.dart';
 import '../../../../utilities/custom_validator.dart';
 import '../../../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../../../widgets/custom_widgets/custom_profile_image.dart';

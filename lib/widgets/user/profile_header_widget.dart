@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../database/auth_methods.dart';
 import '../../models/app_user.dart';
+import '../../screens/user_screens/edit_profile_screen.dart';
 import '../custom_widgets/custom_profile_image.dart';
 
 class ProfileHeaderWidget extends StatelessWidget {
@@ -41,8 +42,11 @@ class ProfileHeaderWidget extends StatelessWidget {
                     if (user.uid == AuthMethods.uid)
                       InkWell(
                         onTap: () {
-                          // Navigator.of(context)
-                          //     .pushNamed(EditProfileScreen.routeName);
+                          Navigator.of(context).push(
+                            MaterialPageRoute<EditProfileScreen>(
+                                builder: (BuildContext context) =>
+                                    EditProfileScreen(user: user)),
+                          );
                         },
                         child: Text(
                           '- Edit',

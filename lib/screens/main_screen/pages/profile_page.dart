@@ -5,7 +5,7 @@ import '../../../database/auth_methods.dart';
 import '../../../models/app_user.dart';
 import '../../../models/product/product.dart';
 import '../../../providers/product/product_provider.dart';
-import '../../../providers/user_provider.dart';
+import '../../../providers/user/user_provider.dart';
 import '../../../widgets/product/grid_view_of_prod.dart';
 import '../../../widgets/user/profile_header_widget.dart';
 import '../../../widgets/user/profile_more_drawer.dart';

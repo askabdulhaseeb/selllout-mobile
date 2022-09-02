@@ -7,7 +7,7 @@ import '../models/product/product.dart';
 import '../models/reports/report_product.dart';
 import '../models/reports/report_user.dart';
 import '../providers/product/product_provider.dart';
-import '../providers/user_provider.dart';
+import '../providers/user/user_provider.dart';
 import '../widgets/custom_widgets/custom_elevated_button.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'time_date_functions.dart';

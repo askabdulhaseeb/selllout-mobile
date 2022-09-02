@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../database/user_api.dart';
-import '../models/app_user.dart';
-import '../models/number_details.dart';
-import '../models/reports/report_user.dart';
+import '../../database/auth_methods.dart';
+import '../../database/user_api.dart';
+import '../../models/app_user.dart';
+import '../../models/number_details.dart';
+import '../../models/reports/report_user.dart';
 
 class UserProvider extends ChangeNotifier {
   final List<AppUser> _user = <AppUser>[];
@@ -39,6 +40,15 @@ class UserProvider extends ChangeNotifier {
     _user[index].reports?.add(repo);
     notifyListeners();
     await UserAPI().report(user: _user[index]);
+  }
+
+  updateProfile(AppUser value) async {
+    if (value.uid != AuthMethods.uid) return;
+    int index = _indexOf(value.uid);
+    if (index < 0) return;
+    _user[index] = value;
+    notifyListeners();
+    await UserAPI().updateProfile(user: _user[index]);
   }
 
   List<AppUser> supporters({required String uid}) {

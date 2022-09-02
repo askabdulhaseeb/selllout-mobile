@@ -9,7 +9,7 @@ import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../models/product/product.dart';
 import '../../providers/app_provider.dart';
-import '../../providers/user_provider.dart';
+import '../../providers/user/user_provider.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
 import '../../screens/user_screens/others_profile.dart';
 import '../../utilities/utilities.dart';
