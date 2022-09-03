@@ -17,6 +17,7 @@ class ReportBottomSheets {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
+        print(user.uid);
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -39,14 +40,19 @@ class ReportBottomSheets {
             ListTile(
               onTap: () => _reportConfirmSheet(context, user, 'block', 'Block'),
               leading: const Icon(Icons.block),
-              title: const Text('Block'),
+              title: Text((Provider.of<UserProvider>(context)
+                      .user(uid: AuthMethods.uid)
+                      .blockTo!
+                      .contains(user.uid))
+                  ? 'Unblock'
+                  : 'Block'),
             ),
-            ListTile(
-              onTap: () => _reportConfirmSheet(
-                  context, user, 'report-block', 'Report & Block'),
-              leading: const Icon(Icons.person_off_outlined),
-              title: const Text('Report & Block'),
-            ),
+            // ListTile(
+            //   onTap: () => _reportConfirmSheet(
+            //       context, user, 'report-block', 'Report & Block'),
+            //   leading: const Icon(Icons.person_off_outlined),
+            //   title: const Text('Report & Block'),
+            // ),
           ],
         );
       },
@@ -356,8 +362,18 @@ _reportConfirmSheet(
                   timestamp: TimeDateFunctions.timestamp,
                 );
                 Navigator.of(context).pop();
-                await Provider.of<UserProvider>(context, listen: false)
-                    .report(user, repo);
+                if (id == 'block') {
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .block(user);
+                } else if (id == 'report') {
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .report(user, repo);
+                } else {
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .block(user);
+                  // await Provider.of<UserProvider>(context, listen: false)
+                  //     .report(user, repo);
+                }
               },
             ),
           ),

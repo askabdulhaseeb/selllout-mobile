@@ -6,9 +6,7 @@ import '../../../models/app_user.dart';
 import '../../../models/chat/chat.dart';
 import '../../../models/chat/chat_group_info.dart';
 import '../../../providers/user/user_provider.dart';
-import '../../../widgets/custom_widgets/custom_network_image.dart';
 import '../../../widgets/custom_widgets/custom_profile_image.dart';
-import '../../../widgets/custom_widgets/custom_textformfield.dart';
 import '../../../widgets/custom_widgets/text_field_like_bg.dart';
 
 class GroupInfoScreen extends StatelessWidget {

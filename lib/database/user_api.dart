@@ -23,6 +23,50 @@ class UserAPI {
     }
   }
 
+  Future<void> unblockTo({required AppUser user}) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(user.uid)
+          .update(user.unblockTO());
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
+  Future<void> unblockBy({required AppUser user}) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(user.uid)
+          .update(user.unblockBy());
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
+  Future<void> blockTo({required AppUser user}) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(user.uid)
+          .update(user.blockToUpdate());
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
+  Future<void> blockBy({required AppUser user}) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(user.uid)
+          .update(user.blockByUpdate());
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
   Future<void> report({required AppUser user}) async {
     try {
       await _instance

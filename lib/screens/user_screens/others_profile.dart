@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../database/auth_methods.dart';
 import '../../functions/report_bottom_sheets.dart';
 import '../../functions/unique_id_functions.dart';
-import '../../functions/user_bottom_sheets.dart';
 import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../models/product/product.dart';

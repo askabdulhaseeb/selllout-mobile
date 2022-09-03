@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -147,10 +146,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   _fetchPhoto() async {
-    final File? _temp = await PickerFunctions().image();
-    if (_temp == null) ;
+    final File? temp = await PickerFunctions().image();
+    if (temp == null) return;
     setState(() {
-      _pickedImage = _temp;
+      _pickedImage = temp;
     });
   }
 }

@@ -85,17 +85,27 @@ class AppUser {
     };
   }
 
-  block() {
+  blockToUpdate() {
     return <String, dynamic>{
-      'block_to': FieldValue.arrayUnion(supporting ?? <String>[]),
-      'blocked_by': FieldValue.arrayUnion(supporters ?? <String>[]),
+      'block_to': FieldValue.arrayUnion(blockTo ?? <String>[]),
     };
   }
 
-  unblock() {
+  blockByUpdate() {
     return <String, dynamic>{
-      'block_to': FieldValue.arrayRemove(supporting ?? <String>[]),
-      'blocked_by': FieldValue.arrayRemove(supporters ?? <String>[]),
+      'blocked_by': FieldValue.arrayUnion(blockedBy ?? <String>[]),
+    };
+  }
+
+  unblockTO() {
+    return <String, dynamic>{
+      'block_to': FieldValue.arrayRemove(blockTo ?? <String>[]),
+    };
+  }
+
+  unblockBy() {
+    return <String, dynamic>{
+      'blocked_by': FieldValue.arrayRemove(blockedBy ?? <String>[]),
     };
   }
 
