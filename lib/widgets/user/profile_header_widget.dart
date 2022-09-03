@@ -4,6 +4,7 @@ import '../../database/auth_methods.dart';
 import '../../models/app_user.dart';
 import '../../screens/user_screens/edit_profile_screen.dart';
 import '../custom_widgets/custom_profile_image.dart';
+import '../custom_widgets/custom_rating_bar.dart';
 
 class ProfileHeaderWidget extends StatelessWidget {
   const ProfileHeaderWidget({required this.user, Key? key}) : super(key: key);
@@ -56,7 +57,15 @@ class ProfileHeaderWidget extends StatelessWidget {
                       ),
                   ],
                 ),
-                const Text('Ratings: ....'),
+                Row(
+                  children: <Widget>[
+                    const Text('Ratings: '),
+                    CustomRatingBar(
+                      initialRating: user.rating ?? 0,
+                      onRatingUpdate: (_) {},
+                    )
+                  ],
+                ),
                 // TODO: Rating
                 SizedBox(
                   width: totalWidth / 1.6,
