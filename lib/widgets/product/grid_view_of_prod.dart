@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/product/product.dart';
+import '../../screens/product_screens/user_products_screen.dart';
 import '../custom_widgets/custom_network_image.dart';
 import '../custom_widgets/network_video_player.dart';
 
@@ -20,16 +21,12 @@ class GridViewOfProducts extends StatelessWidget {
       itemCount: posts.length,
       itemBuilder: (BuildContext context, int index) => InkWell(
         onTap: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute<ProductDetailScreen>(
-          //     builder: (_) => ProductDetailScreen(
-          //       product: posts[index],
-          //       user: Provider.of<UserProvider>(context).user(
-          //         uid: posts[index].uid,
-          //       ),
-          //     ),
-          //   ),
-          // );
+          Navigator.of(context).push(
+            MaterialPageRoute<UserProductsScreen>(
+              builder: (_) =>
+                  UserProductsScreen(products: posts, selectedIndex: index),
+            ),
+          );
         },
         child: Card(
           child: Column(
