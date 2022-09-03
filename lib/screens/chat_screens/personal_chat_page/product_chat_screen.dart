@@ -9,6 +9,7 @@ import '../../../widgets/chat/chat_message_tile.dart';
 import '../../../widgets/chat/message_tile.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/product/custom_slideable_urls_tile.dart';
+import '../../product_screens/product_detail_screen.dart';
 import '../../user_screens/others_profile.dart';
 
 class ProductChatScreen extends StatelessWidget {
@@ -146,12 +147,10 @@ class _ProductTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // Navigator.of(context).push(MaterialPageRoute<ProductChatScreen>(
-        //   builder: (BuildContext context) => ProductDetailScreen(
-        //     product: product,
-        //     user: user,
-        //   ),
-        // ));
+        Navigator.of(context).push(MaterialPageRoute<ProductDetailScreen>(
+          builder: (BuildContext context) =>
+              ProductDetailScreen(product: product),
+        ));
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
