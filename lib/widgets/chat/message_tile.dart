@@ -24,101 +24,126 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMe = message.sendBy == AuthMethods.uid;
-    return Row(
-      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(_borderRadius),
-          child: Container(
-            margin: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(_borderRadius),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 6,
-                  offset: const Offset(1, 1),
-                ),
-              ],
-              color: isMe
-                  ? Theme.of(context).primaryColor.withOpacity(0.6)
-                  : Theme.of(context).scaffoldBackgroundColor,
-            ),
-            alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      if (message.type != MessageTypeEnum.announcement &&
-                          !isMe &&
-                          (chat?.isGroup ?? false) == true)
-                        Consumer<UserProvider>(
-                          builder:
-                              (BuildContext context, UserProvider userPro, _) {
-                            final AppUser senderInfo =
-                                userPro.user(uid: message.sendBy);
-                            return InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute<OthersProfile>(
-                                  builder: (BuildContext context) =>
-                                      OthersProfile(user: senderInfo),
-                                ));
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
-                                child: Text(
-                                  senderInfo.displayName ?? 'null',
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      if (message.attachment.isNotEmpty)
-                        DisplayAttachment(
-                          isMe: isMe,
-                          borderRadius: _borderRadius,
-                          attachments: message.attachment,
-                        ),
-                      if (message.text != null && message.text!.isNotEmpty)
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.70,
-                            minWidth: 100,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2),
-                            child: SelectableText(
-                              message.text ?? 'no message',
-                              textAlign: TextAlign.left,
-                              style: isMe
-                                  ? const TextStyle(color: Colors.black)
-                                  : null,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                  Text(
-                    TimeDateFunctions.timeInDigits(message.timestamp),
-                    style: const TextStyle(color: Colors.grey),
-                  )
-                ],
+    return message.type == MessageTypeEnum.announcement
+        ? Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 24),
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .color!
+                    .withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                message.text ?? '- waiting for message -',
+                style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ),
-          ),
-        ),
-      ],
-    );
+          )
+        : Row(
+            mainAxisAlignment:
+                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(_borderRadius),
+                child: Container(
+                  margin: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(_borderRadius),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 6,
+                        offset: const Offset(1, 1),
+                      ),
+                    ],
+                    color: isMe
+                        ? Theme.of(context).primaryColor.withOpacity(0.6)
+                        : Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  alignment:
+                      isMe ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            if (message.type != MessageTypeEnum.announcement &&
+                                !isMe &&
+                                (chat?.isGroup ?? false) == true)
+                              Consumer<UserProvider>(
+                                builder: (BuildContext context,
+                                    UserProvider userPro, _) {
+                                  final AppUser senderInfo =
+                                      userPro.user(uid: message.sendBy);
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute<OthersProfile>(
+                                        builder: (BuildContext context) =>
+                                            OthersProfile(user: senderInfo),
+                                      ));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      child: Text(
+                                        senderInfo.displayName ?? 'null',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            if (message.attachment.isNotEmpty)
+                              DisplayAttachment(
+                                isMe: isMe,
+                                borderRadius: _borderRadius,
+                                attachments: message.attachment,
+                              ),
+                            if (message.text != null &&
+                                message.text!.isNotEmpty)
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.70,
+                                  minWidth: 100,
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 2),
+                                  child: SelectableText(
+                                    message.text ?? 'no message',
+                                    textAlign: TextAlign.left,
+                                    style: isMe
+                                        ? const TextStyle(color: Colors.black)
+                                        : null,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        Text(
+                          TimeDateFunctions.timeInDigits(message.timestamp),
+                          style: const TextStyle(color: Colors.grey),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
   }
 }
 

@@ -68,7 +68,7 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
                 title: Text(user.displayName ?? 'null'),
                 subtitle: CustomRatingBar(
-                  initialRating: 2.5,
+                  initialRating: user.rating ?? 0,
                   onRatingUpdate: (double value) {},
                 ),
               );
