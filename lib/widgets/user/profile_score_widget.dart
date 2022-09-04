@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../database/auth_methods.dart';
+import '../../functions/user_bottom_sheets.dart';
 import '../../models/app_user.dart';
 import '../custom_widgets/custom_icon_button.dart';
 
@@ -16,6 +18,13 @@ class ProfileScoreWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final double totalWidth = MediaQuery.of(context).size.width;
     final double boxWidth = (totalWidth / 4) - 14;
+    bool _isClickable() {
+      if (user.uid == AuthMethods.uid) return true;
+      if (user.isPublicProfile == true) return true;
+      if (user.supporters?.contains(AuthMethods.uid) ?? false) return true;
+      return false;
+    }
+
     return Builder(
       builder: (BuildContext context) => Padding(
         padding: const EdgeInsets.all(16),
@@ -35,37 +44,27 @@ class ProfileScoreWidget extends StatelessWidget {
               title: 'Posts',
               height: boxWidth - 10,
               width: boxWidth,
-              onTap: () {
-                // TODO: on Posts click
-              },
+              onTap: () {},
             ),
             _CustomScoreButton(
               score: user.supporting?.length.toString() ?? '0',
               title: 'Supporting',
               height: boxWidth - 10,
               width: boxWidth,
-              onTap: () {
-                // UserBottomSheets().showUsersBottomSheet(
-                //   context: context,
-                //   title: 'Supporting',
-                //   showBackButton: false,
-                //   users: provider.supportings(uid: AuthMethods.uid),
-                // );
-              },
+              onTap: () => _isClickable()
+                  ? UserBottomSheets().showUsersBottomSheet(
+                      context: context, users: user.supporting ?? <String>[])
+                  : () {},
             ),
             _CustomScoreButton(
               score: user.supporters?.length.toString() ?? '0',
               title: 'Supporters',
               height: boxWidth - 10,
               width: boxWidth,
-              onTap: () {
-                // UserBottomSheets().showUsersBottomSheet(
-                //   context: context,
-                //   title: 'Supporters',
-                //   showBackButton: false,
-                //   users: provider.supporters(uid: AuthMethods.uid),
-                // );
-              },
+              onTap: () => _isClickable()
+                  ? UserBottomSheets().showUsersBottomSheet(
+                      context: context, users: user.supporters ?? <String>[])
+                  : () {},
             ),
           ],
         ),

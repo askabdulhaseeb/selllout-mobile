@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../database/auth_methods.dart';
 import '../models/app_user.dart';
 import '../models/chat/chat.dart';
+import '../providers/user/user_provider.dart';
 import '../screens/chat_screens/personal_chat_page/personal_chat_screen.dart';
 import '../screens/user_screens/others_profile.dart';
 import '../widgets/custom_widgets/custom_profile_image.dart';
@@ -76,7 +78,7 @@ class UserBottomSheets {
 
   PersistentBottomSheetController<dynamic> showUsersBottomSheet({
     required BuildContext context,
-    required List<AppUser> users,
+    required List<String> users,
     String title = '',
     bool showBackButton = true,
   }) {
@@ -100,34 +102,39 @@ class UserBottomSheets {
               ],
             ),
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: users.length,
-              itemBuilder: (BuildContext context, int index) => ListTile(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute<OthersProfile>(
-                      builder: (_) => OthersProfile(user: users[index]),
+            child: Consumer<UserProvider>(
+                builder: (BuildContext context, UserProvider userPro, _) {
+              return ListView.builder(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: users.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final AppUser user = userPro.user(uid: users[index]);
+                  return ListTile(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute<OthersProfile>(
+                            builder: (_) => OthersProfile(user: user)),
+                      );
+                    },
+                    leading: CustomProfileImage(
+                      imageURL: user.imageURL ?? '',
+                    ),
+                    title: Text(
+                      user.displayName ?? 'Name fetching issue',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      user.bio ?? 'Bio fetching issue',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   );
                 },
-                leading: CustomProfileImage(
-                  imageURL: users[index].imageURL ?? '',
-                ),
-                title: Text(
-                  users[index].displayName ?? 'Name fetching issue',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                subtitle: Text(
-                  users[index].bio ?? 'Bio fetching issue',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
+              );
+            }),
           ),
         ],
       ),

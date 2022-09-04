@@ -10,25 +10,17 @@ import '../../models/reports/report_user.dart';
 import '../../widgets/custom_widgets/custom_toast.dart';
 
 class UserProvider extends ChangeNotifier {
-  final List<AppUser> _user = <AppUser>[];
+  List<AppUser> _user = <AppUser>[];
 
   void init() async {
     if (_user.isNotEmpty) return;
     _user.addAll(await UserAPI().getAllUsers());
-    // UserLocalData().storeAppUserData(
-    //     appUser: _user.firstWhere(
-    //   (AppUser element) => element.uid == AuthMethods.uid,
-    // ));
     log('App_Provider.dart: No of Users: ${_user.length}');
   }
 
-  void refresh() async {
-    _user.clear();
-    _user.addAll(await UserAPI().getAllUsers());
-    // UserLocalData().storeAppUserData(
-    //     appUser: _user.firstWhere(
-    //   (AppUser element) => element.uid == AuthMethods.uid,
-    // ));
+  Future<void> refresh() async {
+    _user = await UserAPI().getAllUsers();
+    notifyListeners();
   }
 
   block(AppUser user) async {
@@ -40,7 +32,6 @@ class UserProvider extends ChangeNotifier {
       _user[index].blockedBy?.remove(AuthMethods.uid);
       _user[myIndex].blockTo?.remove(_user[index].uid);
       CustomToast.successToast(message: 'Unblocked');
-      notifyListeners();
       final AppUser by = _user[index];
       final AppUser to = _user[myIndex];
       by.blockedBy?.clear();
@@ -54,10 +45,10 @@ class UserProvider extends ChangeNotifier {
       _user[index].blockedBy?.add(AuthMethods.uid);
       _user[myIndex].blockTo?.add(_user[index].uid);
       CustomToast.successToast(message: 'Blocked');
-      notifyListeners();
       await UserAPI().blockBy(user: _user[index]);
       await UserAPI().blockTo(user: _user[myIndex]);
     }
+    await refresh();
   }
 
   report(AppUser user, ReportUser repo) async {

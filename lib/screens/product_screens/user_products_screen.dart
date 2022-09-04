@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -23,21 +22,13 @@ class UserProductsScreen extends StatefulWidget {
 
 class _UserProductsScreenState extends State<UserProductsScreen> {
   final ItemScrollController controller = ItemScrollController();
-  final ItemPositionsListener itemPositionsListener =
-      ItemPositionsListener.create();
-  bool done = false;
-  Future<void> _init() async {
-    if (done) return;
-    await controller.scrollTo(
-      index: widget.selectedIndex,
-      duration: const Duration(seconds: 1),
-    );
-    done = true;
-  }
+  // final ItemPositionsListener itemPositionsListener =
+  //     ItemPositionsListener.create();
 
   @override
   void initState() {
-    itemPositionsListener.itemPositions.addListener(() => setState(() {}));
+    SchedulerBinding.instance.addPostFrameCallback(
+        (_) => controller.jumpTo(index: widget.selectedIndex));
     super.initState();
   }
 
@@ -67,27 +58,20 @@ class _UserProductsScreenState extends State<UserProductsScreen> {
           );
         }),
       ),
-      body: FutureBuilder<void>(
-          future: _init(),
-          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-            return ScrollablePositionedList.separated(
-              shrinkWrap: true,
-              itemCount: widget.products.length,
-              itemScrollController: controller,
-              itemPositionsListener: itemPositionsListener,
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                thickness: 4,
-                color: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color!
-                    .withOpacity(0.08),
-              ),
-              itemBuilder: (BuildContext context, int index) => ProductTile(
-                product: widget.products[index],
-              ),
-            );
-          }),
+      body: ScrollablePositionedList.separated(
+        shrinkWrap: true,
+        itemCount: widget.products.length,
+        itemScrollController: controller,
+        // itemPositionsListener: itemPositionsListener,
+        separatorBuilder: (BuildContext context, int index) => Divider(
+          thickness: 4,
+          color:
+              Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.08),
+        ),
+        itemBuilder: (BuildContext context, int index) => ProductTile(
+          product: widget.products[index],
+        ),
+      ),
     );
   }
 }
