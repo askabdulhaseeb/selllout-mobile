@@ -29,6 +29,7 @@ class AppThemes {
   // Dark
   //
   static final ThemeData dark = ThemeData(
+    useMaterial3: true,
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
@@ -58,6 +59,7 @@ class AppThemes {
   // Light
   //
   static final ThemeData light = ThemeData(
+    useMaterial3: true,
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,

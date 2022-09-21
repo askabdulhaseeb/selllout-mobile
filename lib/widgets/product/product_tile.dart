@@ -56,56 +56,64 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: Card(
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1),
+            offset: const Offset(0, 0),
+            blurRadius: 1,
+            spreadRadius: 3,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      product.title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Text(
-                    product.price.toString(),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
+              Expanded(
+                child: Text(
+                  product.title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-              const SizedBox(height: 4),
-              Row(
-                children: const <Widget>[
-                  Icon(
-                    Icons.location_on,
-                    color: Colors.grey,
-                    size: 12,
-                  ),
-                  SizedBox(width: 4),
-                  Text(
-                    'Location here',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  )
-                ],
-              ),
-              const SizedBox(height: 8),
               Text(
-                product.description,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
+                product.price.toString(),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: const <Widget>[
+              Icon(
+                Icons.location_on,
+                color: Colors.grey,
+                size: 12,
+              ),
+              SizedBox(width: 4),
+              Text(
+                'Location here',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
               )
             ],
           ),
-        ),
+          const SizedBox(height: 8),
+          Text(
+            product.description,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
       ),
     );
   }

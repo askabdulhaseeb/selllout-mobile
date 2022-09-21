@@ -10,7 +10,7 @@ import '../providers/product/product_provider.dart';
 import '../providers/user/user_provider.dart';
 import '../widgets/custom_widgets/custom_elevated_button.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
-import 'time_date_functions.dart';
+import 'time_date_functions.dart'; 
 
 class ReportBottomSheets {
   otherUserProfileMoreButton(BuildContext context, AppUser user) {
@@ -40,12 +40,14 @@ class ReportBottomSheets {
             ListTile(
               onTap: () => _reportConfirmSheet(context, user, 'block', 'Block'),
               leading: const Icon(Icons.block),
-              title: Text((Provider.of<UserProvider>(context)
-                      .user(uid: AuthMethods.uid)
-                      .blockTo!
-                      .contains(user.uid))
-                  ? 'Unblock'
-                  : 'Block'),
+              title: Text(
+                (Provider.of<UserProvider>(context)
+                        .user(uid: AuthMethods.uid)
+                        .blockTo!
+                        .contains(user.uid))
+                    ? 'Unblock'
+                    : 'Block',
+              ),
             ),
             // ListTile(
             //   onTap: () => _reportConfirmSheet(

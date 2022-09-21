@@ -19,44 +19,63 @@ class GridViewOfProducts extends StatelessWidget {
       primary: true,
       shrinkWrap: true,
       itemCount: posts.length,
-      itemBuilder: (BuildContext context, int index) => InkWell(
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<UserProductsScreen>(
-              builder: (_) =>
-                  UserProductsScreen(products: posts, selectedIndex: index),
-            ),
-          );
-        },
-        child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Hero(
-                tag: posts[index].pid,
-                child: AspectRatio(
-                  aspectRatio: 4 / 3,
-                  child: posts[index].prodURL[0].isVideo
-                      ? NetworkVideoPlayer(
-                          url: posts[index].prodURL[0].url,
-                          isMute: true,
-                        )
-                      : CustomNetworkImage(
-                          imageURL: posts[index].prodURL[0].url,
-                          fit: BoxFit.cover,
-                        ),
-                ),
+      itemBuilder: (BuildContext context, int index) => ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<UserProductsScreen>(
+                builder: (_) =>
+                    UserProductsScreen(products: posts, selectedIndex: index),
               ),
-              SizedBox(
-                height: 20,
-                child: Text(
-                  ' ${posts[index].price} - ${posts[index].title}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .color!
+                        .withOpacity(0.1),
+                    offset: const Offset(0, 0),
+                    blurRadius: 1,
+                    spreadRadius: 3,
+                  )
+                ]),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Hero(
+                  tag: posts[index].pid,
+                  child: AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: posts[index].prodURL[0].isVideo
+                        ? NetworkVideoPlayer(
+                            url: posts[index].prodURL[0].url,
+                            isMute: true,
+                          )
+                        : CustomNetworkImage(
+                            imageURL: posts[index].prodURL[0].url,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 20,
+                  child: Text(
+                    ' ${posts[index].price} - ${posts[index].title}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
