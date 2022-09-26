@@ -17,52 +17,50 @@ class PhoneNumberScreen extends StatefulWidget {
 class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(),
-        body: Consumer<AuthProvider>(
-            builder: (BuildContext context, AuthProvider authPro, _) {
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                const Text(
-                  'Enter your phone number',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: Consumer<AuthProvider>(
+          builder: (BuildContext context, AuthProvider authPro, _) {
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: <Widget>[
+              const Text(
+                'Enter your phone number',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
                 ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Selllout will send an SMS message to varify your phone number, Select your Country and enter your phone number',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Selllout will send an SMS message to varify your phone number, Select your Country and enter your phone number',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+              const SizedBox(height: 16),
+              PhoneNumberField(
+                initialCountryCode: authPro.phoneNumber?.countryCode ?? 'UK',
+                bgColor: Colors.transparent,
+                onChange: (PhoneNumber? value) =>
+                    authPro.onPhoneNumberChange(value),
+              ),
+              const Spacer(),
+              SizedBox(
+                width: 140,
+                child: CustomElevatedButton(
+                  borderRadius: BorderRadius.circular(12),
+                  title: 'Send'.toUpperCase(),
+                  onTap: () {
+                    authPro.verifyPhone(context);
+                    Navigator.of(context).pushNamed(OTPScreen.routeName);
+                  },
                 ),
-                const SizedBox(height: 16),
-                PhoneNumberField(
-                  initialCountryCode: authPro.phoneNumber?.countryCode ?? 'UK',
-                  bgColor: Colors.transparent,
-                  onChange: (PhoneNumber? value) =>
-                      authPro.onPhoneNumberChange(value),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 140,
-                  child: CustomElevatedButton(
-                    borderRadius: BorderRadius.circular(12),
-                    title: 'Send'.toUpperCase(),
-                    onTap: () {
-                      authPro.verifyPhone(context);
-                      Navigator.of(context).pushNamed(OTPScreen.routeName);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

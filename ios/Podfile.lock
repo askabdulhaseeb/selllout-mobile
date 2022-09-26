@@ -637,8 +637,8 @@ PODS:
   - cached_video_player (0.0.2):
     - Flutter
     - KTVHTTPCache (~> 2.0.0)
-  - cloud_firestore (3.4.6):
-    - Firebase/Firestore (= 9.4.0)
+  - cloud_firestore (3.4.9):
+    - Firebase/Firestore (= 9.5.0)
     - firebase_core
     - Flutter
   - CocoaAsyncSocket (7.6.5)
@@ -676,50 +676,50 @@ PODS:
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
-  - Firebase/Auth (9.4.0):
+  - Firebase/Auth (9.5.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 9.4.0)
-  - Firebase/CoreOnly (9.4.0):
-    - FirebaseCore (= 9.4.0)
-  - Firebase/Firestore (9.4.0):
+    - FirebaseAuth (~> 9.5.0)
+  - Firebase/CoreOnly (9.5.0):
+    - FirebaseCore (= 9.5.0)
+  - Firebase/Firestore (9.5.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 9.4.0)
-  - Firebase/Storage (9.4.0):
+    - FirebaseFirestore (~> 9.5.0)
+  - Firebase/Storage (9.5.0):
     - Firebase/CoreOnly
-    - FirebaseStorage (~> 9.4.0)
-  - firebase_auth (3.7.0):
-    - Firebase/Auth (= 9.4.0)
+    - FirebaseStorage (~> 9.5.0)
+  - firebase_auth (3.10.0):
+    - Firebase/Auth (= 9.5.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.21.1):
-    - Firebase/CoreOnly (= 9.4.0)
+  - firebase_core (1.23.0):
+    - Firebase/CoreOnly (= 9.5.0)
     - Flutter
-  - firebase_storage (10.3.7):
-    - Firebase/Storage (= 9.4.0)
+  - firebase_storage (10.3.9):
+    - Firebase/Storage (= 9.5.0)
     - firebase_core
     - Flutter
-  - FirebaseAppCheckInterop (9.4.0)
-  - FirebaseAuth (9.4.0):
+  - FirebaseAppCheckInterop (9.6.0)
+  - FirebaseAuth (9.5.0):
     - FirebaseCore (~> 9.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/Environment (~> 7.7)
     - GTMSessionFetcher/Core (< 3.0, >= 1.7)
-  - FirebaseAuthInterop (9.4.0)
-  - FirebaseCore (9.4.0):
+  - FirebaseAuthInterop (9.6.0)
+  - FirebaseCore (9.5.0):
     - FirebaseCoreDiagnostics (~> 9.0)
     - FirebaseCoreInternal (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (9.4.0):
+  - FirebaseCoreDiagnostics (9.6.0):
     - GoogleDataTransport (< 10.0.0, >= 9.1.4)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseCoreExtension (9.4.0):
+  - FirebaseCoreExtension (9.6.0):
     - FirebaseCore (~> 9.0)
-  - FirebaseCoreInternal (9.4.0):
+  - FirebaseCoreInternal (9.6.0):
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-  - FirebaseFirestore (9.4.0):
+  - FirebaseFirestore (9.5.0):
     - abseil/algorithm (~> 1.20211102.0)
     - abseil/base (~> 1.20211102.0)
     - abseil/container/flat_hash_map (~> 1.20211102.0)
@@ -732,13 +732,13 @@ PODS:
     - "gRPC-C++ (~> 1.44.0)"
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseStorage (9.4.0):
+  - FirebaseStorage (9.5.0):
     - FirebaseAppCheckInterop (~> 9.0)
     - FirebaseAuthInterop (~> 9.0)
     - FirebaseCore (~> 9.0)
     - FirebaseCoreExtension (~> 9.0)
     - FirebaseStorageInternal (~> 9.0)
-  - FirebaseStorageInternal (9.4.0):
+  - FirebaseStorageInternal (9.6.0):
     - FirebaseCore (~> 9.0)
     - GTMSessionFetcher/Core (< 3.0, >= 1.7)
   - Flutter (1.0.0)
@@ -752,20 +752,20 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.7.0):
+  - GoogleUtilities/AppDelegateSwizzler (7.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.7.0):
+  - GoogleUtilities/Environment (7.8.0):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.7.0):
+  - GoogleUtilities/Logger (7.8.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/Network (7.7.0):
+  - GoogleUtilities/Network (7.8.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.7.0)"
-  - GoogleUtilities/Reachability (7.7.0):
+  - "GoogleUtilities/NSData+zlib (7.8.0)"
+  - GoogleUtilities/Reachability (7.8.0):
     - GoogleUtilities/Logger
   - "gRPC-C++ (1.44.0)":
     - "gRPC-C++/Implementation (= 1.44.0)"
@@ -843,9 +843,9 @@ PODS:
   - permission_handler_apple (9.0.4):
     - Flutter
   - PromisesObjC (2.1.1)
-  - SDWebImage (5.13.2):
-    - SDWebImage/Core (= 5.13.2)
-  - SDWebImage/Core (5.13.2)
+  - SDWebImage (5.13.3):
+    - SDWebImage/Core (= 5.13.3)
+  - SDWebImage/Core (5.13.3)
   - shared_preferences_ios (0.0.1):
     - Flutter
   - sqflite (0.0.2):
@@ -961,30 +961,30 @@ SPEC CHECKSUMS:
   AgoraRtm_iOS: 95e7070466f42a6494435a7f39fd2b13fc143cbf
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   cached_video_player: 9f225ed1c46bda0fe287b8288742329d441e2cc5
-  cloud_firestore: 6448075c9bac372319e7f025fdfa6f1d382644d7
+  cloud_firestore: bed9432d72bb357aa33e864fd4d5b7c2f0e098d0
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 817ab1d8cd2da9d2da412a417162deee3500fc95
-  Firebase: 7703fc4022824b6d6db1bf7bea58d13b8e17ec46
-  firebase_auth: 74cfbf7be1e3e7fdaac9e7f117cefd89155251a9
-  firebase_core: 8e500850dd138c269d197c8dfca3ae886fa3b6f2
-  firebase_storage: 846832b7f2d22238678dc9abc513f2151f102462
-  FirebaseAppCheckInterop: 63119cdfc94b16c3e9421513c17f597aee2ea225
-  FirebaseAuth: ae5d4402e1516497357d909162b091b3ca2a2e9c
-  FirebaseAuthInterop: 826d3d772b554e3675ceaab8c665008277ca9d1c
-  FirebaseCore: 9a2b10270a854731c4d4d8a97d0aa8380ec3458d
-  FirebaseCoreDiagnostics: aaa87098082c4d4bdd1a9557b1186d18ca85ce8c
-  FirebaseCoreExtension: 2cf8c542b54ad3c2d4b746c22e8828b670dcd9b0
-  FirebaseCoreInternal: a13302b0088fbf5f38b79b6ece49c2af7d3e05d6
-  FirebaseFirestore: 945196dd78f4e92de6fc47b38569a1e7088af81f
-  FirebaseStorage: 160ba975dd3452d9c59a3bf5ea9bf70ff96bd3c2
-  FirebaseStorageInternal: 425c7dc7de44d9b7e07a9f8d6515bab0f1266b87
+  Firebase: 800f16f07af493d98d017446a315c27af0552f41
+  firebase_auth: 29485cbf2b2c5f0710f7c5dc3fa490736d70a675
+  firebase_core: c266297725f66cacd7eac30745cd1a629d3b048b
+  firebase_storage: 70c6c4d5f239037d49fc1eb5ee4c5087a194a308
+  FirebaseAppCheckInterop: d5ecda0c09f8069406643d6e0fa12c09d1b736e3
+  FirebaseAuth: 741918f1fa62ed23246a509279f91d42d79a713f
+  FirebaseAuthInterop: b6cf02117f13a8400c8c8b4421e12c6e850bcaf3
+  FirebaseCore: 25c0400b670fd1e2f2104349cd3b5dcce8d9418f
+  FirebaseCoreDiagnostics: 99a495094b10a57eeb3ae8efa1665700ad0bdaa6
+  FirebaseCoreExtension: e83465d1236b166d1d445bbf0e82b65acb30b73b
+  FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
+  FirebaseFirestore: e4136560a4bdd1de5f02bc79ccb8414325b08823
+  FirebaseStorage: a806d9f9eededf6fb1d906e79221b83ada1dbb4f
+  FirebaseStorageInternal: 81d8a597324ccd06c41a43c5700bc1185a2fc328
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
-  GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMSessionFetcher: ffbb25ec00ebcb5201adab0a56d808f6f1902d9f
@@ -997,7 +997,7 @@ SPEC CHECKSUMS:
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
-  SDWebImage: 72f86271a6f3139cc7e4a89220946489d4b9a866
+  SDWebImage: af5bbffef2cde09f148d826f9733dcde1a9414cd
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
@@ -1006,6 +1006,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
 
-PODFILE CHECKSUM: d305b7e606cc0ae2450ae14b133abe948a2ab7a3
+PODFILE CHECKSUM: 92501103c601f6a19bc5faf2bfd6b08ef18ee700
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
