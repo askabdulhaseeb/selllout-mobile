@@ -9,14 +9,10 @@ import '../../../utilities/utilities.dart';
 import '../../../widgets/custom_widgets/custom_file_image_box.dart';
 import '../../../widgets/custom_widgets/title_text.dart';
 
-class CreateChatGroupScreen extends StatefulWidget {
+class CreateChatGroupScreen extends StatelessWidget {
   const CreateChatGroupScreen({Key? key}) : super(key: key);
   static const String routeName = '/CreateChatGroupScreen';
-  @override
-  State<CreateChatGroupScreen> createState() => _CreateChatGroupScreenState();
-}
 
-class _CreateChatGroupScreenState extends State<CreateChatGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

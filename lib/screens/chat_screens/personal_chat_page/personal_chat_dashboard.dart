@@ -22,19 +22,21 @@ class PersonalChatDashboard extends StatelessWidget {
           } else {
             if (snapshot.hasData) {
               List<Chat> chat = snapshot.data ?? <Chat>[];
-              return ListView.separated(
-                itemCount: chat.length,
-                separatorBuilder: (_, __) => const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Divider(height: 1),
-                ),
-                itemBuilder: (_, int index) {
-                  return chat[index].pid == null ||
-                          (chat[index].pid?.isEmpty ?? false)
-                      ? ChatDashboardTile(chat: chat[index])
-                      : ProductChatDashboardTile(chat: chat[index]);
-                },
-              );
+              return chat.isEmpty
+                  ? const Center(child: Text('No Chat available yet'))
+                  : ListView.separated(
+                      itemCount: chat.length,
+                      separatorBuilder: (_, __) => const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Divider(height: 1),
+                      ),
+                      itemBuilder: (_, int index) {
+                        return chat[index].pid == null ||
+                                (chat[index].pid?.isEmpty ?? false)
+                            ? ChatDashboardTile(chat: chat[index])
+                            : ProductChatDashboardTile(chat: chat[index]);
+                      },
+                    );
             } else {
               return const Text('Error Text');
             }
