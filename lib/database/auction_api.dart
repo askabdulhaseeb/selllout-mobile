@@ -33,7 +33,7 @@ class AuctionAPI {
     final QuerySnapshot<Map<String, dynamic>> doc = await _instance
         .collection(_colloction)
         .where('is_active', isEqualTo: true)
-        .orderBy('timestamp', descending: false)
+        // .orderBy('timestamp', descending: false)
         .get();
 
     for (DocumentSnapshot<Map<String, dynamic>> element in doc.docs) {

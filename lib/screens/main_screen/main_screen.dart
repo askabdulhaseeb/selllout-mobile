@@ -8,6 +8,7 @@ import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
 import 'pages/chat_page.dart';
 import 'pages/home_page.dart';
+import 'pages/live_page.dart';
 import 'pages/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
-    Center(child: Text('BetScreen(),')),
+    LivePage(),
     AddProductPage(),
     ChatPage(),
     ProfilePage(),

@@ -6,6 +6,7 @@ import 'database/auth_methods.dart';
 import 'firebase_options.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
+import 'providers/auction/auction_provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/chat/chat_page_provider.dart';
 import 'providers/chat/group_chat_provider.dart';
@@ -59,6 +60,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ProductProvider>(
           create: (BuildContext context) => ProductProvider(),
+        ),
+        // Bid
+        ChangeNotifierProvider<AuctionProvider>(
+          create: (BuildContext context) => AuctionProvider(),
         ),
         //
         // CHAT
