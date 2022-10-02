@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../database/auth_methods.dart';
 import '../../enums/product/prod_condition_enum.dart';
 import '../../enums/product/prod_delivery_type.dart';
 import '../../models/app_user.dart';
@@ -11,6 +12,7 @@ import '../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../widgets/custom_widgets/custom_rating_bar.dart';
 import '../../widgets/custom_widgets/title_and_detail_widget.dart';
 import '../../widgets/product/custom_slideable_urls_tile.dart';
+import '../user_screens/others_profile.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({required this.product, Key? key})
@@ -62,6 +64,14 @@ class ProductDetailScreen extends StatelessWidget {
             ) {
               final AppUser user = userPro.user(uid: product.uid);
               return ListTile(
+                onTap: () {
+                  if (user.uid != AuthMethods.uid) {
+                    Navigator.of(context).push(MaterialPageRoute<OthersProfile>(
+                      builder: (BuildContext context) =>
+                          OthersProfile(user: user),
+                    ));
+                  }
+                },
                 leading: CustomProfileImage(
                   imageURL: user.imageURL ?? '',
                   radius: 46,

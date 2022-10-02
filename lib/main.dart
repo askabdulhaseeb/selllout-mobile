@@ -97,8 +97,5 @@ class MyApp extends StatelessWidget {
 
   // TODO: BUGES
   // Product Tile to Other Profile Screen HERO Issue
-  // SUPPORT BUTTON WORK
-  // SUPPORT DISPLAY
   // Product detail screen CONTACT BUTTONS
-  // product detail screen USER PROFILE Navigator issue
   // Live Bid time limit
