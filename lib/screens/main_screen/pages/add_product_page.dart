@@ -57,7 +57,7 @@ class AddProductPage extends StatelessWidget {
                   //
                   GetProductAttachments(
                     file: addPro.files,
-                    onTap: () => addPro.fetchMedia(),
+                    onTap: () async => await addPro.fetchMedia(),
                   ),
                   const AddProdBasicInfo(),
                   const AddProdAdditionalInfo(),

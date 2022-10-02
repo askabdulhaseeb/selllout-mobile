@@ -23,6 +23,36 @@ class UserAPI {
     }
   }
 
+  Future<void> supportRequest({
+    required AppUser user,
+    required bool alreadyExist,
+  }) async {
+    if (user.uid == AuthMethods.uid) return;
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(user.uid)
+          .update(user.updateSupportRequest(alreadyExist: alreadyExist));
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
+  Future<void> support({
+    required AppUser user,
+    required AppUser me,
+    required bool alreadyExist,
+  }) async {
+    try {
+      await _instance.collection(_collection).doc(user.uid).update(
+          user.updateSupporter(alreadyExist: alreadyExist, uid: me.uid));
+      await _instance.collection(_collection).doc(me.uid).update(
+          me.updateSupporting(alreadyExist: alreadyExist, uid: user.uid));
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
   Future<void> unblockTo({required AppUser user}) async {
     try {
       await _instance

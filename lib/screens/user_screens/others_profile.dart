@@ -51,10 +51,10 @@ class OthersProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ProfileHeaderWidget(user: user),
-              ProfileScoreWidget(user: user, postLenth: prods.length),
+              ProfileScoreWidget(uid: user.uid, postLenth: prods.length),
               _SuppoertAndMessageButton(user: user),
               Expanded(
-                child: (isSupporter || (user.isPublicProfile ?? false))
+                child: (isSupporter || (user.isPublicProfile))
                     ? GridViewOfProducts(posts: prods)
                     : const SizedBox(
                         width: double.infinity,
@@ -85,10 +85,13 @@ class _SuppoertAndMessageButton extends StatelessWidget {
     );
     return Consumer<UserProvider>(
         builder: (BuildContext context, UserProvider userPro, _) {
-      // final AppUser me = userPro.user(uid: AuthMethods.uid);
-      final AppUser otherLive = userPro.user(uid: user.uid);
-      final bool isSupporter =
-          otherLive.supporters?.contains(AuthMethods.uid) ?? false;
+      final AppUser me = userPro.user(uid: AuthMethods.uid);
+      final bool isSupporter = user.supporters?.contains(me.uid) ?? false;
+      final bool reqSended = user.isPublicProfile
+          ? false
+          : (user.supportRequest?.contains(me.uid) ?? false)
+              ? true
+              : false;
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Row(
@@ -103,14 +106,22 @@ class _SuppoertAndMessageButton extends StatelessWidget {
                 textStyle: isSupporter ? textStyle : null,
                 title: isSupporter
                     ? 'Supporting'
-                    : (otherLive.supporting?.contains(user.uid) ?? false)
-                        ? 'Support Back'
-                        : 'Support',
-                onTap: () {},
+                    : ((!user.isPublicProfile) && reqSended)
+                        ? 'Request Sended'
+                        : (me.supporters?.contains(user.uid) ?? false)
+                            ? 'Support Back'
+                            : 'Support',
+                onTap: () async {
+                  if (user.isPublicProfile) {
+                    await userPro.support(uid: user.uid);
+                  } else {
+                    await userPro.supportRequrest(uid: user.uid);
+                  }
+                },
               ),
             ),
             const SizedBox(width: 6),
-            if (isSupporter || (user.isPublicProfile ?? false))
+            if (isSupporter || (user.isPublicProfile))
               Flexible(
                 child: CustomElevatedButton(
                   borderRadius: borderRadius,

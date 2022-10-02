@@ -1,75 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
 import '../../functions/user_bottom_sheets.dart';
 import '../../models/app_user.dart';
+import '../../providers/user/user_provider.dart';
 import '../custom_widgets/custom_icon_button.dart';
 
 class ProfileScoreWidget extends StatelessWidget {
   const ProfileScoreWidget({
-    required this.user,
+    required this.uid,
     required this.postLenth,
     Key? key,
   }) : super(key: key);
-  final AppUser user;
+  final String uid;
   final int postLenth;
 
   @override
   Widget build(BuildContext context) {
     final double totalWidth = MediaQuery.of(context).size.width;
     final double boxWidth = (totalWidth / 4) - 14;
-    bool _isClickable() {
-      if (user.uid == AuthMethods.uid) return true;
-      if (user.isPublicProfile == true) return true;
-      if (user.supporters?.contains(AuthMethods.uid) ?? false) return true;
-      return false;
-    }
 
     return Builder(
       builder: (BuildContext context) => Padding(
         padding: const EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            CustomIconButton(
-              height: boxWidth - 10,
-              width: boxWidth,
-              icon: Icons.account_balance,
-              onTap: () {
-                // TODO: on wallet click
-              },
-            ),
-            _CustomScoreButton(
-              score: postLenth.toString(),
-              title: 'Posts',
-              height: boxWidth - 10,
-              width: boxWidth,
-              onTap: () {},
-            ),
-            _CustomScoreButton(
-              score: user.supporting?.length.toString() ?? '0',
-              title: 'Supporting',
-              height: boxWidth - 10,
-              width: boxWidth,
-              onTap: () => _isClickable()
-                  ? UserBottomSheets().showUsersBottomSheet(
-                      context: context, users: user.supporting ?? <String>[])
-                  : () {},
-            ),
-            _CustomScoreButton(
-              score: user.supporters?.length.toString() ?? '0',
-              title: 'Supporters',
-              height: boxWidth - 10,
-              width: boxWidth,
-              onTap: () => _isClickable()
-                  ? UserBottomSheets().showUsersBottomSheet(
-                      context: context, users: user.supporters ?? <String>[])
-                  : () {},
-            ),
-          ],
-        ),
+        child: Consumer<UserProvider>(
+            builder: (BuildContext context, UserProvider userPro, _) {
+          final AppUser user = userPro.user(uid: uid);
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              CustomIconButton(
+                height: boxWidth - 10,
+                width: boxWidth,
+                icon: Icons.account_balance,
+                onTap: () {
+                  // TODO: on wallet click
+                },
+              ),
+              _CustomScoreButton(
+                score: postLenth.toString(),
+                title: 'Posts',
+                height: boxWidth - 10,
+                width: boxWidth,
+                onTap: () {},
+              ),
+              _CustomScoreButton(
+                score: user.supporting?.length.toString() ?? '0',
+                title: 'Supporting',
+                height: boxWidth - 10,
+                width: boxWidth,
+                onTap: () => _isClickable(user)
+                    ? UserBottomSheets().showUsersBottomSheet(
+                        context: context, users: user.supporting ?? <String>[])
+                    : () {},
+              ),
+              _CustomScoreButton(
+                score: user.supporters?.length.toString() ?? '0',
+                title: 'Supporters',
+                height: boxWidth - 10,
+                width: boxWidth,
+                onTap: () => _isClickable(user)
+                    ? UserBottomSheets().showUsersBottomSheet(
+                        context: context, users: user.supporters ?? <String>[])
+                    : () {},
+              ),
+            ],
+          );
+        }),
       ),
     );
+  }
+
+  bool _isClickable(AppUser user) {
+    if (user.uid == AuthMethods.uid) return true;
+    if (user.isPublicProfile == true) return true;
+    if (user.supporters?.contains(AuthMethods.uid) ?? false) return true;
+    return false;
   }
 }
 

@@ -97,8 +97,8 @@ class MyApp extends StatelessWidget {
 
   // TODO: BUGES
   // Product Tile to Other Profile Screen HERO Issue
-  // TODO:  Dependencies need to add
-
-// Platform  Firebase App Id
-// android   1:278140333975:android:32494f3707d3caebc15ed2
-// ios       1:278140333975:ios:ab0854391d0cd79fc15ed2
+  // SUPPORT BUTTON WORK
+  // SUPPORT DISPLAY
+  // Product detail screen CONTACT BUTTONS
+  // product detail screen USER PROFILE Navigator issue
+  // Live Bid time limit

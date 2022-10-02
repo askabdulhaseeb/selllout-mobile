@@ -100,6 +100,41 @@ class UserProvider extends ChangeNotifier {
     return supporting;
   }
 
+  Future<void> support({required String uid}) async {
+    int index = _indexOf(uid);
+    int meIndex = _indexOf(AuthMethods.uid);
+    if (index < 0 || meIndex < 0) return;
+    final AppUser tempUser = _user[index];
+    final AppUser me = _user[meIndex];
+    final bool alreadyExist = tempUser.supporters?.contains(me.uid) ?? false;
+    if (alreadyExist) {
+      tempUser.supporters?.remove(me.uid);
+      me.supporting?.remove(tempUser.uid);
+    } else {
+      tempUser.supporters?.add(me.uid);
+      me.supporting?.add(tempUser.uid);
+    }
+    _user[index] = tempUser;
+    _user[meIndex] = me;
+    notifyListeners();
+    await UserAPI().support(user: tempUser, me: me, alreadyExist: alreadyExist);
+  }
+
+  Future<void> supportRequrest({required String uid}) async {
+    int index = _indexOf(uid);
+    final AppUser tempUser = _user[index];
+    final String me = AuthMethods.uid;
+    final bool alreadyExist = tempUser.supportRequest?.contains(me) ?? false;
+    if (alreadyExist) {
+      tempUser.supportRequest?.remove(me);
+    } else {
+      tempUser.supportRequest?.add(me);
+    }
+    _user[index] = tempUser;
+    notifyListeners();
+    await UserAPI().supportRequest(user: tempUser, alreadyExist: alreadyExist);
+  }
+
   List<AppUser> get users => <AppUser>[..._user];
 
   AppUser user({required String uid}) {

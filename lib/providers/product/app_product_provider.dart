@@ -22,31 +22,31 @@ class AddProductProvider extends ChangeNotifier {
   //
   // ON TAP FUNCTIONS
   //
-  onDeliveryTypeUpdate(ProdDeliveryTypeEnum? value) {
+  void onDeliveryTypeUpdate(ProdDeliveryTypeEnum? value) {
     if (value == null) return;
     if (value == ProdDeliveryTypeEnum.collocation) _deliveryFee.text = '0';
     _delivery = value;
     notifyListeners();
   }
 
-  onPrivacyUpdate(ProdPrivacyTypeEnum? value) {
+  void onPrivacyUpdate(ProdPrivacyTypeEnum? value) {
     if (value == null) return;
     _privacy = value;
     notifyListeners();
   }
 
-  onAcceptOfferUpdate(bool value) {
+  void onAcceptOfferUpdate(bool value) {
     _acceptOffer = value;
     notifyListeners();
   }
 
-  onConditionUpdate(ProdConditionEnum? value) {
+  void onConditionUpdate(ProdConditionEnum? value) {
     if (value == null) return;
     _condition = value;
     notifyListeners();
   }
 
-  fetchMedia() async {
+  Future<void> fetchMedia() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.media,
@@ -79,7 +79,7 @@ class AddProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  onPost({required BuildContext context}) async {
+  void onPost({required BuildContext context}) async {
     if (_key.currentState!.validate()) {
       if (_files[0] == null) {
         CustomToast.errorToast(message: 'Add Images of the product');

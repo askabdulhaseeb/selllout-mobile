@@ -86,7 +86,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const Divider(height: 4),
               ProfileVisibilityType(
-                isPublic: widget.user.isPublicProfile ?? false,
+                isPublic: widget.user.isPublicProfile,
                 onChanged: (bool? value) {
                   if (value == null) return;
                   setState(() {

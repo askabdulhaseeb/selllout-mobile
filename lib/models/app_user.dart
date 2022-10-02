@@ -25,6 +25,7 @@ class AppUser {
     this.posts,
     this.supporting,
     this.supporters,
+    this.supportRequest,
   });
 
   final String uid;
@@ -35,7 +36,7 @@ class AppUser {
   final GenderTypesEnum? gender;
   final String? dob;
   final String? email;
-  bool? isPublicProfile;
+  bool isPublicProfile;
   final bool? isBlock;
   final bool? isVerified;
   final double? rating;
@@ -46,6 +47,7 @@ class AppUser {
   final List<String>? posts;
   final List<String>? supporting;
   final List<String>? supporters;
+  final List<String>? supportRequest;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -57,7 +59,7 @@ class AppUser {
       'gender': GenderConverter.genderToString(gender ?? GenderTypesEnum.male),
       'dob': dob ?? '',
       'email': email ?? '',
-      'is_public_profile': isPublicProfile ?? true,
+      'is_public_profile': isPublicProfile,
       'is_block': isBlock ?? false,
       'isVerified': isVerified ?? false,
       'rating': rating ?? 0,
@@ -65,23 +67,48 @@ class AppUser {
       'posts': posts ?? <String>[],
       'supporting': supporting ?? <String>[],
       'supporters': supporters ?? <String>[],
+      'support_request': supportRequest ?? <String>[],
     };
   }
 
   Map<String, dynamic> updateProfile() {
+    // TODO: if the users shifting from private to public profile then SUPPORT REQUIEST needs to be the part of the suports
     return <String, dynamic>{
       'display_name': displayName ?? '',
       'username': username ?? '',
       'image_url': imageURL ?? '',
-      'is_public_profile': isPublicProfile ?? true,
+      'is_public_profile': isPublicProfile,
       'bio': bio ?? '',
     };
   }
 
-  Map<String, dynamic> updateSupport() {
+  Map<String, dynamic> updateSupporter({
+    required bool alreadyExist,
+    required String uid,
+  }) {
     return <String, dynamic>{
-      'supporting': supporting ?? <String>[],
-      'supporters': supporters ?? <String>[],
+      'supporters': alreadyExist
+          ? FieldValue.arrayRemove(<String>[uid])
+          : FieldValue.arrayUnion(supporters ?? <String>[]),
+    };
+  }
+
+  Map<String, dynamic> updateSupporting({
+    required bool alreadyExist,
+    required String uid,
+  }) {
+    return <String, dynamic>{
+      'supporting': alreadyExist
+          ? FieldValue.arrayRemove(<String>[uid])
+          : FieldValue.arrayUnion(supporting ?? <String>[]),
+    };
+  }
+
+  Map<String, dynamic> updateSupportRequest({required bool alreadyExist}) {
+    return <String, dynamic>{
+      'support_request': alreadyExist
+          ? FieldValue.arrayRemove(<String>[AuthMethods.uid])
+          : FieldValue.arrayUnion(supportRequest ?? <String>[]),
     };
   }
 
@@ -150,6 +177,8 @@ class AppUser {
       blockedBy: List<String>.from(doc.data()?['blocked_by'] ?? <String>[]),
       supporting: List<String>.from(doc.data()?['supporting'] ?? <String>[]),
       supporters: List<String>.from(doc.data()?['supporters'] ?? <String>[]),
+      supportRequest:
+          List<String>.from(doc.data()?['support_request'] ?? <String>[]),
     );
   }
 }

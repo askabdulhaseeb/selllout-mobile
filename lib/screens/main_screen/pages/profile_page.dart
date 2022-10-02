@@ -58,7 +58,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               ProfileHeaderWidget(user: me),
-              ProfileScoreWidget(user: me, postLenth: prods.length),
+              ProfileScoreWidget(uid: me.uid, postLenth: prods.length),
               Expanded(child: GridViewOfProducts(posts: prods)),
             ],
           );
