@@ -3,6 +3,7 @@ enum MessageTypeEnum {
   image,
   audio,
   video,
+  prodOffer,
   document,
   announcement,
   storyReply,
@@ -20,6 +21,8 @@ class MessageTypeEnumConvertor {
       return 'video';
     } else if (type == MessageTypeEnum.document) {
       return 'document';
+    } else if (type == MessageTypeEnum.prodOffer) {
+      return 'prod_offer';
     } else if (type == MessageTypeEnum.announcement) {
       return 'announcement';
     } else {
@@ -38,6 +41,8 @@ class MessageTypeEnumConvertor {
       return 'Video';
     } else if (type == MessageTypeEnum.document) {
       return 'Document';
+    } else if (type == MessageTypeEnum.prodOffer) {
+      return 'Product Offer';
     } else if (type == MessageTypeEnum.announcement) {
       return 'Announcement';
     } else {
@@ -58,6 +63,8 @@ class MessageTypeEnumConvertor {
       return MessageTypeEnum.document;
     } else if (type == 'announcement') {
       return MessageTypeEnum.announcement;
+    } else if (type == 'prod_offer') {
+      return MessageTypeEnum.prodOffer;
     } else {
       return MessageTypeEnum.storyReply;
     }

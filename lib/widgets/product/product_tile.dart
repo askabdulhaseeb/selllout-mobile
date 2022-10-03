@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +12,7 @@ import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
 import '../../screens/product_screens/buy_now_screen.dart';
+import '../../screens/product_screens/make_offer_screen.dart';
 import '../../screens/product_screens/product_detail_screen.dart';
 import '../../screens/user_screens/others_profile.dart';
 import '../../utilities/utilities.dart';
@@ -27,8 +26,6 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppUser user =
-        Provider.of<UserProvider>(context).user(uid: product.uid);
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute<ProductDetailScreen>(
@@ -38,13 +35,13 @@ class ProductTile extends StatelessWidget {
       },
       child: Column(
         children: <Widget>[
-          _Header(product: product, user: user),
+          _Header(product: product),
           AspectRatio(
             aspectRatio: Utilities.imageAspectRatio,
             child: ProductURLsSlider(urls: product.prodURL),
           ),
           _InfoCard(product: product),
-          _ButtonSection(user: user, product: product),
+          _ButtonSection(product: product),
         ],
       ),
     );
@@ -121,9 +118,7 @@ class _InfoCard extends StatelessWidget {
 }
 
 class _ButtonSection extends StatelessWidget {
-  const _ButtonSection({required this.user, required this.product, Key? key})
-      : super(key: key);
-  final AppUser user;
+  const _ButtonSection({required this.product, Key? key}) : super(key: key);
   final Product product;
   static const EdgeInsetsGeometry _padding = EdgeInsets.symmetric(vertical: 8);
   static const EdgeInsetsGeometry _margin = EdgeInsets.symmetric(vertical: 3);
@@ -131,7 +126,7 @@ class _ButtonSection extends StatelessWidget {
       TextStyle(color: Colors.white, fontSize: 16);
   @override
   Widget build(BuildContext context) {
-    return user.uid == AuthMethods.uid
+    return product.uid == AuthMethods.uid
         ? const SizedBox()
         : Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -143,9 +138,6 @@ class _ButtonSection extends StatelessWidget {
                   textStyle: _textStyle,
                   title: 'Buy Now',
                   onTap: () {
-                    if (user.displayName == null || user.displayName == '') {
-                      return;
-                    }
                     Navigator.of(context)
                         .push(MaterialPageRoute<ProductChatScreen>(
                       builder: (BuildContext context) => BuyNowScreen(
@@ -161,13 +153,12 @@ class _ButtonSection extends StatelessWidget {
                         textStyle: _textStyle,
                         title: 'Make Offer',
                         onTap: () {
-                          // Navigator.of(context)
-                          //     .push(MaterialPageRoute<ProductChatScreen>(
-                          //   builder: (BuildContext context) => MakeOfferScreen(
-                          //     product: product,
-                          //     user: user,
-                          //   ),
-                          // ));
+                          Navigator.of(context)
+                              .push(MaterialPageRoute<ProductChatScreen>(
+                            builder: (BuildContext context) => MakeOfferScreen(
+                              product: product,
+                            ),
+                          ));
                         },
                       )
                     : const SizedBox(),
@@ -182,9 +173,8 @@ class _ButtonSection extends StatelessWidget {
                   ),
                   title: 'Message Seller',
                   onTap: () {
-                    if (user.displayName == null || user.displayName == '') {
-                      return;
-                    }
+                    final AppUser user = Provider.of<UserProvider>(context)
+                        .user(uid: product.uid);
                     Navigator.of(context)
                         .push(MaterialPageRoute<ProductChatScreen>(
                       builder: (BuildContext context) => ProductChatScreen(
@@ -210,56 +200,62 @@ class _ButtonSection extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({required this.product, required this.user, Key? key})
-      : super(key: key);
+  const _Header({required this.product, Key? key}) : super(key: key);
   final Product product;
-  final AppUser user;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: GestureDetector(
-        onTap: () {
-          user.uid == AuthMethods.uid
-              ? Provider.of<AppProvider>(context, listen: false).onTabTapped(4)
-              : Navigator.of(context).push(
-                  MaterialPageRoute<OthersProfile>(
-                    builder: (BuildContext context) =>
-                        OthersProfile(user: user),
+      child: Consumer<UserProvider>(builder: (
+        BuildContext context,
+        UserProvider userPro,
+        _,
+      ) {
+        final AppUser user = userPro.user(uid: product.uid);
+        return GestureDetector(
+          onTap: () {
+            user.uid == AuthMethods.uid
+                ? Provider.of<AppProvider>(context, listen: false)
+                    .onTabTapped(4)
+                : Navigator.of(context).push(
+                    MaterialPageRoute<OthersProfile>(
+                      builder: (BuildContext context) =>
+                          OthersProfile(user: user),
+                    ),
+                  );
+          },
+          child: Row(
+            children: <Widget>[
+              CustomProfileImage(imageURL: user.imageURL ?? ''),
+              const SizedBox(width: 6),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    user.displayName ?? 'Not Found',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                );
-        },
-        child: Row(
-          children: <Widget>[
-            CustomProfileImage(imageURL: user.imageURL ?? ''),
-            const SizedBox(width: 6),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  user.displayName ?? 'Not Found',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  TimeDateFunctions.timeInWords(product.timestamp ?? 0),
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
+                  Text(
+                    TimeDateFunctions.timeInWords(product.timestamp ?? 0),
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            IconButton(
-              onPressed: () {
-                ReportBottomSheets().productReport(context, product);
-              },
-              icon: Icon(Icons.adaptive.more),
-            )
-          ],
-        ),
-      ),
+                ],
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {
+                  ReportBottomSheets().productReport(context, product);
+                },
+                icon: Icon(Icons.adaptive.more),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }
