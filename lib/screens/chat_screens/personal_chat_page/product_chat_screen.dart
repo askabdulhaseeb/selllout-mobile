@@ -8,7 +8,7 @@ import '../../../models/product/product.dart';
 import '../../../widgets/chat/chat_message_tile.dart';
 import '../../../widgets/chat/message_tile.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
-import '../../../widgets/product/custom_slideable_urls_tile.dart';
+import '../../../widgets/product/prod_urls_slider.dart';
 import '../../product_screens/product_detail_screen.dart';
 import '../../user_screens/others_profile.dart';
 

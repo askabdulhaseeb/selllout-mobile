@@ -13,12 +13,13 @@ import '../../models/product/product.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
+import '../../screens/product_screens/buy_now_screen.dart';
 import '../../screens/product_screens/product_detail_screen.dart';
 import '../../screens/user_screens/others_profile.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/custom_elevated_button.dart';
 import '../custom_widgets/custom_profile_image.dart';
-import 'custom_slideable_urls_tile.dart';
+import 'prod_urls_slider.dart';
 
 class ProductTile extends StatelessWidget {
   const ProductTile({required this.product, Key? key}) : super(key: key);
@@ -145,12 +146,12 @@ class _ButtonSection extends StatelessWidget {
                     if (user.displayName == null || user.displayName == '') {
                       return;
                     }
-                    // Navigator.of(context)
-                    //     .push(MaterialPageRoute<ProductChatScreen>(
-                    //   builder: (BuildContext context) => BuyNowScreen(
-                    //     product: product,
-                    //   ),
-                    // ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute<ProductChatScreen>(
+                      builder: (BuildContext context) => BuyNowScreen(
+                        product: product,
+                      ),
+                    ));
                   },
                 ),
                 product.acceptOffers

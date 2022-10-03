@@ -11,7 +11,7 @@ import '../../utilities/utilities.dart';
 import '../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../widgets/custom_widgets/custom_rating_bar.dart';
 import '../../widgets/custom_widgets/title_and_detail_widget.dart';
-import '../../widgets/product/custom_slideable_urls_tile.dart';
+import '../../widgets/product/prod_urls_slider.dart';
 import '../user_screens/others_profile.dart';
 
 class ProductDetailScreen extends StatelessWidget {

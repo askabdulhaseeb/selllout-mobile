@@ -98,4 +98,6 @@ class MyApp extends StatelessWidget {
   // TODO: BUGES
   // Product Tile to Other Profile Screen HERO Issue
   // Product detail screen CONTACT BUTTONS
+  // Product Buy Screen
+  // Video issue solution
   // Live Bid time limit
