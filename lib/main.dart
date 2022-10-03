@@ -4,16 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'database/auth_methods.dart';
 import 'firebase_options.dart';
-import 'providers/app_provider.dart';
-import 'providers/app_theme.dart';
-import 'providers/auction/auction_provider.dart';
-import 'providers/auth_provider.dart';
-import 'providers/chat/chat_page_provider.dart';
-import 'providers/chat/group_chat_provider.dart';
-import 'providers/product/app_product_provider.dart';
-import 'providers/product/product_category_provider.dart';
-import 'providers/product/product_provider.dart';
-import 'providers/user/user_provider.dart';
+import 'providers/provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';
