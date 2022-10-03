@@ -16,53 +16,55 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      endDrawer: const ProfileMoreDrawer(),
-      body: Consumer2<UserProvider, ProductProvider>(
-        builder: (
-          BuildContext context,
-          UserProvider userPro,
-          ProductProvider prodPro,
-          _,
-        ) {
-          final AppUser me = userPro.user(uid: AuthMethods.uid);
-          final List<Product> prods = prodPro.userProducts(AuthMethods.uid);
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, bottom: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      me.username!,
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+    return SafeArea(
+      child: Scaffold(
+        endDrawer: const ProfileMoreDrawer(),
+        body: Consumer2<UserProvider, ProductProvider>(
+          builder: (
+            BuildContext context,
+            UserProvider userPro,
+            ProductProvider prodPro,
+            _,
+          ) {
+            final AppUser me = userPro.user(uid: AuthMethods.uid);
+            final List<Product> prods = prodPro.userProducts(AuthMethods.uid);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        me.username!,
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              const ProfileMoreDrawer(),
-                        );
-                      },
-                      splashRadius: 16,
-                      icon: const Icon(Icons.menu),
-                    )
-                  ],
+                      IconButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                const ProfileMoreDrawer(),
+                          );
+                        },
+                        splashRadius: 16,
+                        icon: const Icon(Icons.menu),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              ProfileHeaderWidget(user: me),
-              ProfileScoreWidget(uid: me.uid, postLenth: prods.length),
-              Expanded(child: GridViewOfProducts(posts: prods)),
-            ],
-          );
-        },
+                ProfileHeaderWidget(user: me),
+                ProfileScoreWidget(uid: me.uid, postLenth: prods.length),
+                Expanded(child: GridViewOfProducts(posts: prods)),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

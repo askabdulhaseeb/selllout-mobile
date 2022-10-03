@@ -54,7 +54,7 @@ class AppUser {
       'uid': uid,
       'display_name': displayName ?? '',
       'number_details': phoneNumber.toMap(),
-      'username': username ?? '',
+      'username': username?.trim().toLowerCase() ?? '',
       'image_url': imageURL ?? '',
       'gender': GenderConverter.genderToString(gender ?? GenderTypesEnum.male),
       'dob': dob ?? '',
@@ -75,7 +75,7 @@ class AppUser {
     // TODO: if the users shifting from private to public profile then SUPPORT REQUIEST needs to be the part of the suports
     return <String, dynamic>{
       'display_name': displayName ?? '',
-      'username': username ?? '',
+      'username': username?.trim().toLowerCase() ?? '',
       'image_url': imageURL ?? '',
       'is_public_profile': isPublicProfile,
       'bio': bio ?? '',
