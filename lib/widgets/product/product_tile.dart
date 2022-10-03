@@ -173,8 +173,10 @@ class _ButtonSection extends StatelessWidget {
                   ),
                   title: 'Message Seller',
                   onTap: () {
-                    final AppUser user = Provider.of<UserProvider>(context,listen: false)
-                        .user(uid: product.uid);
+                    if (AuthMethods.uid == product.uid) return;
+                    final AppUser user =
+                        Provider.of<UserProvider>(context, listen: false)
+                            .user(uid: product.uid);
                     Navigator.of(context)
                         .push(MaterialPageRoute<ProductChatScreen>(
                       builder: (BuildContext context) => ProductChatScreen(
