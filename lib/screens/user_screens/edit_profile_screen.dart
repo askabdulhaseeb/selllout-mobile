@@ -20,7 +20,7 @@ import '../../widgets/user/profile_visibility_type.dart';
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({required this.user, super.key});
   final AppUser user;
-  static const String routeName = 'edit-profile-screen';
+  static const String routeName = '/edit-profile-screen';
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
@@ -54,18 +54,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ? CustomNetworkChangeImageBox(
                       url: widget.user.imageURL,
                       title: 'Change Profile Photo',
-                      onTap: _fetchPhoto,
+                      onTap: () => _fetchPhoto(),
                     )
                   : CustomFileImageBox(
                       file: _pickedImage,
                       title: 'Change Profile Photo',
-                      onTap: _fetchPhoto,
+                      onTap: () => _fetchPhoto(),
                     ),
               const Divider(height: 4),
               CustomTitleTextFormField(
                 controller: _name,
                 title: 'Name',
                 readOnly: _isloading,
+                maxLength: Utilities.usernameMaxLength,
                 validator: (String? value) => CustomValidator.lessThen3(value),
               ),
               const Divider(height: 4),
@@ -73,6 +74,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: _username,
                 title: 'Username',
                 readOnly: _isloading,
+                maxLength: Utilities.usernameMaxLength,
                 validator: (String? value) => CustomValidator.username(value),
               ),
               const Divider(height: 4),
@@ -88,7 +90,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ProfileVisibilityType(
                 isPublic: widget.user.isPublicProfile,
                 onChanged: (bool? value) {
-                  if (value == null) return;
+                  if (value == null || _isloading) return;
                   setState(() {
                     widget.user.isPublicProfile = value;
                   });

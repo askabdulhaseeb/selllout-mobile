@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ProductProvider>(
           create: (BuildContext context) => ProductProvider(),
-        ),
+        ),updateedit p
         // Bid
         ChangeNotifierProvider<AuctionProvider>(
           create: (BuildContext context) => AuctionProvider(),
