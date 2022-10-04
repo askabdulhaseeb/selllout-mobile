@@ -15,29 +15,31 @@ class _ChatMessageTileState extends State<ChatMessageTile> {
   bool isVoiceMessage = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.3),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(borderRadius * 2),
-          topRight: Radius.circular(borderRadius * 2),
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withOpacity(0.3),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(borderRadius * 2),
+            topRight: Radius.circular(borderRadius * 2),
+          ),
         ),
+        child: isVoiceMessage
+            ? const SizedBox()
+            // ChatVoiceMessage(
+            //     chat: widget.chat,
+            //     onCancelRecoding: () => setState(() {
+            //       isVoiceMessage = false;
+            //     }),
+            //   )
+            : ChatTextField(
+                chat: widget.chat,
+                // onStartRecoding: () => setState(() {
+                //   isVoiceMessage = true;
+                // }),
+                onStartRecoding: () {},
+              ),
       ),
-      child: isVoiceMessage
-          ? const SizedBox()
-          // ChatVoiceMessage(
-          //     chat: widget.chat,
-          //     onCancelRecoding: () => setState(() {
-          //       isVoiceMessage = false;
-          //     }),
-          //   )
-          : ChatTextField(
-              chat: widget.chat,
-              // onStartRecoding: () => setState(() {
-              //   isVoiceMessage = true;
-              // }),
-              onStartRecoding: () {},
-            ),
     );
   }
 }

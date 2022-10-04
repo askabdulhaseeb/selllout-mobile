@@ -11,7 +11,7 @@ import '../../../widgets/custom_widgets/title_text.dart';
 
 class CreateChatGroupScreen extends StatelessWidget {
   const CreateChatGroupScreen({Key? key}) : super(key: key);
-  static const String routeName = '/CreateChatGroupScreen';
+  static const String routeName = '/create-chat-group-screen';
 
   @override
   Widget build(BuildContext context) {
