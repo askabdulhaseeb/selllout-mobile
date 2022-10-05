@@ -104,36 +104,38 @@ class UserBottomSheets {
           Expanded(
             child: Consumer<UserProvider>(
                 builder: (BuildContext context, UserProvider userPro, _) {
-              return ListView.builder(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: users.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final AppUser user = userPro.user(uid: users[index]);
-                  return ListTile(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).push(
-                        MaterialPageRoute<OthersProfile>(
-                            builder: (_) => OthersProfile(user: user)),
-                      );
-                    },
-                    leading: CustomProfileImage(
-                      imageURL: user.imageURL ?? '',
-                    ),
-                    title: Text(
-                      user.displayName ?? 'Name fetching issue',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      user.bio ?? 'Bio fetching issue',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  );
-                },
-              );
+              return users.isEmpty
+                  ? Center(child: Text('No $title available to display'))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: users.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final AppUser user = userPro.user(uid: users[index]);
+                        return ListTile(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute<OthersProfile>(
+                                  builder: (_) => OthersProfile(user: user)),
+                            );
+                          },
+                          leading: CustomProfileImage(
+                            imageURL: user.imageURL ?? '',
+                          ),
+                          title: Text(
+                            user.displayName ?? 'Name fetching issue',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            user.bio ?? 'Bio fetching issue',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      },
+                    );
             }),
           ),
         ],

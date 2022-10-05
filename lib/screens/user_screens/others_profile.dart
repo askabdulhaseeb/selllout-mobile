@@ -51,7 +51,7 @@ class OthersProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ProfileHeaderWidget(user: user),
-              ProfileScoreWidget(uid: user.uid, postLenth: prods.length),
+              ProfileScoreWidget(uid: user.uid, posts: prods),
               _SuppoertAndMessageButton(user: user),
               Expanded(
                 child: (isSupporter || (user.isPublicProfile))

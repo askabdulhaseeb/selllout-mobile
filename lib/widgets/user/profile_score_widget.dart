@@ -4,17 +4,20 @@ import 'package:provider/provider.dart';
 import '../../database/auth_methods.dart';
 import '../../functions/user_bottom_sheets.dart';
 import '../../models/app_user.dart';
+import '../../models/product/product.dart';
 import '../../providers/user/user_provider.dart';
+import '../../screens/product_screens/user_products_screen.dart';
 import '../custom_widgets/custom_icon_button.dart';
+import '../custom_widgets/custom_toast.dart';
 
 class ProfileScoreWidget extends StatelessWidget {
   const ProfileScoreWidget({
     required this.uid,
-    required this.postLenth,
+    required this.posts,
     Key? key,
   }) : super(key: key);
   final String uid;
-  final int postLenth;
+  final List<Product> posts;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +42,24 @@ class ProfileScoreWidget extends StatelessWidget {
                 },
               ),
               _CustomScoreButton(
-                score: postLenth.toString(),
+                score: posts.length.toString(),
                 title: 'Posts',
                 height: boxWidth - 10,
                 width: boxWidth,
-                onTap: () {},
+                onTap: () {
+                  if (user.isPublicProfile == false &&
+                      !(user.supporters?.contains(AuthMethods.uid) ?? true)) {
+                    CustomToast.errorToast(
+                        message: 'Only Supports can view posts');
+                    return;
+                  }
+                  Navigator.of(context).push(
+                    MaterialPageRoute<UserProductsScreen>(
+                      builder: (_) =>
+                          UserProductsScreen(products: posts, selectedIndex: 0),
+                    ),
+                  );
+                },
               ),
               _CustomScoreButton(
                 score: user.supporting?.length.toString() ?? '0',
@@ -52,7 +68,10 @@ class ProfileScoreWidget extends StatelessWidget {
                 width: boxWidth,
                 onTap: () => _isClickable(user)
                     ? UserBottomSheets().showUsersBottomSheet(
-                        context: context, users: user.supporting ?? <String>[])
+                        context: context,
+                        title: 'Supportings',
+                        users: user.supporting ?? <String>[],
+                      )
                     : () {},
               ),
               _CustomScoreButton(
@@ -62,7 +81,10 @@ class ProfileScoreWidget extends StatelessWidget {
                 width: boxWidth,
                 onTap: () => _isClickable(user)
                     ? UserBottomSheets().showUsersBottomSheet(
-                        context: context, users: user.supporters ?? <String>[])
+                        title: 'Supporters',
+                        context: context,
+                        users: user.supporters ?? <String>[],
+                      )
                     : () {},
               ),
             ],

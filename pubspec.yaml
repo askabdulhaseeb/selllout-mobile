@@ -20,7 +20,6 @@ dependencies:
   firebase_storage: ^10.3.9
 
   url_launcher: ^6.1.5
-  http: ^0.13.5
 
   shared_preferences: ^2.0.15
   provider: ^6.0.3
@@ -32,7 +31,7 @@ dependencies:
   lottie: ^1.4.2 # NOT USED YET
 
   file_picker: ^4.6.1
-  image_picker: ^0.8.5+3
+  wechat_assets_picker: ^8.1.2
   image_cropper: ^3.0.0 # ANDROID INTEGRATION
 
   font_awesome_flutter: ^10.1.0
