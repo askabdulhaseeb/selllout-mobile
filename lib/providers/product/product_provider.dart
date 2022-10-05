@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../../database/auth_methods.dart';
 import '../../database/product_api.dart';
 import '../../enums/product/prod_condition_enum.dart';
+import '../../enums/product/prod_offer_status.dart';
+import '../../functions/time_date_functions.dart';
+import '../../models/product/prod_offer.dart';
+import '../../models/product/prod_order.dart';
 import '../../models/product/product.dart';
 import '../../models/product/product_url.dart';
 
@@ -30,6 +34,43 @@ class ProductProvider extends ChangeNotifier {
     return (index < 0) ? _null : _products[index];
   }
 
+  Future<void> sendOrder(Product value) async {
+    final String me = AuthMethods.uid;
+    if (value.uid == me) return;
+    final int index = _indexOf(value.pid);
+    if (index < 0) return;
+    final ProdOrder order = ProdOrder(
+      uid: me,
+      price: value.price,
+      deliveryType: value.delivery,
+      orderTime: TimeDateFunctions.timestamp,
+      approvalTime: TimeDateFunctions.timestamp,
+    );
+    _products[index].orders?.add(order);
+    await ProductAPI().sendOrder(_products[index]);
+  }
+
+  Future<void> sendOffer(
+      {required Product value,
+      required String chatID,
+      required double amount}) async {
+    final String me = AuthMethods.uid;
+    if (value.uid == me) return;
+    final int index = _indexOf(value.pid);
+    if (index < 0) return;
+    final ProdOffer offer = ProdOffer(
+      uid: me,
+      chatId: chatID,
+      price: amount,
+      deliveryType: value.delivery,
+      orderTime: TimeDateFunctions.timestamp,
+      approvalTime: TimeDateFunctions.timestamp,
+      status: ProdOfferStatusEnum.pending,
+    );
+    _products[index].offers?.add(offer);
+    await ProductAPI().sendOffer(_products[index]);
+  }
+
   List<Product> _products = <Product>[];
 
   List<Product> get products => _products;
@@ -47,6 +88,10 @@ class ProductProvider extends ChangeNotifier {
     List<Product> temp = await ProductAPI().getProducts();
     _products = temp;
     notifyListeners();
+  }
+
+  int _indexOf(String pid) {
+    return _products.indexWhere((Product element) => element.pid == pid);
   }
 
   Product get _null => Product(

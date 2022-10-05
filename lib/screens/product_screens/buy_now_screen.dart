@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../database/auth_methods.dart';
 import '../../enums/product/prod_delivery_type.dart';
+import '../../functions/time_date_functions.dart';
+import '../../models/product/prod_order.dart';
 import '../../models/product/product.dart';
+import '../../providers/product/product_provider.dart';
 import '../../utilities/app_image.dart';
 import '../../widgets/product/prod_urls_slider.dart';
 import 'payment_success_screen.dart';
 
 class BuyNowScreen extends StatelessWidget {
   const BuyNowScreen({required this.product, Key? key}) : super(key: key);
-  static const String routeName = '/BuyNowScreen';
+  static const String routeName = '/buy-now-screen';
   final Product product;
 
   @override
@@ -37,6 +42,7 @@ class BuyNowScreen extends StatelessWidget {
                   imagePath: AppImages.paypal,
                   title: 'PayPal',
                   onTap: () {
+                    _sendOrder(context);
                     Navigator.of(context).push(
                       MaterialPageRoute<PaymentSuccessScreen>(
                         builder: (_) => const PaymentSuccessScreen(),
@@ -48,6 +54,7 @@ class BuyNowScreen extends StatelessWidget {
                   imagePath: AppImages.strip,
                   title: 'Strip',
                   onTap: () {
+                    _sendOrder(context);
                     Navigator.of(context).push(
                       MaterialPageRoute<PaymentSuccessScreen>(
                         builder: (_) => const PaymentSuccessScreen(),
@@ -59,6 +66,7 @@ class BuyNowScreen extends StatelessWidget {
                   imagePath: AppImages.applePay,
                   title: 'Apple Pay',
                   onTap: () {
+                    _sendOrder(context);
                     Navigator.of(context).push(
                       MaterialPageRoute<PaymentSuccessScreen>(
                         builder: (_) => const PaymentSuccessScreen(),
@@ -72,6 +80,11 @@ class BuyNowScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _sendOrder(BuildContext context) async {
+    await Provider.of<ProductProvider>(context, listen: false)
+        .sendOrder(product);
   }
 }
 

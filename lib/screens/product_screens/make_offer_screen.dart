@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../database/auth_methods.dart';
 import '../../database/chat_api.dart';
 import '../../enums/chat/message_type_enum.dart';
+import '../../enums/product/prod_offer_status.dart';
 import '../../functions/time_date_functions.dart';
 import '../../functions/unique_id_functions.dart';
 import '../../models/app_user.dart';
@@ -10,7 +11,9 @@ import '../../models/chat/chat.dart';
 import '../../models/chat/message.dart';
 import '../../models/chat/message_attachment.dart';
 import '../../models/chat/message_read_info.dart';
+import '../../models/product/prod_offer.dart';
 import '../../models/product/product.dart';
+import '../../providers/product/product_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../widgets/custom_widgets/show_loading.dart';
@@ -107,14 +110,21 @@ class _DigitalKeyboardState extends State<_DigitalKeyboard> {
               children: <Widget>[
                 Text('Quantity: ${widget.product.quantity}'),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final String chatID =
+                        UniqueIdFunctions.productID(widget.product.pid);
+                    await Provider.of<ProductProvider>(context, listen: false)
+                        .sendOffer(
+                            value: widget.product,
+                            amount: double.parse(widget.offer),
+                            chatID: chatID);
+                    if (!mounted) return;
                     Navigator.of(context)
                         .push(MaterialPageRoute<ProductChatScreen>(
                       builder: (BuildContext context) => ProductChatScreen(
                         chatWith: user,
                         chat: Chat(
-                          chatID:
-                              UniqueIdFunctions.productID(widget.product.pid),
+                          chatID: chatID,
                           persons: <String>[user.uid, AuthMethods.uid],
                           isGroup: false,
                           pid: widget.product.pid,
@@ -193,10 +203,16 @@ class _DigitalKeyboardState extends State<_DigitalKeyboard> {
                       setState(() {
                         _isLoading = true;
                       });
+                      final String chatID =
+                          UniqueIdFunctions.productID(widget.product.pid);
+                      await Provider.of<ProductProvider>(context, listen: false)
+                          .sendOffer(
+                              value: widget.product,
+                              amount: double.parse(widget.offer),
+                              chatID: chatID);
                       await ChatAPI().sendMessage(
                         Chat(
-                          chatID:
-                              UniqueIdFunctions.productID(widget.product.pid),
+                          chatID: chatID,
                           persons: <String>[AuthMethods.uid, user.uid],
                           lastMessage: Message(
                             messageID: time.toString(),
@@ -292,9 +308,9 @@ class _Header extends StatelessWidget {
           'Bye it now price: ${product.price}',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        const Text(
-          '10 offers left',
-          style: TextStyle(color: Colors.grey),
+        Text(
+          '${product.offersLimit - (product.offers?.where((ProdOffer element) => element.status == ProdOfferStatusEnum.rejected).length ?? 0) - (product.orders?.length ?? 0)} offers left',
+          style: const TextStyle(color: Colors.grey),
         ),
       ],
     );

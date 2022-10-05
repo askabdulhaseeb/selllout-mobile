@@ -55,6 +55,30 @@ class ProductAPI {
     }
   }
 
+  Future<bool> sendOrder(Product product) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(product.pid)
+          .update(product.sendOrder());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> sendOffer(Product product) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(product.pid)
+          .update(product.updateOffers());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> addProduct(Product product) async {
     try {
       // ignore: always_specify_types
