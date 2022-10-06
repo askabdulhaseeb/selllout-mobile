@@ -75,7 +75,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 title: 'Username',
                 readOnly: _isloading,
                 maxLength: Utilities.usernameMaxLength,
-                validator: (String? value) => CustomValidator.username(value),
+                validator: (String? value) =>
+                    CustomValidator.username(context, value),
               ),
               const Divider(height: 4),
               CustomTitleTextFormField(

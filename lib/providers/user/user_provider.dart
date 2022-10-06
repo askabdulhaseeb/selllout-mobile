@@ -142,6 +142,14 @@ class UserProvider extends ChangeNotifier {
     return index < 0 ? _null : _user[index];
   }
 
+  bool usernameExist({required String value}) {
+    final int index = _user.indexWhere((AppUser element) =>
+        element.username?.toLowerCase() == value.toLowerCase());
+    if (index < 0) return false;
+    if (_user[index].uid == AuthMethods.uid) return false;
+    return true;
+  }
+
   int _indexOf(String uid) {
     int index = _user.indexWhere((AppUser element) => element.uid == uid);
     return index;

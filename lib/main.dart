@@ -87,7 +87,6 @@ class MyApp extends StatelessWidget {
 
 
   // TODO: BUGES
-  // USERNAME Already exist
   // Product Tile to Other Profile Screen HERO Issue
   // Product detail screen CONTACT BUTTONS
   // Product Buy Screen

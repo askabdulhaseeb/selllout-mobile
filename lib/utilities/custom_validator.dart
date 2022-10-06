@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/provider.dart';
+
 class CustomValidator {
   static String? email(String? value) {
     if (!RegExp(
@@ -15,7 +20,10 @@ class CustomValidator {
     return null;
   }
 
-  static String? username(String? value) {
+  static String? username(
+    BuildContext context,
+    String? value,
+  ) {
     if (value == null) return 'Enter the username';
     if (value.length < 4) return 'Most be more then 3 words';
     if (!RegExp(r'^[A-Za-z_.]+$').hasMatch(value[0])) {
@@ -23,7 +31,11 @@ class CustomValidator {
     }
     if (!RegExp(r'^[a-zA-Z0-9.a-zA-Z0-9._]+$').hasMatch(value.substring(1))) {
       return ''' Only '.' and '_' signs are allowed''';
-    } else {}
+    }
+    if (Provider.of<UserProvider>(context, listen: false)
+        .usernameExist(value: value)) {
+      return 'Username already exist';
+    }
     return null;
   }
 

@@ -76,9 +76,11 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
         initialValue: widget.initialValue,
         controller: widget._controller,
         readOnly: widget.readOnly,
-        keyboardType: widget.maxLines! > 1
-            ? TextInputType.multiline
-            : widget.keyboardType ?? TextInputType.text,
+        keyboardType: widget.keyboardType == TextInputType.number
+            ? const TextInputType.numberWithOptions(signed: true, decimal: true)
+            : widget.maxLines! > 1
+                ? TextInputType.multiline
+                : widget.keyboardType ?? TextInputType.text,
         textInputAction: widget.maxLines! > 1
             ? TextInputAction.newline
             : widget.textInputAction ?? TextInputAction.next,

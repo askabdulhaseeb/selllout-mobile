@@ -156,10 +156,11 @@ class AppUser {
       });
     }
     return AppUser(
-      uid: doc.data()!['uid'] ?? '',
-      phoneNumber: NumberDetails.fromMap(doc.data()!['number_details'] ?? ''),
-      displayName: doc.data()!['display_name'] ?? '',
-      username: doc.data()!['username'] ?? '',
+      uid: doc.data()?['uid'] ?? '',
+      phoneNumber: NumberDetails.fromMap(
+          doc.data()?['number_details'] ?? <String, dynamic>{}),
+      displayName: doc.data()?['display_name'] ?? '',
+      username: doc.data()?['username']?.trim().toLowerCase() ?? '',
       imageURL: doc.data()?['image_url'] ?? '',
       gender: GenderConverter.stringToGender(
         doc.data()?['gender'] ??

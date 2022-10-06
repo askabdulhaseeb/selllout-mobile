@@ -58,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hint: 'Username',
                       maxLength: Utilities.usernameMaxLength,
                       validator: (String? value) =>
-                          CustomValidator.username(value),
+                          CustomValidator.username(context, value),
                     ),
                     CustomTextFormField(
                       controller: authPro.bio,
