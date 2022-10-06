@@ -72,7 +72,19 @@ class ProductAPI {
       await _instance
           .collection(_collection)
           .doc(product.pid)
-          .update(product.updateOffers());
+          .update(product.sendOffer());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updateOffer(Product product) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(product.pid)
+          .update(product.updateOffer());
       return true;
     } catch (e) {
       return false;

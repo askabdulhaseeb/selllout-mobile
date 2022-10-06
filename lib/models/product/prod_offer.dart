@@ -20,14 +20,14 @@ class ProdOffer {
   double price;
   final ProdDeliveryTypeEnum deliveryType;
   final int orderTime;
-  final int approvalTime;
-  final ProdOfferStatusEnum status;
+  int approvalTime;
+  ProdOfferStatusEnum status;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
       'chat_id': chatId,
-      'price': price,
+      'price': price + 0.0,
       'deliveryType':
           ProdDeliveryTypeEnumConvertor.enumToString(delivery: deliveryType),
       'orderTime': orderTime,
@@ -40,7 +40,7 @@ class ProdOffer {
     return ProdOffer(
       uid: map['uid'] ?? '',
       chatId: map['chat_id'] ?? '',
-      price: map['price'] ?? 0.0,
+      price: map['price'] + 0.0,
       deliveryType: ProdDeliveryTypeEnumConvertor.stringToEnum(
           delivery: map['deliveryType'] ?? 'delivery'),
       orderTime: map['orderTime'] ?? 0,

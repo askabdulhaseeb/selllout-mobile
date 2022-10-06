@@ -71,6 +71,21 @@ class ProductProvider extends ChangeNotifier {
     await ProductAPI().sendOffer(_products[index]);
   }
 
+  Future<void> updateOffer({
+    required String pid,
+    required ProdOffer newOffer,
+  }) async {
+    await _load();
+    final int index = _indexOf(pid);
+    if (index < 0) return;
+    _products[index]
+        .offers
+        ?.removeWhere((ProdOffer element) => element.chatId == newOffer.chatId);
+    _products[index].offers?.add(newOffer);
+    notifyListeners();
+    await ProductAPI().updateOffer(_products[index]);
+  }
+
   List<Product> _products = <Product>[];
 
   List<Product> get products => _products;

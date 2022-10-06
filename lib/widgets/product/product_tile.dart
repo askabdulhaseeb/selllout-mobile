@@ -13,6 +13,7 @@ import '../../providers/user/user_provider.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
 import '../../screens/product_screens/buy_now_screen.dart';
 import '../../screens/product_screens/make_offer_screen.dart';
+import '../../screens/product_screens/prod_stats_info_screen.dart';
 import '../../screens/product_screens/product_detail_screen.dart';
 import '../../screens/user_screens/others_profile.dart';
 import '../../utilities/utilities.dart';
@@ -34,12 +35,29 @@ class ProductTile extends StatelessWidget {
         ));
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _Header(product: product),
           AspectRatio(
             aspectRatio: Utilities.imageAspectRatio,
             child: ProductURLsSlider(urls: product.prodURL),
           ),
+          if (product.uid == AuthMethods.uid)
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute<ProductStatsInfoScreen>(
+                  builder: (BuildContext context) =>
+                      ProductStatsInfoScreen(product: product),
+                ));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Orders: ${product.orders?.length}, Offer: ${product.offers?.length}',
+                ),
+              ),
+            ),
           _InfoCard(product: product),
           _ButtonSection(product: product),
         ],

@@ -104,10 +104,16 @@ class Product {
     };
   }
 
-  Map<String, dynamic> updateOffers() {
+  Map<String, dynamic> sendOffer() {
     return <String, dynamic>{
       'offers': FieldValue.arrayUnion(
           offers!.map((ProdOffer e) => e.toMap()).toList()),
+    };
+  }
+
+  Map<String, dynamic> updateOffer() {
+    return <String, dynamic>{
+      'offers': offers!.map((ProdOffer e) => e.toMap()).toList(),
     };
   }
 
