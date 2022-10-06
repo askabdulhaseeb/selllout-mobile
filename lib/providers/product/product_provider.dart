@@ -78,9 +78,8 @@ class ProductProvider extends ChangeNotifier {
     await _load();
     final int index = _indexOf(pid);
     if (index < 0) return;
-    _products[index]
-        .offers
-        ?.removeWhere((ProdOffer element) => element.chatId == newOffer.chatId);
+    _products[index].offers?.removeWhere(
+        (ProdOffer element) => element.approvalTime == newOffer.approvalTime);
     _products[index].offers?.add(newOffer);
     notifyListeners();
     await ProductAPI().updateOffer(_products[index]);

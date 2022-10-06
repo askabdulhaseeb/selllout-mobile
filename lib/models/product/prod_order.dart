@@ -26,6 +26,7 @@ class ProdOrder {
     };
   }
 
+  // ignore: sort_constructors_first
   factory ProdOrder.fromMap(Map<String, dynamic> map) {
     return ProdOrder(
       uid: map['uid'] as String,

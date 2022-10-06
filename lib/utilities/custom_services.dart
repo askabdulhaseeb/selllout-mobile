@@ -1,13 +1,13 @@
-	import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomService {
   static void statusBar() {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        statusBarColor: Color(0xFFD32F2F),
-        statusBarBrightness: Brightness.light,
-        systemNavigationBarColor: Color(0xFFD32F2F),
+        statusBarColor: Colors.transparent,
+        // statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.transparent,
         systemStatusBarContrastEnforced: false,
       ),
     );
@@ -15,9 +15,9 @@ class CustomService {
 
   static SystemUiOverlayStyle systemUIOverlayStyle() {
     return const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFFD32F2F),
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xFFD32F2F),
+      statusBarColor: Colors.transparent,
+      // statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.transparent,
       systemStatusBarContrastEnforced: false,
     );
   }
@@ -25,6 +25,4 @@ class CustomService {
   static void dismissKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
-
-  
 }

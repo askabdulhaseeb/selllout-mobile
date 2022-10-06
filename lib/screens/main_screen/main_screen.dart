@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/product/product_provider.dart';
 import '../../providers/user/user_provider.dart';
+import '../../utilities/custom_services.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
 import 'pages/chat_page.dart';
@@ -20,6 +21,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    CustomService.systemUIOverlayStyle();
+    super.initState();
+  }
+
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     LivePage(),

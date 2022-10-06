@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../database/auth_methods.dart';
 import '../../enums/product/prod_delivery_type.dart';
-import '../../functions/time_date_functions.dart';
-import '../../models/product/prod_order.dart';
 import '../../models/product/product.dart';
 import '../../providers/product/product_provider.dart';
 import '../../utilities/app_image.dart';

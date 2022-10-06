@@ -18,7 +18,6 @@ import '../../providers/user/user_provider.dart';
 import '../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../widgets/custom_widgets/show_loading.dart';
 import '../chat_screens/personal_chat_page/product_chat_screen.dart';
-import 'user_products_screen.dart';
 
 class MakeOfferScreen extends StatefulWidget {
   const MakeOfferScreen({required this.product, Key? key}) : super(key: key);

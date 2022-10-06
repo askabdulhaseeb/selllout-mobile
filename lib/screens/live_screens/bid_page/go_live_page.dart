@@ -23,6 +23,7 @@ import '../../../widgets/custom_widgets/custom_toast.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/custom_widgets/title_text.dart';
 import '../../../widgets/product/radio_widgets/prod_privacy_widget.dart';
+import 'broadcast_page.dart';
 
 class GoLivePage extends StatefulWidget {
   const GoLivePage({Key? key}) : super(key: key);
@@ -165,12 +166,11 @@ class _GoLivePageState extends State<GoLivePage> {
         Provider.of<AppProvider>(context, listen: false).onTabTapped(0);
         await <Permission>[Permission.camera, Permission.microphone].request();
         debugPrint('Joing channel: $id');
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (_) =>
-        //         BroadcastPage(auction: auction),
-        //   ),
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute<BroadcastPage>(
+            builder: (_) => BroadcastPage(auction: auction),
+          ),
+        );
       }
     }
   }

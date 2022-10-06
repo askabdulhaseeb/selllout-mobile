@@ -6,6 +6,7 @@ import '../../functions/user_bottom_sheets.dart';
 import '../../models/app_user.dart';
 import '../../models/product/product.dart';
 import '../../providers/user/user_provider.dart';
+import '../../screens/coming_soon_screen.dart';
 import '../../screens/product_screens/user_products_screen.dart';
 import '../custom_widgets/custom_icon_button.dart';
 import '../custom_widgets/custom_toast.dart';
@@ -39,6 +40,7 @@ class ProfileScoreWidget extends StatelessWidget {
                 icon: Icons.account_balance,
                 onTap: () {
                   // TODO: on wallet click
+                  Navigator.of(context).pushNamed(ComingSoonScreen.routeName);
                 },
               ),
               _CustomScoreButton(

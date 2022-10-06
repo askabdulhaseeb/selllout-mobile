@@ -6,7 +6,6 @@ import '../../functions/time_date_functions.dart';
 import '../../models/app_user.dart';
 import '../../models/product/prod_offer.dart';
 import '../../providers/provider.dart';
-import '../../providers/user/user_provider.dart';
 import '../custom_widgets/custom_elevated_button.dart';
 import '../custom_widgets/custom_profile_image.dart';
 

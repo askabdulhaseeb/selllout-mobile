@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../functions/time_date_functions.dart';
-import '../../models/app_user.dart';
 import '../../models/product/prod_offer.dart';
 import '../../models/product/prod_order.dart';
 import '../../models/product/product.dart';
-import '../../providers/provider.dart';
-import '../../widgets/custom_widgets/custom_elevated_button.dart';
-import '../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../widgets/product/receive_offer_tile.dart';
 import '../../widgets/product/receive_order_tile.dart';
 
