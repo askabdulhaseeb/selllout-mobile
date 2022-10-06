@@ -54,12 +54,8 @@ class Auction {
   }
 
   Map<String, dynamic> updateBets() {
-    List<Map<String, dynamic>> mapp = <Map<String, dynamic>>[];
-    for (Bet element in bets ?? <Bet>[]) {
-      mapp.add(element.toMap());
-    }
     return <String, dynamic>{
-      'bets': mapp,
+      'bets': FieldValue.arrayUnion(bets!.map((Bet e) => e.toMap()).toList()),
     };
   }
 

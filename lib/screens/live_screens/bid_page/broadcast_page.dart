@@ -5,12 +5,19 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../database/auction_api.dart';
 import '../../../database/auth_methods.dart';
+import '../../../functions/time_date_functions.dart';
+import '../../../models/app_user.dart';
 import '../../../models/auction/auction.dart';
+import '../../../models/auction/bet.dart';
+import '../../../providers/provider.dart';
 import '../../../utilities/custom_validator.dart';
 import '../../../utilities/utilities.dart';
+import '../../../widgets/custom_widgets/custom_elevated_button.dart';
+import '../../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../../widgets/custom_widgets/custom_score_button.dart';
 import '../../../widgets/custom_widgets/custom_textformfield.dart';
 
@@ -30,7 +37,7 @@ class _BroadcastPageState extends State<BroadcastPage> {
   bool muted = false;
   String appId = Utilities.agoraID;
   final String me = AuthMethods.uid;
-  late bool isBroadcaster = me == widget.auction.uid;
+  late bool isBroadcaster = AuthMethods.uid == widget.auction.uid;
 
   @override
   void dispose() async {
@@ -311,30 +318,69 @@ class _AuctionInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
       children: <Widget>[
-        CustomScoreButton(
-          score: auction.bets!.length.toString(),
-          title: 'No. of Bets',
-          height: 60,
-          width: 90,
-          onTap: () {},
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            CustomScoreButton(
+              score: auction.bets!.length.toString(),
+              title: 'No. of Bets',
+              height: 60,
+              width: 90,
+              onTap: () {},
+            ),
+            CustomScoreButton(
+              score: auction.startingPrice.toString(),
+              title: 'Starting price',
+              height: 60,
+              width: 90,
+              onTap: () {},
+            ),
+            CustomScoreButton(
+              score: auction.bets!.isEmpty
+                  ? auction.startingPrice.toString()
+                  : auction.bets![auction.bets!.length - 1].amount.toString(),
+              title: 'New Price',
+              height: 60,
+              width: 90,
+              onTap: () {},
+            ),
+          ],
         ),
-        CustomScoreButton(
-          score: auction.startingPrice.toString(),
-          title: 'Starting price',
-          height: 60,
-          width: 90,
-          onTap: () {},
-        ),
-        CustomScoreButton(
-          score: auction.bets!.length.toString(),
-          title: 'New Price',
-          height: 60,
-          width: 90,
-          onTap: () {},
-        ),
+        const SizedBox(height: 10),
+        if (auction.uid == AuthMethods.uid)
+        auction.bets!.isEmpty
+            ? const SizedBox()
+            : SizedBox(
+                height: 100,
+                child: ListView.builder(
+                    itemCount: auction.bets!.length == 1 ? 1 : 2,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Bet bet = auction.bets![auction.bets!.length < 2
+                          ? index
+                          : auction.bets!.length - index - 1];
+                      final AppUser user =
+                          Provider.of<UserProvider>(context).user(uid: bet.uid);
+                      return ListTile(
+                        leading:
+                            CustomProfileImage(imageURL: user.imageURL ?? ''),
+                        title: Text(
+                          user.displayName ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: Text(
+                          bet.amount.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      );
+                    }),
+              )
       ],
     );
   }
@@ -355,54 +401,81 @@ class _NewBitValueState extends State<NewBitValue> {
 
   @override
   void initState() {
-    _offer.text = widget.auction.startingPrice.toString();
+    _offer.text = widget.auction.bets!.isEmpty
+        ? widget.auction.startingPrice.toString()
+        : widget.auction.bets![widget.auction.bets!.length - 1].amount
+            .toString();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        IconButton(
-          onPressed: () {
-            if (_offer.text == widget.auction.startingPrice.toString()) return;
-            double value = double.parse(_offer.text);
-            value -= 1;
-            _offer.text = value.toString();
-            setState(() {});
-          },
-          splashRadius: 20,
-          icon: const Icon(
-            Icons.remove_circle,
-            color: Colors.red,
+    return Form(
+      key: _key,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              IconButton(
+                onPressed: () {
+                  if (_offer.text == widget.auction.startingPrice.toString())
+                    return;
+                  double value = double.parse(_offer.text);
+                  value -= 1;
+                  _offer.text = value.toString();
+                  setState(() {});
+                },
+                splashRadius: 20,
+                icon: const Icon(
+                  Icons.remove_circle,
+                  color: Colors.red,
+                ),
+              ),
+              Flexible(
+                child: CustomTextFormField(
+                  controller: _offer,
+                  readOnly: _isLoading,
+                  textAlign: TextAlign.center,
+                  showSuffixIcon: false,
+                  validator: (String? value) => CustomValidator.greaterThen(
+                    value,
+                    widget.auction.startingPrice,
+                  ),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  double value = double.parse(_offer.text);
+                  value += 1;
+                  _offer.text = value.toString();
+                  setState(() {});
+                },
+                splashRadius: 20,
+                icon: const Icon(
+                  Icons.add_circle_outlined,
+                  color: Colors.green,
+                ),
+              ),
+            ],
           ),
-        ),
-        Flexible(
-          child: CustomTextFormField(
-            controller: _offer,
-            readOnly: _isLoading,
-            textAlign: TextAlign.center,
-            validator: (String? value) => CustomValidator.greaterThen(
-              value,
-              widget.auction.startingPrice,
-            ),
-            keyboardType: TextInputType.number,
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            double value = double.parse(_offer.text);
-            value += 1;
-            _offer.text = value.toString();
-            setState(() {});
-          },
-          splashRadius: 20,
-          icon: const Icon(
-            Icons.add_circle_outlined,
-            color: Colors.green,
-          ),
-        ),
-      ],
+          CustomElevatedButton(
+              title: 'Send Bit',
+              onTap: () async {
+                if (_key.currentState!.validate()) {
+                  final Bet newBet = Bet(
+                    uid: AuthMethods.uid,
+                    amount: double.parse(_offer.text),
+                    timestamp: TimeDateFunctions.timestamp,
+                  );
+                  widget.auction.bets!.add(newBet);
+                  await AuctionAPI().updateBet(auction: widget.auction);
+                }
+              }),
+        ],
+      ),
     );
   }
 }

@@ -87,6 +87,10 @@ class MyApp extends StatelessWidget {
 
 
   // TODO: BUGES
+  // Blocked User can not able to access
+  // Blocked user can not able to see the photos
+  
+
   // Product Tile to Other Profile Screen HERO Issue
   // Product detail screen CONTACT BUTTONS
   // Product Buy Screen
