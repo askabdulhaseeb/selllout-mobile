@@ -40,7 +40,7 @@ class ReceivedOfferTile extends StatelessWidget {
                       .product(pid)
                       .offers!
                       .firstWhere((ProdOffer element) =>
-                          element.approvalTime == offer.approvalTime);
+                          element.offerID == offer.offerID);
                   return liveOffer.status == ProdOfferStatusEnum.pending
                       ? Row(
                           children: <Widget>[
@@ -70,7 +70,7 @@ class ReceivedOfferTile extends StatelessWidget {
                               child: CustomElevatedButton(
                                 title: 'Accept',
                                 padding: const EdgeInsets.all(6),
-                                onTap: () async{
+                                onTap: () async {
                                   final ProdOffer newOffer = liveOffer
                                     ..status = ProdOfferStatusEnum.approved
                                     ..approvalTime =

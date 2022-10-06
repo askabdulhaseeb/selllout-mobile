@@ -16,6 +16,7 @@ import '../../utilities/custom_services.dart';
 import '../../utilities/utilities.dart';
 import '../../widgets/custom_widgets/custom_toast.dart';
 import '../app_provider.dart';
+import '../provider.dart';
 import 'product_category_provider.dart';
 
 class AddProductProvider extends ChangeNotifier {
@@ -132,6 +133,8 @@ class AddProductProvider extends ChangeNotifier {
       if (uploaded) {
         // ignore: use_build_context_synchronously
         Provider.of<AppProvider>(context, listen: false).onTabTapped(0);
+        // ignore: use_build_context_synchronously
+        await Provider.of<ProductProvider>(context).refresh();
         _reset();
         CustomToast.successToast(message: 'Uploaded Successfully');
       } else {

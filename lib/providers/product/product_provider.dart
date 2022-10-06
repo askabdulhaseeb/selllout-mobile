@@ -5,6 +5,7 @@ import '../../database/product_api.dart';
 import '../../enums/product/prod_condition_enum.dart';
 import '../../enums/product/prod_offer_status.dart';
 import '../../functions/time_date_functions.dart';
+import '../../functions/unique_id_functions.dart';
 import '../../models/product/prod_offer.dart';
 import '../../models/product/prod_order.dart';
 import '../../models/product/product.dart';
@@ -60,6 +61,7 @@ class ProductProvider extends ChangeNotifier {
     if (index < 0) return;
     final ProdOffer offer = ProdOffer(
       uid: me,
+      offerID: UniqueIdFunctions.offerID,
       chatId: chatID,
       price: amount,
       deliveryType: value.delivery,
@@ -79,7 +81,7 @@ class ProductProvider extends ChangeNotifier {
     final int index = _indexOf(pid);
     if (index < 0) return;
     _products[index].offers?.removeWhere(
-        (ProdOffer element) => element.approvalTime == newOffer.approvalTime);
+        (ProdOffer element) => element.offerID == newOffer.offerID);
     _products[index].offers?.add(newOffer);
     notifyListeners();
     await ProductAPI().updateOffer(_products[index]);

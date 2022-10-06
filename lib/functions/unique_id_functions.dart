@@ -4,6 +4,9 @@ import 'time_date_functions.dart';
 class UniqueIdFunctions {
   static String get postID =>
       '${AuthMethods.uid}${TimeDateFunctions.timestamp}';
+      
+  static String get offerID =>
+      '${AuthMethods.uid}${TimeDateFunctions.timestamp}';
 
   static String personalChatID({required String chatWith}) {
     int isGreaterThen = AuthMethods.uid.compareTo(chatWith);
