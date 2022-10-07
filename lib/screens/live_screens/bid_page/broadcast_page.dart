@@ -21,7 +21,8 @@ class BroadcastPage extends StatefulWidget {
   _BroadcastPageState createState() => _BroadcastPageState();
 }
 
-class _BroadcastPageState extends State<BroadcastPage> {
+class _BroadcastPageState extends State<BroadcastPage>
+    with WidgetsBindingObserver {
   final List<int> _users = <int>[];
   final List<String> _infoStrings = <String>[];
   RtcEngine? _engine;
@@ -31,14 +32,33 @@ class _BroadcastPageState extends State<BroadcastPage> {
   late bool isBroadcaster = AuthMethods.uid == widget.auction.uid;
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.inactive:
+        _dispose();
+        break;
+      case AppLifecycleState.paused:
+      case AppLifecycleState.resumed:
+        Navigator.of(context).pop();
+        break;
+    }
+  }
+
+  @override
   void dispose() async {
+    await _dispose();
+    super.dispose();
+  }
+
+  _dispose() async {
     _users.clear();
     _engine!.destroy();
     if (me == widget.auction.uid) {
       widget.auction.isActive = false;
       await AuctionAPI().updateActivity(auction: widget.auction);
     }
-    super.dispose();
   }
 
   @override
@@ -69,7 +89,7 @@ class _BroadcastPageState extends State<BroadcastPage> {
     if (me == widget.auction.uid) {
       await _engine!.setClientRole(ClientRole.Broadcaster);
     } else {
-      await _engine!.muteLocalAudioStream(muted);
+      await _engine!.muteLocalAudioStream(true);
       await _engine!.setClientRole(ClientRole.Audience);
     }
   }
