@@ -6,7 +6,6 @@ import '../../../functions/time_date_functions.dart';
 import '../../../models/auction/auction.dart';
 import '../../../providers/auction/auction_provider.dart';
 import '../../../widgets/custom_widgets/custom_profile_image.dart';
-import 'auction_detail_screen.dart';
 import 'broadcast_page.dart';
 import 'go_live_page.dart';
 
@@ -64,14 +63,6 @@ class BidPage extends StatelessWidget {
                                 ),
                               ),
                             );
-                            // ignore: use_build_context_synchronously
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute<AuctionDetailScreen>(
-                            //     builder: (_) => AuctionDetailScreen(
-                            //       auction: auctions[index],
-                            //     ),
-                            //   ),
-                            // );
                           },
                           leading: CustomProfileImage(
                             imageURL: auctions[index].thumbnail,
