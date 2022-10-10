@@ -22,7 +22,6 @@ class AppUser {
     this.reports,
     this.blockTo,
     this.blockedBy,
-    this.posts,
     this.supporting,
     this.supporters,
     this.supportRequest,
@@ -44,7 +43,6 @@ class AppUser {
   final List<ReportUser>? reports;
   final List<String>? blockTo;
   final List<String>? blockedBy;
-  final List<String>? posts;
   final List<String>? supporting;
   final List<String>? supporters;
   final List<String>? supportRequest;
@@ -64,7 +62,6 @@ class AppUser {
       'isVerified': isVerified ?? false,
       'rating': rating ?? 0,
       'bio': bio ?? '',
-      'posts': posts ?? <String>[],
       'supporting': supporting ?? <String>[],
       'supporters': supporters ?? <String>[],
       'support_request': supportRequest ?? <String>[],
@@ -173,7 +170,6 @@ class AppUser {
       rating: doc.data()?['rating']?.toDouble(),
       bio: doc.data()?['bio'],
       reports: reportInfo,
-      posts: List<String>.from(doc.data()?['posts'] ?? <String>[]),
       blockTo: List<String>.from(doc.data()?['block_to'] ?? <String>[]),
       blockedBy: List<String>.from(doc.data()?['blocked_by'] ?? <String>[]),
       supporting: List<String>.from(doc.data()?['supporting'] ?? <String>[]),
