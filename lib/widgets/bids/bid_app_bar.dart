@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../database/auction_api.dart';
 import '../../database/auth_methods.dart';
+import '../../functions/time_date_functions.dart';
 import '../../models/app_user.dart';
 import '../../models/auction/auction.dart';
 import '../../providers/user/user_provider.dart';
@@ -15,13 +16,15 @@ class BidAppBar extends StatelessWidget {
   const BidAppBar({
     required this.auction,
     required this.users,
+    required this.callTime,
     required this.muted,
     required this.onMute,
     required this.onCameraSwitch,
     super.key,
   });
   final Auction auction;
-  final List<int> users;
+  final int users;
+  final Duration callTime;
   final bool muted;
   final VoidCallback onMute;
   final VoidCallback onCameraSwitch;
@@ -39,6 +42,9 @@ class BidAppBar extends StatelessWidget {
             .user(uid: auction.uid);
         if (snapshot.hasData) {
           Auction auctionStream = Auction.fromDoc(snapshot.data!);
+          if (!auctionStream.isActive) {
+            Navigator.of(context).pop();
+          }
           return Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -104,7 +110,7 @@ class BidAppBar extends StatelessWidget {
                     ),
                     const Spacer(),
                     SizedBox(
-                      width: 150,
+                      width: 100,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -116,28 +122,28 @@ class BidAppBar extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(6),
                                 color: Theme.of(context).primaryColor),
                             alignment: Alignment.center,
-                            child: const FittedBox(
-                              child: Text(
-                                '30:00',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 46,
-                            height: 30,
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                color: Theme.of(context).primaryColor),
-                            alignment: Alignment.center,
                             child: FittedBox(
                               child: Text(
-                                users.length.toString(),
+                                TimeDateFunctions().durationToTime(callTime),
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
+                          // Container(
+                          //   width: 46,
+                          //   height: 30,
+                          //   padding: const EdgeInsets.all(6),
+                          //   decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(6),
+                          //       color: Theme.of(context).primaryColor),
+                          //   alignment: Alignment.center,
+                          //   child: FittedBox(
+                          //     child: Text(
+                          //       users.toString(),
+                          //       style: const TextStyle(color: Colors.white),
+                          //     ),
+                          //   ),
+                          // ),
                           GestureDetector(
                             onTap: () => Navigator.of(context).pop(),
                             child: CircleAvatar(

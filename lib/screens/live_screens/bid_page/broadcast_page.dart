@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:agora_rtc_engine/rtc_engine.dart';
 // ignore: library_prefixes
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
@@ -7,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import '../../../database/auction_api.dart';
 import '../../../database/auth_methods.dart';
+import '../../../functions/time_date_functions.dart';
 import '../../../models/auction/auction.dart';
 import '../../../utilities/utilities.dart';
 import '../../../widgets/bids/bid_app_bar.dart';
@@ -30,18 +34,21 @@ class _BroadcastPageState extends State<BroadcastPage>
   String appId = Utilities.agoraID;
   final String me = AuthMethods.uid;
   late bool isBroadcaster = AuthMethods.uid == widget.auction.uid;
+  Duration callTime = const Duration(seconds: 0);
+  int callEndsIn = 60;
+  final int maxTime = 30;
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.detached:
       case AppLifecycleState.inactive:
-        _dispose();
+        if (me == widget.auction.uid) await _dispose();
         break;
       case AppLifecycleState.paused:
       case AppLifecycleState.resumed:
-        Navigator.of(context).pop();
+        if (me == widget.auction.uid) Navigator.of(context).pop();
         break;
     }
   }
@@ -65,6 +72,17 @@ class _BroadcastPageState extends State<BroadcastPage>
   void initState() {
     super.initState();
     initialize();
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        callTime = TimeDateFunctions.timeDuration(widget.auction.timestamp);
+        if (callTime.inMinutes.remainder(60).abs() >= maxTime - 1) {
+          callEndsIn--;
+        }
+      });
+      if (callTime.inMinutes.remainder(60).abs() >= maxTime) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   Future<void> initialize() async {
@@ -87,6 +105,7 @@ class _BroadcastPageState extends State<BroadcastPage>
     await _engine!.enableVideo();
     await _engine!.setChannelProfile(ChannelProfile.LiveBroadcasting);
     if (me == widget.auction.uid) {
+      await _engine!.enableDualStreamMode(true);
       await _engine!.setClientRole(ClientRole.Broadcaster);
     } else {
       await _engine!.muteLocalAudioStream(true);
@@ -96,41 +115,59 @@ class _BroadcastPageState extends State<BroadcastPage>
 
   /// Add agora event handlers
   void _addAgoraEventHandlers() {
-    _engine!.setEventHandler(RtcEngineEventHandler(error: (ErrorCode code) {
-      setState(() {
-        final String info = 'onError: $code';
+    print('INFO Handler');
+    _engine!.setEventHandler(RtcEngineEventHandler(
+      activeSpeaker: (int uid) {
+        final String info = 'INFO Active speaker: $uid';
+        print(info);
+      },
+      error: (ErrorCode code) {
+        setState(() {
+          final String info = 'INFO onError: $code';
+          _infoStrings.add(info);
+          print(info);
+        });
+      },
+      joinChannelSuccess: (String channel, int uid, int elapsed) {
+        setState(() {
+          final String info = 'INFO onJoinChannel: $channel, uid: $uid';
+          _infoStrings.add(info);
+          print(info);
+        });
+      },
+      leaveChannel: (RtcStats stats) {
+        setState(() {
+          const String info = 'INFO leaveChannel:';
+          _infoStrings.add('onLeaveChannel');
+          _users.clear();
+          print(info);
+        });
+      },
+      userJoined: (int uid, int elapsed) {
+        final String info = 'INFO userJoined: $uid';
         _infoStrings.add(info);
-      });
-    }, joinChannelSuccess: (String channel, int uid, int elapsed) {
-      setState(() {
-        final String info = 'onJoinChannel: $channel, uid: $uid';
+        setState(() {
+          _users.add(uid);
+        });
+        print(info);
+        // if (_users.length >= 5) {
+        //   print('Fallback to Low quality video stream');
+        //   _engine?.setRemoteDefaultVideoStreamType(VideoStreamType.Low);
+        // }
+      },
+      userOffline: (int uid, UserOfflineReason reason) {
+        final String info = 'INFO userOffline: $uid , reason: $reason';
         _infoStrings.add(info);
-      });
-    }, leaveChannel: (RtcStats stats) {
-      setState(() {
-        _infoStrings.add('onLeaveChannel');
-        _users.clear();
-        Navigator.pop(context);
-      });
-    }, userJoined: (int uid, int elapsed) {
-      setState(() {
-        final String info = 'userJoined: $uid';
-        _infoStrings.add(info);
-        _users.add(uid);
-      });
-    }, userOffline: (int uid, UserOfflineReason elapsed) {
-      setState(() {
-        final String info = 'userOffline: $uid';
-        _infoStrings.add(info);
-        _users.remove(uid);
-        Navigator.pop(context);
-      });
-    }, firstRemoteVideoFrame: (int uid, int width, int height, int elapsed) {
-      setState(() {
-        final String info = 'firstRemoteVideo: $uid ${width}x $height';
-        _infoStrings.add(info);
-      });
-    }));
+        setState(() {
+          _users.remove(uid);
+        });
+        print(info);
+        // if (_users.length <= 3) {
+        //   print('Go back to High quality video stream');
+        //   _engine?.setRemoteDefaultVideoStreamType(VideoStreamType.High);
+        // }
+      },
+    ));
   }
 
   @override
@@ -141,13 +178,43 @@ class _BroadcastPageState extends State<BroadcastPage>
           child: Stack(
             children: <Widget>[
               _viewRows(),
+              if (callEndsIn < 60)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Live stream will ends',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context)
+                            .scaffoldBackgroundColor
+                            .withOpacity(0.3),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 200,
+                      width: double.infinity,
+                      child: FittedBox(
+                        child: Text(
+                          '$callEndsIn',
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .scaffoldBackgroundColor
+                                .withOpacity(0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               Positioned(
                   top: 10,
                   right: 16,
                   left: 16,
                   child: BidAppBar(
                     auction: widget.auction,
-                    users: _users,
+                    users: _users.length,
+                    callTime: callTime,
                     muted: muted,
                     onMute: () => _onToggleMute(),
                     onCameraSwitch: () => _onSwitchCamera(),
@@ -213,7 +280,9 @@ class _BroadcastPageState extends State<BroadcastPage>
           channelId: widget.auction.auctionID, uid: uid));
       print('User: $uid');
     }
-    print('Users Lister: ${list.length}');
+    setState(() {
+      _users;
+    });
     return list;
   }
 

@@ -3,15 +3,39 @@ import 'package:intl/intl.dart';
 class TimeDateFunctions {
   static int get timestamp => DateTime.now().microsecondsSinceEpoch;
 
-  static String timeInDigits(int timestamp) {
+  String durationToTime(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60).abs());
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60).abs());
+    return '$twoDigitMinutes:$twoDigitSeconds';
+  }
+
+  static Duration timeDuration(int value) {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime.fromMicrosecondsSinceEpoch(value);
+    Duration diff = date.difference(now);
+    return diff;
+  }
+
+  static String stopwatchTime(int value) {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime.fromMicrosecondsSinceEpoch(value);
+    Duration diff = date.difference(now);
+    double inSec = diff.inSeconds.abs() / 10;
+    int inMints = diff.inMinutes.abs();
+    int inHour = diff.inHours.abs();
+    return inHour > 0 ? '$inHour:$inMints:$inSec' : '$inMints:$inSec';
+  }
+
+  static String timeInDigits(int value) {
     DateFormat format = DateFormat('HH:mm a');
-    DateTime date = DateTime.fromMicrosecondsSinceEpoch(timestamp);
+    DateTime date = DateTime.fromMicrosecondsSinceEpoch(value);
     return format.format(date);
   }
 
-  static String timeInWords(int timestamp) {
+  static String timeInWords(int value) {
     DateTime now = DateTime.now();
-    DateTime date = DateTime.fromMicrosecondsSinceEpoch(timestamp);
+    DateTime date = DateTime.fromMicrosecondsSinceEpoch(value);
     Duration diff = date.difference(now);
     String time = '';
 

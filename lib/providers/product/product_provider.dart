@@ -90,6 +90,10 @@ class ProductProvider extends ChangeNotifier {
   List<Product> _products = <Product>[];
 
   List<Product> get products => _products;
+  
+  List<Product> get productss {
+    return [];
+  }
 
   Future<void> init() async {
     if (_products.isNotEmpty) return;
