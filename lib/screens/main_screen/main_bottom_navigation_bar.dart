@@ -23,9 +23,9 @@ class MainBottomNavigationBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
-          activeIcon: Icon(Icons.shopping_cart),
-          label: 'Cart',
+          icon: Icon(Icons.video_camera_front_outlined),
+          activeIcon: Icon(Icons.video_camera_front),
+          label: 'Live',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.add_box_outlined),
