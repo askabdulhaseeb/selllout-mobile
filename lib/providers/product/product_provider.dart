@@ -6,6 +6,7 @@ import '../../enums/product/prod_condition_enum.dart';
 import '../../enums/product/prod_offer_status.dart';
 import '../../functions/time_date_functions.dart';
 import '../../functions/unique_id_functions.dart';
+import '../../models/app_user.dart';
 import '../../models/product/prod_offer.dart';
 import '../../models/product/prod_order.dart';
 import '../../models/product/product.dart';
@@ -90,9 +91,25 @@ class ProductProvider extends ChangeNotifier {
   List<Product> _products = <Product>[];
 
   List<Product> get products => _products;
-  
-  List<Product> get productss {
-    return [];
+
+  List<Product> productsByUsers(AppUser me) {
+    final List<String> supporting = me.supporting ?? <String>[];
+    final List<String> blockedBy = me.blockedBy ?? <String>[];
+    List<Product> tempProd = <Product>[];
+    for (Product element in _products) {
+      if (supporting.contains(element.uid) &&
+          (!blockedBy.contains(element.uid))) {
+        tempProd.add(element);
+      }
+    }
+    if (tempProd.isEmpty) {
+      for (Product element in _products) {
+        if (!blockedBy.contains(element.uid)) {
+          tempProd.add(element);
+        }
+      }
+    }
+    return tempProd.isEmpty ? _products : tempProd;
   }
 
   Future<void> init() async {
