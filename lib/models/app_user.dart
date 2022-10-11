@@ -52,7 +52,7 @@ class AppUser {
       'uid': uid,
       'display_name': displayName ?? '',
       'number_details': phoneNumber.toMap(),
-      'username': username?.trim().toLowerCase() ?? '',
+      'username': username?.trim().toLowerCase() ?? uid,
       'image_url': imageURL ?? '',
       'gender': GenderConverter.genderToString(gender ?? GenderTypesEnum.male),
       'dob': dob ?? '',
@@ -157,7 +157,9 @@ class AppUser {
       phoneNumber: NumberDetails.fromMap(
           doc.data()?['number_details'] ?? <String, dynamic>{}),
       displayName: doc.data()?['display_name'] ?? '',
-      username: doc.data()?['username']?.trim().toLowerCase() ?? '',
+      username: doc.data()?['username']?.trim().toLowerCase() ??
+          doc.data()?['uid'] ??
+          '',
       imageURL: doc.data()?['image_url'] ?? '',
       gender: GenderConverter.stringToGender(
         doc.data()?['gender'] ??

@@ -92,6 +92,26 @@ class ChatAPI {
     }
   }
 
+  Future<void> addMembers(Chat chat) async {
+    final Message? newMessage = chat.lastMessage;
+    try {
+      if (newMessage != null) {
+        await _instance
+            .collection(_collection)
+            .doc(chat.chatID)
+            .update(chat.addMembers());
+        await _instance
+            .collection(_collection)
+            .doc(chat.chatID)
+            .collection(_subCollection)
+            .doc(newMessage.messageID)
+            .set(newMessage.toMap());
+      }
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+    }
+  }
+
   Future<String?> uploadAttachment({
     required File file,
     required String attachmentID,

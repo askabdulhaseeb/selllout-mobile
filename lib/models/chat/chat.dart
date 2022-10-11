@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'chat_group_info.dart';
 import 'message.dart';
 
@@ -32,6 +34,14 @@ class Chat {
       'pid': pid,
       'prod_is_video': prodIsVideo ?? false,
       'timestamp': timestamp,
+    };
+  }
+
+  Map<String, dynamic> addMembers() {
+    return <String, dynamic>{
+      'persons': FieldValue.arrayUnion(persons),
+      'group_info': groupInfo?.addMembers(),
+      'last_message': lastMessage!.toMap(),
     };
   }
 

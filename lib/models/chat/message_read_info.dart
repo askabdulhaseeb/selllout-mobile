@@ -1,3 +1,5 @@
+import '../../functions/time_date_functions.dart';
+
 class MessageReadInfo {
   MessageReadInfo({
     required this.uid,
@@ -18,8 +20,8 @@ class MessageReadInfo {
       'uid': uid,
       'delivered': delivered,
       'seen': seen,
-      'delivery_at': deliveryAt,
-      'seen_at': seenAt,
+      'seen_at': seenAt ?? TimeDateFunctions.timestamp,
+      'delivery_at': deliveryAt ?? TimeDateFunctions.timestamp,
     };
   }
 

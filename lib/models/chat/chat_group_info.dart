@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'chat_group_member.dart';
 
 class ChatGroupInfo {
@@ -17,6 +19,19 @@ class ChatGroupInfo {
   final String createdBy;
   final int createdDate;
   final List<ChatGroupMember> members;
+
+  Map<String, dynamic> addMembers() {
+    return <String, dynamic>{
+      'group_id': groupID,
+      'name': name,
+      'description': description,
+      'image_url': imageURL,
+      'created_by': createdBy,
+      'created_date': createdDate,
+      'members': FieldValue.arrayUnion(
+          members.map((ChatGroupMember x) => x.toMap()).toList()),
+    };
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
