@@ -78,91 +78,103 @@ class GroupInfoScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Column(
                               children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    ElevatedButton.icon(
-                                      onPressed: () async {
-                                        final String me = AuthMethods.uid;
-                                        final int time =
-                                            TimeDateFunctions.timestamp;
-                                        for (String element in selectedSupp) {
-                                          chat.persons.add(element);
-                                          chat.groupInfo!.members.add(
-                                            ChatGroupMember(
-                                              uid: element,
-                                              role: GroupMemberRoleEnum.member,
-                                              addedBy: me,
-                                              invitationAccepted: false,
-                                              memberSince: time,
-                                            ),
-                                          );
-                                        }
-                                        chat.lastMessage = Message(
-                                          messageID: TimeDateFunctions.timestamp
-                                              .toString(),
-                                          text: selectedSupp.length == 1
-                                              ? 'A new member added'
-                                              : '${selectedSupp.length} new members added',
-                                          type: MessageTypeEnum.announcement,
-                                          attachment: <MessageAttachment>[],
-                                          sendBy: me,
-                                          sendTo: chat.persons
-                                              .map((String e) =>
-                                                  MessageReadInfo(uid: e))
-                                              .toList(),
-                                          timestamp: time,
-                                        );
-                                        await ChatAPI().addMembers(chat);
-                                        Navigator.of(context)
-                                            .pushNamedAndRemoveUntil(
-                                                MainScreen.rotueName,
-                                                (Route<dynamic> route) =>
-                                                    false);
-                                      },
-                                      icon: const Icon(Icons.add),
-                                      label: Text(
-                                          'Add ${selectedSupp.length} members'),
-                                    )
-                                  ],
-                                ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: addableSupp.length,
-                                    primary: false,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final AppUser supUser =
-                                          userPro.user(uid: addableSupp[index]);
-                                      return ListTile(
-                                        onTap: () {
-                                          if (selectedSupp
-                                              .contains(supUser.uid)) {
-                                            setState(() => selectedSupp
-                                                .remove(supUser.uid));
-                                          } else {
-                                            setState(() =>
-                                                selectedSupp.add(supUser.uid));
+                                if (selectedSupp.isNotEmpty)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      ElevatedButton.icon(
+                                        onPressed: () async {
+                                          final String me = AuthMethods.uid;
+                                          final int time =
+                                              TimeDateFunctions.timestamp;
+                                          for (String element in selectedSupp) {
+                                            chat.persons.add(element);
+                                            chat.groupInfo!.members.add(
+                                              ChatGroupMember(
+                                                uid: element,
+                                                role:
+                                                    GroupMemberRoleEnum.member,
+                                                addedBy: me,
+                                                invitationAccepted: false,
+                                                memberSince: time,
+                                              ),
+                                            );
                                           }
+                                          chat.lastMessage = Message(
+                                            messageID: TimeDateFunctions
+                                                .timestamp
+                                                .toString(),
+                                            text: selectedSupp.length == 1
+                                                ? 'A new member added'
+                                                : '${selectedSupp.length} new members added',
+                                            type: MessageTypeEnum.announcement,
+                                            attachment: <MessageAttachment>[],
+                                            sendBy: me,
+                                            sendTo: chat.persons
+                                                .map((String e) =>
+                                                    MessageReadInfo(uid: e))
+                                                .toList(),
+                                            timestamp: time,
+                                          );
+                                          await ChatAPI().addMembers(chat);
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                                  MainScreen.rotueName,
+                                                  (Route<dynamic> route) =>
+                                                      false);
                                         },
-                                        leading: CustomProfileImage(
-                                            imageURL: supUser.imageURL ?? ''),
-                                        title:
-                                            Text(supUser.displayName ?? 'null'),
-                                        subtitle: Text(
-                                          supUser.bio ?? '',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        trailing: Icon(
-                                          selectedSupp.contains(supUser.uid)
-                                              ? Icons.circle
-                                              : Icons.circle_outlined,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      );
-                                    },
+                                        icon: const Icon(Icons.add),
+                                        label: Text(
+                                            'Add ${selectedSupp.length} members'),
+                                      )
+                                    ],
                                   ),
+                                Expanded(
+                                  child: addableSupp.isEmpty
+                                      ? const Center(
+                                          child: Text(
+                                            'All Supports are already in group',
+                                          ),
+                                        )
+                                      : ListView.builder(
+                                          itemCount: addableSupp.length,
+                                          primary: false,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            final AppUser supUser = userPro
+                                                .user(uid: addableSupp[index]);
+                                            return ListTile(
+                                              onTap: () {
+                                                if (selectedSupp
+                                                    .contains(supUser.uid)) {
+                                                  setState(() => selectedSupp
+                                                      .remove(supUser.uid));
+                                                } else {
+                                                  setState(() => selectedSupp
+                                                      .add(supUser.uid));
+                                                }
+                                              },
+                                              leading: CustomProfileImage(
+                                                  imageURL:
+                                                      supUser.imageURL ?? ''),
+                                              title: Text(supUser.displayName ??
+                                                  'null'),
+                                              subtitle: Text(
+                                                supUser.bio ?? '',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              trailing: Icon(
+                                                selectedSupp
+                                                        .contains(supUser.uid)
+                                                    ? Icons.circle
+                                                    : Icons.circle_outlined,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            );
+                                          },
+                                        ),
                                 ),
                               ],
                             ),
