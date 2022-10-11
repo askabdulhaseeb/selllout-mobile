@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: const Text('Selllout')),
+      appBar: AppBar(title: const Text('Sellout')),
       body: Consumer<ProductProvider>(
         builder: (BuildContext context, ProductProvider prodPro, _) {
           final List<Product> prods = prodPro.productsByUsers(

@@ -260,7 +260,7 @@ _showreportcompletedbottom(
                 ),
                 const TextSpan(text: 'and doesnt follow'),
                 TextSpan(
-                  text: ' Selllout comunity guideline',
+                  text: ' Sellout comunity guideline',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor,
@@ -268,7 +268,7 @@ _showreportcompletedbottom(
                 ),
                 const TextSpan(
                   text:
-                      ', Team Selllout will look into your report and take action in 24 hours',
+                      ', Team Sellout will look into your report and take action in 24 hours',
                 ),
               ],
             ),

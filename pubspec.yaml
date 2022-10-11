@@ -74,9 +74,9 @@ flutter_icons:
 flutter_native_splash:
   android: true
   ios: true
-  color_dark: "#000000"
+  # color_dark: "#000000"
   color: "#ffffff"
-  image: assets/images/logo.png
+  image: assets/images/icon_border.png
 
 flutter:
   uses-material-design: true

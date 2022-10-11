@@ -34,7 +34,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
               ),
               const SizedBox(height: 4),
               const Text(
-                'Selllout will send an SMS message to varify your phone number, Select your Country and enter your phone number',
+                'Sellout will send an SMS message to varify your phone number, Select your Country and enter your phone number',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12, color: Colors.grey),
               ),

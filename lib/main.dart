@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, AppThemeProvider theme, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Selllout',
+            title: 'Sellout',
             theme: AppThemes.light,
             darkTheme: AppThemes.dark,
             themeMode: theme.themeMode,

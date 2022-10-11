@@ -7,7 +7,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Selllout</string>
+		<string>Sellout</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -72,11 +72,11 @@
 		<false/>
 		<!-- New Request ADDED -->
 		<key>NSLocationUsageDescription</key>
-		<string>Selllout need location on to display your current location.</string>
+		<string>Sellout need location on to display your current location.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Selllout need your location while using the app.</string>
+		<string>Sellout need your location while using the app.</string>
 		<!-- <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>Selllout need your bluetooth access.</string> -->
+   		 <string>Sellout need your bluetooth access.</string> -->
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>sms</string>
