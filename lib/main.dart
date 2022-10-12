@@ -8,6 +8,7 @@ import 'providers/provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';
+import 'screens/user_screens/user_blocked_screeb.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,8 +67,9 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => GroupChatProvider(),
         ),
       ],
-      child: Consumer<AppThemeProvider>(
-        builder: (BuildContext context, AppThemeProvider theme, _) {
+      child: Consumer2<AppThemeProvider, UserProvider>(
+        builder: (BuildContext context, AppThemeProvider theme,
+            UserProvider userPro, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Sellout',

@@ -7,6 +7,7 @@ import 'screens/chat_screens/group_chat_page/create_group_screen.dart';
 import 'screens/coming_soon_screen.dart';
 import 'screens/live_screens/bid_page/go_live_page.dart';
 import 'screens/main_screen/main_screen.dart';
+import 'screens/user_screens/user_blocked_screeb.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   //
@@ -22,5 +23,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   // BID
   GoLivePage.routeName: (_) => const GoLivePage(),
   //
-  ComingSoonScreen.routeName:(_)=>const ComingSoonScreen(),
+  ComingSoonScreen.routeName: (_) => const ComingSoonScreen(),
+  UserBlockedScreen.routeName: (_) => const UserBlockedScreen(),
 };

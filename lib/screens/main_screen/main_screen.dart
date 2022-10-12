@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../database/auth_methods.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/product/product_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../utilities/custom_services.dart';
+import '../user_screens/user_blocked_screeb.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
 import 'pages/chat_page.dart';
@@ -25,6 +27,16 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     CustomService.systemUIOverlayStyle();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (Provider.of<UserProvider>(context).user(uid: AuthMethods.uid).isBlock ??
+        false) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          UserBlockedScreen.routeName, (Route<dynamic> route) => false);
+    }
+    super.didChangeDependencies();
   }
 
   static const List<Widget> _pages = <Widget>[

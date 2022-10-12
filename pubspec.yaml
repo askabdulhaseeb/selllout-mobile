@@ -68,8 +68,8 @@ flutter_icons:
   android: true
   ios: true
   remove_alpha_ios: true
-  # adaptive_icon_background: "#C01719"
-  image_path: "assets/images/logo.png"
+  adaptive_icon_background: "#C01719"
+  image_path: "assets/images/app_icon.png"
 
 flutter_native_splash:
   android: true
