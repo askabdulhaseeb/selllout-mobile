@@ -33,7 +33,7 @@ class _BroadcastPageState extends State<BroadcastPage>
   bool muted = false;
   String appId = Utilities.agoraID;
   final String me = AuthMethods.uid;
-  late bool isBroadcaster = AuthMethods.uid == widget.auction.uid;
+  late bool isBroadcaster;
   Duration callTime = const Duration(seconds: 0);
   int callEndsIn = 60;
   final int maxTime = 30;
@@ -44,11 +44,11 @@ class _BroadcastPageState extends State<BroadcastPage>
     switch (state) {
       case AppLifecycleState.detached:
       case AppLifecycleState.inactive:
-        if (me == widget.auction.uid) await _dispose();
+        if (widget.auction.author == me) await _dispose();
         break;
       case AppLifecycleState.paused:
       case AppLifecycleState.resumed:
-        if (me == widget.auction.uid) Navigator.of(context).pop();
+        if (widget.auction.author == me) Navigator.of(context).pop();
         break;
     }
   }
@@ -62,7 +62,7 @@ class _BroadcastPageState extends State<BroadcastPage>
   _dispose() async {
     _users.clear();
     _engine!.destroy();
-    if (me == widget.auction.uid) {
+    if (widget.auction.author == me) {
       widget.auction.isActive = false;
       await AuctionAPI().updateActivity(auction: widget.auction);
     }
@@ -71,6 +71,8 @@ class _BroadcastPageState extends State<BroadcastPage>
   @override
   void initState() {
     super.initState();
+    isBroadcaster = widget.auction.coAuthors.contains(me) ||
+        widget.auction.author == AuthMethods.uid;
     initialize();
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
@@ -104,7 +106,8 @@ class _BroadcastPageState extends State<BroadcastPage>
     _engine = await RtcEngine.create(appId);
     await _engine!.enableVideo();
     await _engine!.setChannelProfile(ChannelProfile.LiveBroadcasting);
-    if (me == widget.auction.uid) {
+    if (widget.auction.coAuthors.contains(me) ||
+        widget.auction.author == AuthMethods.uid) {
       await _engine!.enableDualStreamMode(true);
       await _engine!.setClientRole(ClientRole.Broadcaster);
     } else {
@@ -272,7 +275,7 @@ class _BroadcastPageState extends State<BroadcastPage>
   /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
     final List<StatefulWidget> list = <StatefulWidget>[];
-    if (me == widget.auction.uid) {
+    if (widget.auction.coAuthors.contains(me) || widget.auction.author == me) {
       list.add(const RtcLocalView.SurfaceView());
     }
     for (int uid in _users) {

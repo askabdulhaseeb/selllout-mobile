@@ -31,7 +31,9 @@ class BidAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isBroadcaster = auction.uid == AuthMethods.uid;
+    final bool isBroadcaster = auction.coAuthors.contains(AuthMethods.uid) ||
+        auction.author == AuthMethods.uid;
+    ;
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       stream: AuctionAPI().streamAuction(auction: auction),
       builder: (
@@ -39,7 +41,7 @@ class BidAppBar extends StatelessWidget {
         AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot,
       ) {
         final AppUser author = Provider.of<UserProvider>(context, listen: false)
-            .user(uid: auction.uid);
+            .user(uid: auction.author ?? AuthMethods.uid);
         if (snapshot.hasData) {
           Auction auctionStream = Auction.fromDoc(snapshot.data!);
           if (!auctionStream.isActive) {

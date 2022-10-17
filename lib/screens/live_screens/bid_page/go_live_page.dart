@@ -142,7 +142,8 @@ class _GoLivePageState extends State<GoLivePage> {
       url = await AuctionAPI().uploadImage(id: id, file: _file!);
       final Auction auction = Auction(
         auctionID: id,
-        uid: AuthMethods.uid,
+        author: AuthMethods.uid,
+        coAuthors: <String>[AuthMethods.uid],
         name: _name.text,
         thumbnail: url ?? '',
         decription: _decription.text,

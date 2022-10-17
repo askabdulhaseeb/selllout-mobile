@@ -6,7 +6,7 @@ import 'bet.dart';
 class Auction {
   Auction({
     required this.auctionID,
-    required this.uid,
+    required this.coAuthors,
     required this.name,
     required this.thumbnail,
     required this.decription,
@@ -14,11 +14,13 @@ class Auction {
     required this.timestamp,
     required this.isActive,
     required this.privacy,
+    this.author,
     this.bets,
   });
 
   final String auctionID;
-  final String uid;
+  final String? author;
+  final List<String> coAuthors;
   final String name;
   final String thumbnail;
   final String decription;
@@ -35,7 +37,8 @@ class Auction {
     }
     return <String, dynamic>{
       'auction_id': auctionID,
-      'uid': uid,
+      'author': author ?? AuthMethods.uid,
+      'co_authors': coAuthors,
       'name': name,
       'thumbnail': thumbnail,
       'decription': decription,
@@ -66,7 +69,8 @@ class Auction {
     list.forEach(((dynamic element) => temp.add(Bet.fromMap(element))));
     return Auction(
       auctionID: doc.data()?['auction_id'] ?? '',
-      uid: doc.data()?['uid'] ?? AuthMethods.uid,
+      author: doc.data()?['author'] ?? '',
+      coAuthors: List<String>.from(doc.data()?['co_authors']),
       name: doc.data()?['name'] ?? '',
       thumbnail: doc.data()?['thumbnail'] ?? '',
       decription: doc.data()?['decription'] ?? '',

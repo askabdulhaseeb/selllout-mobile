@@ -48,7 +48,8 @@ class AuctionInfoTile extends StatelessWidget {
               ],
             ),
           ),
-          if (auction.uid == AuthMethods.uid)
+          if (auction.coAuthors.contains(AuthMethods.uid) ||
+              auction.author == AuthMethods.uid)
             auction.bets!.isEmpty
                 ? const SizedBox()
                 : SizedBox(
