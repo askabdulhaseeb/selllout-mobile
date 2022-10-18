@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../database/auth_methods.dart';
 import '../../screens/auth/phone_number_screen.dart';
+import '../../screens/coming_soon_screen.dart';
 
 class ProfileMoreDrawer extends StatelessWidget {
   const ProfileMoreDrawer({Key? key}) : super(key: key);
+
+  static final Uri _privacyURI = Uri.parse('https://selll-out.web.app/privacy');
+  Future<void> _launchUrl(Uri uri) async {
+    if (!await launchUrl(uri)) {
+      throw 'Could not launch $uri';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +39,15 @@ class ProfileMoreDrawer extends StatelessWidget {
         ),
         const Divider(thickness: 0.2),
         ListTile(
-          onTap: () {},
+          onTap: () =>
+              Navigator.of(context).pushNamed(ComingSoonScreen.routeName),
           leading: const Icon(Icons.settings),
           title: const Text('Settings'),
+        ),
+        ListTile(
+          onTap: () async => await _launchUrl(_privacyURI),
+          leading: const Icon(Icons.settings),
+          title: const Text('Privacy Policy'),
         ),
         ListTile(
           onTap: () async {
