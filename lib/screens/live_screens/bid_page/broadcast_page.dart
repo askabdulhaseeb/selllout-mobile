@@ -281,8 +281,8 @@ class _BroadcastPageState extends State<BroadcastPage>
     for (int uid in _users) {
       list.add(RtcRemoteView.SurfaceView(
           channelId: widget.auction.auctionID, uid: uid));
-      print('User: $uid');
     }
+    print('Users: $_users');
     setState(() {
       _users;
     });
