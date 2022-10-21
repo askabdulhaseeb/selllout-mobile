@@ -8,7 +8,6 @@ import 'providers/provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';
-import 'screens/user_screens/user_blocked_screeb.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

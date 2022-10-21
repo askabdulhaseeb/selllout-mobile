@@ -54,13 +54,13 @@
 		<string>_http._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Need your camera access to live video</string>
+	<string>Sellout use your device's camera to do things such as help you to live</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Sellout need location on to display your current location.</string>
+	<string>Sellout need location on to display your current location and to provide a better experience.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Sellout need your location while using the app.</string>
+	<string>Sellout need your location while using the app and to provide a better experience.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Need your microphone access to have conversation</string>
+	<string>This lets you share the videos, photos, and voice while going live and adding your products.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Sellout needs your photo library access to upload the photos and videos</string>
 	<key>UIBackgroundModes</key>

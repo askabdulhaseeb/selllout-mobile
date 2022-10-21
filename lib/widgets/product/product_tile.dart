@@ -11,7 +11,6 @@ import '../../models/product/product.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
-import '../../screens/product_screens/buy_now_screen.dart';
 import '../../screens/product_screens/make_offer_screen.dart';
 import '../../screens/product_screens/prod_stats_info_screen.dart';
 import '../../screens/product_screens/product_detail_screen.dart';
@@ -150,20 +149,20 @@ class _ButtonSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: <Widget>[
-                CustomElevatedButton(
-                  padding: _padding,
-                  margin: _margin,
-                  textStyle: _textStyle,
-                  title: 'Buy Now',
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute<ProductChatScreen>(
-                      builder: (BuildContext context) => BuyNowScreen(
-                        product: product,
-                      ),
-                    ));
-                  },
-                ),
+                // CustomElevatedButton(
+                //   padding: _padding,
+                //   margin: _margin,
+                //   textStyle: _textStyle,
+                //   title: 'Buy Now',
+                //   onTap: () {
+                //     Navigator.of(context)
+                //         .push(MaterialPageRoute<ProductChatScreen>(
+                //       builder: (BuildContext context) => BuyNowScreen(
+                //         product: product,
+                //       ),
+                //     ));
+                //   },
+                // ),
                 product.acceptOffers
                     ? CustomElevatedButton(
                         padding: _padding,
