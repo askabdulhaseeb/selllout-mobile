@@ -10,6 +10,7 @@ import '../../models/chat/chat.dart';
 import '../../models/product/product.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
+import '../../screens/auth/phone_number_screen.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
 import '../../screens/product_screens/make_offer_screen.dart';
 import '../../screens/product_screens/prod_stats_info_screen.dart';
@@ -155,6 +156,11 @@ class _ButtonSection extends StatelessWidget {
                 //   textStyle: _textStyle,
                 //   title: 'Buy Now',
                 //   onTap: () {
+                //    if (AuthMethods.getCurrentUser == null) {
+                //        Navigator.of(context)
+                //          .pushNamed(PhoneNumberScreen.routeName);
+                //        return;
+                //     }
                 //     Navigator.of(context)
                 //         .push(MaterialPageRoute<ProductChatScreen>(
                 //       builder: (BuildContext context) => BuyNowScreen(
@@ -170,12 +176,18 @@ class _ButtonSection extends StatelessWidget {
                         textStyle: _textStyle,
                         title: 'Make Offer',
                         onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute<ProductChatScreen>(
-                            builder: (BuildContext context) => MakeOfferScreen(
-                              product: product,
-                            ),
-                          ));
+                          if (AuthMethods.getCurrentUser == null) {
+                            Navigator.of(context)
+                                .pushNamed(PhoneNumberScreen.routeName);
+                          } else {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute<ProductChatScreen>(
+                              builder: (BuildContext context) =>
+                                  MakeOfferScreen(
+                                product: product,
+                              ),
+                            ));
+                          }
                         },
                       )
                     : const SizedBox(),
@@ -190,6 +202,11 @@ class _ButtonSection extends StatelessWidget {
                   ),
                   title: 'Message Seller',
                   onTap: () {
+                    if (AuthMethods.getCurrentUser == null) {
+                      Navigator.of(context)
+                          .pushNamed(PhoneNumberScreen.routeName);
+                      return;
+                    }
                     if (AuthMethods.uid == product.uid) return;
                     final AppUser user =
                         Provider.of<UserProvider>(context, listen: false)

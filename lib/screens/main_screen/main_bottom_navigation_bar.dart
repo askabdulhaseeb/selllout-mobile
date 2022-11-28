@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../database/auth_methods.dart';
 import '../../providers/app_provider.dart';
+import '../auth/phone_number_screen.dart';
 
 class MainBottomNavigationBar extends StatelessWidget {
   const MainBottomNavigationBar({Key? key}) : super(key: key);
@@ -15,7 +17,13 @@ class MainBottomNavigationBar extends StatelessWidget {
       showSelectedLabels: false,
       unselectedItemColor: Colors.grey,
       currentIndex: navBar.currentTap,
-      onTap: (int index) => navBar.onTabTapped(index),
+      onTap: (int index) {
+        if (AuthMethods.getCurrentUser == null && (index != 0 && index != 1)) {
+          Navigator.of(context).pushNamed(PhoneNumberScreen.routeName);
+        } else {
+          navBar.onTabTapped(index);
+        }
+      },
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),

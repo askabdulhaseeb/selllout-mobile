@@ -10,6 +10,9 @@ import '../../models/reports/report_user.dart';
 import '../../widgets/custom_widgets/custom_toast.dart';
 
 class UserProvider extends ChangeNotifier {
+  UserProvider() {
+    init();
+  }
   List<AppUser> _user = <AppUser>[];
 
   void init() async {

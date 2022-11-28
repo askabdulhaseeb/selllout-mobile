@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../widgets/custom_widgets/phone_number_field.dart';
+import '../main_screen/main_screen.dart';
 import 'otp_screen.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
@@ -18,7 +19,17 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.canPop(context)
+                ? Navigator.of(context).pop()
+                : Navigator.of(context).pushNamedAndRemoveUntil(
+                    MainScreen.rotueName, (Route<dynamic> route) => false),
+            child: const Text('Skip login for now'),
+          ),
+        ],
+      ),
       body: Consumer<AuthProvider>(
           builder: (BuildContext context, AuthProvider authPro, _) {
         return Padding(
@@ -40,7 +51,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
               ),
               const SizedBox(height: 16),
               PhoneNumberField(
-                initialCountryCode: authPro.phoneNumber?.countryCode ?? 'UK',
+                initialCountryCode: authPro.phoneNumber?.countryCode ?? 'GB',
                 bgColor: Colors.transparent,
                 onChange: (PhoneNumber? value) =>
                     authPro.onPhoneNumberChange(value),
@@ -56,6 +67,13 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                     Navigator.of(context).pushNamed(OTPScreen.routeName);
                   },
                 ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.canPop(context)
+                    ? Navigator.of(context).pop()
+                    : Navigator.of(context).pushNamedAndRemoveUntil(
+                        MainScreen.rotueName, (Route<dynamic> route) => false),
+                child: const Text('Skip login for now'),
               ),
             ],
           ),

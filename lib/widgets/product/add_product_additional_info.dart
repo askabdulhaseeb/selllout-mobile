@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../enums/product/prod_condition_enum.dart';
 import '../../enums/product/prod_delivery_type.dart';
 import '../../enums/product/prod_privacy_type.dart';
-import '../../providers/product/app_product_provider.dart';
+import '../../providers/product/add_product_provider.dart';
 import '../../utilities/custom_validator.dart';
 import '../custom_widgets/custom_textformfield.dart';
 import '../custom_widgets/text_between_lines.dart';

@@ -5,7 +5,7 @@ export 'auth_provider.dart';
 export 'user/user_provider.dart';
 
 export 'product/product_provider.dart';
-export 'product/app_product_provider.dart';
+export 'product/add_product_provider.dart';
 export 'product/product_category_provider.dart';
 
 export 'chat/chat_page_provider.dart';

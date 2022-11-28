@@ -25,15 +25,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       // ignore: always_specify_types
       providers: [
-        ChangeNotifierProvider<AppThemeProvider>(
-          create: (BuildContext context) => AppThemeProvider(),
-        ),
-        ChangeNotifierProvider<AuthProvider>(
-          create: (BuildContext context) => AuthProvider(),
-        ),
-        ChangeNotifierProvider<AppProvider>(
-          create: (BuildContext context) => AppProvider(),
-        ),
         //
         // USER
         //
@@ -51,6 +42,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ProductProvider>(
           create: (BuildContext context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider<AppThemeProvider>(
+          create: (BuildContext context) => AppThemeProvider(),
+        ),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (BuildContext context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider<AppProvider>(
+          create: (BuildContext context) => AppProvider(),
         ),
         // Bid
         ChangeNotifierProvider<AuctionProvider>(

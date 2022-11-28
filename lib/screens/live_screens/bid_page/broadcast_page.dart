@@ -14,6 +14,8 @@ import '../../../models/auction/auction.dart';
 import '../../../utilities/utilities.dart';
 import '../../../widgets/bids/bid_app_bar.dart';
 import '../../../widgets/bids/new_bid_widget.dart';
+import '../../../widgets/custom_widgets/custom_elevated_button.dart';
+import '../../auth/phone_number_screen.dart';
 
 class BroadcastPage extends StatefulWidget {
   const BroadcastPage({required this.auction, Key? key}) : super(key: key);
@@ -226,7 +228,13 @@ class _BroadcastPageState extends State<BroadcastPage>
                   bottom: 48,
                   left: 16,
                   right: 16,
-                  child: NewBitValue(auction: widget.auction),
+                  child: AuthMethods.getCurrentUser == null
+                      ? CustomElevatedButton(
+                          title: 'Login to Place any Bid',
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(PhoneNumberScreen.routeName),
+                        )
+                      : NewBitValue(auction: widget.auction),
                 ),
             ],
           ),

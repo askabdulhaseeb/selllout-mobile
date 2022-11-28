@@ -13,6 +13,9 @@ import '../../models/product/product.dart';
 import '../../models/product/product_url.dart';
 
 class ProductProvider extends ChangeNotifier {
+  ProductProvider() {
+    _load();
+  }
   Future<void> report(Product product) async {
     final int index =
         _products.indexWhere((Product element) => element.pid == product.pid);
@@ -89,8 +92,10 @@ class ProductProvider extends ChangeNotifier {
   }
 
   List<Product> _products = <Product>[];
+  bool _isLoading = true;
 
   List<Product> get products => _products;
+  bool get isLoading => _isLoading;
 
   List<Product> productsByUsers(AppUser me) {
     final List<String> supporting = me.supporting ?? <String>[];
@@ -124,6 +129,7 @@ class ProductProvider extends ChangeNotifier {
   Future<void> _load() async {
     List<Product> temp = await ProductAPI().getProducts();
     _products = temp;
+    _isLoading = false;
     notifyListeners();
   }
 

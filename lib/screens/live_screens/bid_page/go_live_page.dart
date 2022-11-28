@@ -23,6 +23,7 @@ import '../../../widgets/custom_widgets/custom_toast.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/custom_widgets/title_text.dart';
 import '../../../widgets/product/radio_widgets/prod_privacy_widget.dart';
+import '../../auth/phone_number_screen.dart';
 import 'broadcast_page.dart';
 
 class GoLivePage extends StatefulWidget {
@@ -110,12 +111,18 @@ class _GoLivePageState extends State<GoLivePage> {
                     },
                   ),
                   const SizedBox(height: 10),
-                  _isLoading
-                      ? const ShowLoading()
-                      : CustomElevatedButton(
-                          title: 'Go Live',
-                          onTap: () => onGoLiveTap(),
-                        ),
+                  AuthMethods.getCurrentUser == null
+                      ? CustomElevatedButton(
+                          title: 'Login to Go live',
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(PhoneNumberScreen.routeName),
+                        )
+                      : _isLoading
+                          ? const ShowLoading()
+                          : CustomElevatedButton(
+                              title: 'Go Live',
+                              onTap: () => onGoLiveTap(),
+                            ),
                 ],
               ),
             ),

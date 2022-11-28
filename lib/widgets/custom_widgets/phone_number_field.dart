@@ -41,7 +41,7 @@ class _PhoneNumberFieldState extends State<PhoneNumberField> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        initialCountryCode: 'UK',
+        initialCountryCode: 'GB',
         keyboardType: TextInputType.number,
         onChanged: widget.onChange!,
       ),

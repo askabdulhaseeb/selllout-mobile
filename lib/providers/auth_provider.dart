@@ -126,10 +126,10 @@ class AuthProvider extends ChangeNotifier {
   //       // dialCode = CountryCode.fromCountryCode(countryCode).dialCode ?? '+1';
 
   //     } else {
-  //       _phoneNumber!.countryCode = 'UK';
+  //       _phoneNumber!.countryCode = 'GB';
   //     }
   //   } catch (e) {
-  //     _phoneNumber!.countryCode = 'UK';
+  //     _phoneNumber!.countryCode = 'GB';
   //   }
   //   notifyListeners();
   // }

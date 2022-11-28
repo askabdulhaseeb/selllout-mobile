@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/product/prod_category.dart';
 import '../../models/product/prod_sub_category.dart';
-import '../../providers/product/app_product_provider.dart';
+import '../../providers/product/add_product_provider.dart';
 import '../../providers/product/product_category_provider.dart';
 import '../../utilities/custom_validator.dart';
 import '../../utilities/utilities.dart';

@@ -6,6 +6,7 @@ import '../../providers/app_provider.dart';
 import '../../providers/product/product_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../utilities/custom_services.dart';
+import '../auth/phone_number_screen.dart';
 import '../user_screens/user_blocked_screeb.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
@@ -16,7 +17,7 @@ import 'pages/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
-  static const String rotueName = '/MainScrenn';
+  static const String rotueName = '/main-screen';
   @override
   // ignore: library_private_types_in_public_api
   _MainScreenState createState() => _MainScreenState();
@@ -31,7 +32,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void didChangeDependencies() {
-    if (Provider.of<UserProvider>(context).user(uid: AuthMethods.uid).isBlock ??
+    if (Provider.of<UserProvider>(context, listen: false)
+            .user(uid: AuthMethods.uid)
+            .isBlock ??
         false) {
       Navigator.of(context).pushNamedAndRemoveUntil(
           UserBlockedScreen.routeName, (Route<dynamic> route) => false);
@@ -49,8 +52,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     int currentIndex = Provider.of<AppProvider>(context).currentTap;
-    Provider.of<UserProvider>(context).init();
-    Provider.of<ProductProvider>(context).init();
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: _pages),
       bottomNavigationBar: const MainBottomNavigationBar(),
