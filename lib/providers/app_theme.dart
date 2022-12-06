@@ -47,6 +47,7 @@ class AppThemes {
     dividerTheme: const DividerThemeData(color: Colors.grey, thickness: 0.5),
     listTileTheme: const ListTileThemeData(
       contentPadding: EdgeInsets.symmetric(horizontal: 16),
+      tileColor: Color(0xFF101018),
       horizontalTitleGap: 10,
     ),
     colorScheme: const ColorScheme.dark(
@@ -77,6 +78,7 @@ class AppThemes {
     dividerTheme: const DividerThemeData(color: Colors.grey, thickness: 0.5),
     listTileTheme: const ListTileThemeData(
       contentPadding: EdgeInsets.symmetric(horizontal: 16),
+      tileColor: Colors.white,
       horizontalTitleGap: 10,
     ),
     colorScheme: const ColorScheme.light(

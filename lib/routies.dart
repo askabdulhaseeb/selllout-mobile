@@ -8,6 +8,7 @@ import 'screens/coming_soon_screen.dart';
 import 'screens/live_screens/bid_page/go_live_page.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'screens/user_screens/user_blocked_screeb.dart';
+import 'screens/setting_screens/setting_screen.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   //
@@ -22,6 +23,8 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   //
   // BID
   GoLivePage.routeName: (_) => const GoLivePage(),
+  // Settings
+  SettingScreen.routeName: (_) => const SettingScreen(),
   //
   ComingSoonScreen.routeName: (_) => const ComingSoonScreen(),
   UserBlockedScreen.routeName: (_) => const UserBlockedScreen(),

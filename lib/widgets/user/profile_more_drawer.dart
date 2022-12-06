@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../database/auth_methods.dart';
 import '../../screens/auth/phone_number_screen.dart';
 import '../../screens/coming_soon_screen.dart';
+import '../../screens/setting_screens/setting_screen.dart';
 
 class ProfileMoreDrawer extends StatelessWidget {
   const ProfileMoreDrawer({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class ProfileMoreDrawer extends StatelessWidget {
         const Divider(thickness: 0.2),
         ListTile(
           onTap: () =>
-              Navigator.of(context).pushNamed(ComingSoonScreen.routeName),
+              Navigator.of(context).pushNamed(SettingScreen.routeName),
           leading: const Icon(Icons.settings),
           title: const Text('Settings'),
         ),

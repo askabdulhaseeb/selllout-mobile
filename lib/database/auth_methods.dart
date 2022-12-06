@@ -8,7 +8,7 @@ class AuthMethods {
 
   static User? get getCurrentUser => _auth.currentUser;
   static String get uid => _auth.currentUser?.uid ?? '';
- static String get phoneNumber => _auth.currentUser?.phoneNumber ?? '';
+  static String get phoneNumber => _auth.currentUser?.phoneNumber ?? '';
 
   Future<int> verifyOTP(String verificationId, String otp) async {
     try {
@@ -28,6 +28,10 @@ class AuthMethods {
       CustomToast.errorToast(message: ex.toString());
       return -1;
     }
+  }
+
+  Future<void> deleteAccount() async {
+    await _auth.currentUser!.delete();
   }
 
   Future<void> signOut() async {
