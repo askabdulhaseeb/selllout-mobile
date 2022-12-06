@@ -8,8 +8,8 @@ import '../../../providers/product/product_provider.dart';
 import '../../../providers/user/user_provider.dart';
 import '../../../widgets/product/grid_view_of_prod.dart';
 import '../../../widgets/user/profile_header_widget.dart';
-import '../../../widgets/user/profile_more_drawer.dart';
 import '../../../widgets/user/profile_score_widget.dart';
+import '../../setting_screens/setting_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -18,7 +18,6 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        endDrawer: const ProfileMoreDrawer(),
         body: Consumer2<UserProvider, ProductProvider>(
           builder: (
             BuildContext context,
@@ -46,14 +45,11 @@ class ProfilePage extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                const ProfileMoreDrawer(),
-                          );
+                          Navigator.of(context)
+                              .pushNamed(SettingScreen.routeName);
                         },
                         splashRadius: 16,
-                        icon: const Icon(Icons.menu),
+                        icon: const Icon(Icons.settings),
                       )
                     ],
                   ),
