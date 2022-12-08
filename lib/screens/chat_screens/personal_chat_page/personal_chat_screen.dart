@@ -67,27 +67,28 @@ class PersonalChatScreen extends StatelessWidget {
                   return const Center(child: Text('Facinf some error'));
                 } else if (snapshot.hasData) {
                   final List<Message> messages = snapshot.data!;
-                  return messages.isEmpty
-                      ? SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                              Text(
-                                'Say Salam!',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
+                  return Expanded(
+                    child: messages.isEmpty
+                        ? SizedBox(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const <Widget>[
+                                Text(
+                                  'Say Salam!',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'and start conversation',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        )
-                      : MessageLists(messages: messages);
+                                Text(
+                                  'and start conversation',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          )
+                        : MessageLists(messages: messages),
+                  );
                 } else {
                   return const ShowLoading();
                 }

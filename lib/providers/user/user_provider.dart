@@ -145,6 +145,12 @@ class UserProvider extends ChangeNotifier {
     return index < 0 ? _null : _user[index];
   }
 
+  AppUser? userByPhone({required String value}) {
+    int index = _user.indexWhere(
+        (AppUser element) => value.contains(element.phoneNumber.number));
+    return index < 0 ? null : _user[index];
+  }
+
   bool usernameExist({required String value}) {
     final int index = _user.indexWhere((AppUser element) =>
         element.username?.toLowerCase() == value.toLowerCase());

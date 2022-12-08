@@ -31,18 +31,16 @@ class MessageListsState extends State<MessageLists>
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _controller.jumpTo(_controller.position.maxScrollExtent);
     });
-    return Expanded(
-      child: Container(
-        constraints: const BoxConstraints(
-          minWidth: 100,
-        ),
-        child: ListView.builder(
-          shrinkWrap: true,
-          controller: _controller,
-          itemCount: widget.messages.length,
-          itemBuilder: (BuildContext context, int index) =>
-              MessageTile(message: widget.messages[index], chat: widget.chat),
-        ),
+    return Container(
+      constraints: const BoxConstraints(
+        minWidth: 100,
+      ),
+      child: ListView.builder(
+        shrinkWrap: true,
+        controller: _controller,
+        itemCount: widget.messages.length,
+        itemBuilder: (BuildContext context, int index) =>
+            MessageTile(message: widget.messages[index], chat: widget.chat),
       ),
     );
   }

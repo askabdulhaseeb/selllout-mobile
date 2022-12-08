@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../database/auth_methods.dart';
 import '../../widgets/settings/delete_account_widget.dart';
 import '../auth/phone_number_screen.dart';
+import 'contact_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -28,8 +29,8 @@ class SettingScreen extends StatelessWidget {
               _Tile(
                 icon: Icons.contacts_rounded,
                 title: 'Contacts',
-                onTap: () async {
-                  
+                onTap: () {
+                  Navigator.of(context).pushNamed(ContactScreen.routeName);
                 },
               ),
               _Tile(

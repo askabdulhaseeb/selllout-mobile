@@ -63,6 +63,8 @@
 	<string>This lets you share the videos, photos, and voice while going live and adding your products.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Sellout needs your photo library access to upload the photos and videos</string>
+	<key>NSContactsUsageDescription</key>  
+	<string>Sellout needs your contact access to display your friends on sellout and to provide a better experience</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
