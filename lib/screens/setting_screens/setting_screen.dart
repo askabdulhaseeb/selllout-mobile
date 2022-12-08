@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../database/auth_methods.dart';
 import '../../widgets/settings/delete_account_widget.dart';
@@ -7,6 +8,14 @@ import '../auth/phone_number_screen.dart';
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
   static const String routeName = '/setting-screen';
+
+  Future<void> _launchUrl({String webURL = 'https://flutter.dev'}) async {
+    final Uri url = Uri.parse(webURL);
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +28,9 @@ class SettingScreen extends StatelessWidget {
               _Tile(
                 icon: Icons.contacts_rounded,
                 title: 'Contacts',
-                onTap: () async {},
+                onTap: () async {
+                  
+                },
               ),
               _Tile(
                 icon: Icons.shop,
@@ -29,17 +40,25 @@ class SettingScreen extends StatelessWidget {
               _Tile(
                 icon: Icons.privacy_tip,
                 title: 'Privacy Policy',
-                onTap: () async {},
+                onTap: () async {
+                  await _launchUrl(
+                      webURL: 'https://selll-out.firebaseapp.com/privacy');
+                },
               ),
               _Tile(
                 icon: Icons.contact_support_rounded,
                 title: 'Support',
-                onTap: () async {},
+                onTap: () async {
+                  await _launchUrl(
+                      webURL: 'https://selll-out.firebaseapp.com/support');
+                },
               ),
               _Tile(
                 icon: Icons.e_mobiledata_rounded,
                 title: 'About Us',
-                onTap: () async {},
+                onTap: () async {
+                  await _launchUrl(webURL: 'https://selll-out.firebaseapp.com');
+                },
               ),
               _Tile(
                 icon: Icons.delete_sweep_sharp,

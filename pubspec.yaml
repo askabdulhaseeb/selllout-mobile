@@ -50,6 +50,8 @@ dependencies:
   carousel_slider: ^4.1.1
   scrollable_positioned_list: ^0.3.2
 
+  fast_contacts: ^1.1.1
+
   story_viewer: ^0.2.0
 
   agora_rtm: ^1.1.1
