@@ -33,6 +33,9 @@ class _ContactScreenState extends State<ContactScreen> {
 
   _request() async {
     await Permission.contacts.request();
+    final PermissionStatus status = await Permission.contacts.status;
+    if (status == PermissionStatus.granted) return;
+    await openAppSettings();
   }
 
   @override
@@ -47,7 +50,16 @@ class _ContactScreenState extends State<ContactScreen> {
             return _DisplayContacts(contacts: snapshot.data ?? <Contact>[]);
           } else {
             return snapshot.hasError
-                ? const Text('Error while fetching')
+                ? Center(
+                    child: Column(
+                    children: [
+                      const Text('Error while fetching'),
+                      TextButton(
+                        onPressed: () async => await _request(),
+                        child: const Text('Request Permission'),
+                      ),
+                    ],
+                  ))
                 : const ShowLoading();
           }
         },
