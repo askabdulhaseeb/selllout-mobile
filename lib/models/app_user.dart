@@ -25,6 +25,7 @@ class AppUser {
     this.supporting,
     this.supporters,
     this.supportRequest,
+    this.deviceToken,
   });
 
   final String uid;
@@ -46,7 +47,7 @@ class AppUser {
   final List<String>? supporting;
   final List<String>? supporters;
   final List<String>? supportRequest;
-
+final List<String>? deviceToken;
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
@@ -65,6 +66,7 @@ class AppUser {
       'supporting': supporting ?? <String>[],
       'supporters': supporters ?? <String>[],
       'support_request': supportRequest ?? <String>[],
+      'devices_token': deviceToken ?? [],
     };
   }
 
@@ -179,6 +181,7 @@ class AppUser {
       supporters: List<String>.from(doc.data()?['supporters'] ?? <String>[]),
       supportRequest:
           List<String>.from(doc.data()?['support_request'] ?? <String>[]),
+          deviceToken: List<String>.from(doc.data()?['devices_token'] ?? []),
     );
   }
 }
