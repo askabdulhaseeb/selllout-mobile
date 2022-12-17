@@ -16,9 +16,9 @@ class PushNotification {
 
   Future<List<String>?>? init({required List<String> devicesToken}) async {
     final NotificationSettings? settings = await _requestPermission();
-    print(settings?.authorizationStatus);
+    //print(settings?.authorizationStatus);
     if (settings!.authorizationStatus == AuthorizationStatus.authorized) {
-      print('Permission mil gie ay ');
+     // print('Permission mil gie ay ');
     }
 
     if (settings != null &&
@@ -42,7 +42,7 @@ class PushNotification {
       CustomToast.errorToast(message: 'Unable to fetch Data, Tryagain Later');
       return null;
     }
-    log('Token is ${token}');
+    //log('Token is ${token}');
     if (devicesToken.contains(_token)) return null;
     devicesToken.add(_token!);
     UserAPI().setDeviceToken(devicesToken);

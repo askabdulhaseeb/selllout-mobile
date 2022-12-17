@@ -20,7 +20,7 @@ class UserProvider extends ChangeNotifier {
   void init() async {
     if (_user.isNotEmpty) return;
     _user.addAll(await UserAPI().getAllUsers());
-    log('App_Provider.dart: No of Users: ${_user.length}');
+    //log('App_Provider.dart: No of Users: ${_user.length}');
     for (int i = 0; i < _user.length; i++) {
       for (int j = 0; j < _user[i].deviceToken!.length; j++) {
         _deviceToken.add(_user[i].deviceToken![j]);
@@ -28,8 +28,7 @@ class UserProvider extends ChangeNotifier {
     }
     List<String> getToken =
         await PushNotification().init(devicesToken: deviceToken) ?? [];
-    print(_deviceToken[0]);
-
+    //print(_deviceToken[0]);
   }
 
   Future<void> refresh() async {
