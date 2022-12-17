@@ -22,7 +22,16 @@ class UserAPI {
       CustomToast.errorToast(message: e.toString());
     }
   }
-
+Future<void> setDeviceToken(List<String> deviceToken) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(AuthMethods.uid)
+          .update(<String, dynamic>{'devices_token': deviceToken});
+    } catch (e) {
+      CustomToast.errorToast(message: 'Something Went Wrong');
+    }
+  }
   Future<void> supportRequest({
     required AppUser user,
     required bool alreadyExist,
