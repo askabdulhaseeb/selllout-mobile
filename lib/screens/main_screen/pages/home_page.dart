@@ -23,9 +23,10 @@ class HomePage extends StatelessWidget {
         onPressed: () async {
           List<String> deviceToken = userPro.deviceToken;
           print(deviceToken[0]);
-           await PushNotification().sendnotification(deviceToken[0]);
-
-          
+          await PushNotification().sendNotification(
+              deviceToken: deviceToken,
+              messageBody: 'grthhrh',
+              messageTitle: 'gth');
         },
       ),
       body: Consumer<ProductProvider>(
