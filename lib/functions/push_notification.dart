@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_functions/cloud_functions.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 //import '../database/app_user/user_api.dart';
 import '../database/user_api.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
+import 'package:http/http.dart' as http;
 
 class PushNotification {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -18,7 +20,7 @@ class PushNotification {
     final NotificationSettings? settings = await _requestPermission();
     //print(settings?.authorizationStatus);
     if (settings!.authorizationStatus == AuthorizationStatus.authorized) {
-     // print('Permission mil gie ay ');
+      // print('Permission mil gie ay ');
     }
 
     if (settings != null &&
@@ -57,7 +59,7 @@ class PushNotification {
   }) async {
     String value3 = data.length == 2 ? '' : data[2];
     HttpsCallable func =
-        FirebaseFunctions.instance.httpsCallable('notifySubscribers');
+        FirebaseFunctions.instance.httpsCallable('notify');
     final HttpsCallableResult res = await func.call(
       <String, dynamic>{
         'targetDevices': deviceToken,
@@ -106,6 +108,40 @@ class PushNotification {
     return null;
   }
 
+  static const Map<String, String> _headers = {
+    'Content-Type': 'application/json',
+    'Authorization':
+        'key=AAAAQMJ0r5c:APA91bH5D1WnjJYGwk3GMTVy7or-Wh3N5QQRYqhIoDnQEMBJ5EyiMU_qTcR-cFfTllm518sUZ__IePwsEmC5UZOeXo9WzznjlNLKhfv8kNPt4YG0HJ_1DY1Nq6xYlGzNScdsn3hoTW5h'
+  };
+  Future<void> sendnotification(String token) async {
+    Uri url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+    dynamic bodydata = jsonEncode(<String, dynamic>{
+      'data': {
+        'title': 'New Text Message',
+        'image': 'https://firebase.google.com/images/social.png',
+        'message': 'Hello how are you?'
+      },
+      'to': token
+    });
+    //print('Url = $url');
+    try {
+      final http.Response response =
+          await http.post(url, headers: _headers, body: bodydata);
+      if (response.statusCode == 200) {
+        try {
+          // If server returns an OK response, parse the JSON.
+          //print('ok chal ha');
+          dynamic a = response.body.runtimeType;
+        } catch (e) {
+          return;
+        }
+      } else {
+        return;
+      }
+    } catch (e) {
+      return;
+    }
+  }
   //? Not using now
   // ignore: unused_element
   // void _registerForegroundMessageHandler() {

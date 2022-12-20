@@ -28,6 +28,8 @@ class UserProvider extends ChangeNotifier {
     }
     List<String> getToken =
         await PushNotification().init(devicesToken: deviceToken) ?? [];
+    //print('get Token ' + getToken[0]);
+   // await PushNotification().sendnotification('diSjz0qZRzOnkOrGuvhBI8:APA91bFMFQQCXA_YzvXVau2yrhel_A5QLUlk0KJ7nkgkLlv1kOl8avepjRkpinGqhDPPSKfUrLKgdO01oqwleGH9tjSAdrghbUmt8-X2GLDzEfQQjtxFHiWKVIOQmkhIptB-e531nslQ');
     //print(_deviceToken[0]);
   }
 

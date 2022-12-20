@@ -10,18 +10,12 @@ import 'providers/provider.dart';
 import 'routies.dart';
 import 'screens/auth/phone_number_screen.dart';
 import 'screens/main_screen/main_screen.dart';
+
 Future<void> _firebaseMessBackgroundHand(RemoteMessage message) async {
   RemoteNotification? notification = message.notification;
   if (notification == null) return;
-  print('--- background notification');
-  print(message.data);
-
-  // LocalNotifications.showNotification(
-  //   title: notification.title ?? 'Notification',
-  //   body: notification.body ?? 'Hi',
-  //   payload: message.data.toString(),
-  // );
 }
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

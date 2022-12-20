@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../database/auth_methods.dart';
+import '../../../functions/push_notification.dart';
 import '../../../functions/user_bottom_sheets.dart';
 import '../../../models/app_user.dart';
 import '../../../models/product/product.dart';
@@ -14,9 +15,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userPro = Provider.of<UserProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(title: const Text('Sellout')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          List<String> deviceToken = userPro.deviceToken;
+          print(deviceToken[0]);
+           await PushNotification().sendnotification(deviceToken[0]);
+
+          
+        },
+      ),
       body: Consumer<ProductProvider>(
         builder: (BuildContext context, ProductProvider prodPro, _) {
           final List<Product> prods = prodPro.productsByUsers(
