@@ -3,9 +3,13 @@ import 'dart:developer';
 
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //import '../database/app_user/user_api.dart';
 import '../database/user_api.dart';
+import '../models/app_user.dart';
+import '../providers/user/user_provider.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'package:http/http.dart' as http;
 
@@ -139,65 +143,66 @@ class PushNotification {
       return;
     }
   }
-  //? Not using now
-  // ignore: unused_element
-  // void _registerForegroundMessageHandler() {
-  //   FirebaseMessaging.onMessage.listen((RemoteMessage remoteMessage) {
-  //     if (remoteMessage.notification != null) {}
-  //   });
-  // }
+ handleNotification(BuildContext context) async {
+    RemoteMessage? message =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) _handleNotificationData(message.data, context);
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      _handleNotificationData(message.data, context);
+    });
+  }
 
-  // _handleNotificationData(
-  //     Map<String, dynamic> data, BuildContext context) async {
-  //   print('it is clicked');
-  //   switch (data['key1']) {
-  //     case 'follow_request':
-  //       String uid = data['key2'];
-  //       AppUser? user = await UserApi().user(uid: uid);
-  //       if (user == null) break;
-  //       AppUser? me = await UserApi().user(uid: AuthMethods.uid);
-  //       Provider.of<UserProvider>(context, listen: false).refresh();
-  //       print('running till now');
-  //       // Navigator.push(context,
-  //       //     MaterialPageRoute(builder: (_) => OthersProfileScreen(user: user)));
-  //       break;
-  //     case 'new_post':
-  //       String postPid = data['key2'];
-  //       SalamSocialPost? post = await SalamSocialAPI().getSpecificPost(postPid);
-  //       if (post == null) break;
-  //       Navigator.push(context,
-  //           MaterialPageRoute(builder: (_) => PostFullScreenView(post: post)));
-  //       break;
-  //     case 'post_comment':
-  //       String postPid = data['key2'];
-  //       String commentCid = data['key3'];
-  //       SalamSocialPost? post = await SalamSocialAPI().getSpecificPost(postPid);
-  //       Provider.of<SalamSocialProvider>(context, listen: false)
-  //           .setPushNotificationVar(cid: commentCid);
-  //       if (post == null) break;
-  //       print('all good');
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (_) => PostFullScreenView(
-  //             post: post,
-  //           ),
-  //         ),
-  //       );
-  //       break;
-  //     case 'post_reaction':
-  //       String postPid = data['key2'];
-  //       SalamSocialPost? post = await SalamSocialAPI().getSpecificPost(postPid);
-  //       if (post == null) break;
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (_) => PostFullScreenView(
-  //             post: post,
-  //             openReactionSreen: true,
-  //           ),
-  //         ),
-  //       );
-  //   }
-  // }
+  _handleNotificationData(
+      Map<String, dynamic> data, BuildContext context) async {
+    // print('it is clicked');
+    // switch (data['key1']) {
+    //   case 'follow_request':
+    //     String uid = data['key2'];
+    //     AppUser? user = await UserApi().user(uid: uid);
+    //     if (user == null) break;
+    //     AppUser? me = await UserApi().user(uid: AuthMethods.uid);
+    //     Provider.of<UserProvider>(context, listen: false).refresh();
+    //     print('running till now');
+    //     // Navigator.push(context,
+    //     //     MaterialPageRoute(builder: (_) => OthersProfileScreen(user: user)));
+    //     break;
+    //   case 'new_post':
+    //     String postPid = data['key2'];
+    //     SalamSocialPost? post = await SalamSocialAPI().getSpecificPost(postPid);
+    //     if (post == null) break;
+    //     Navigator.push(context,
+    //         MaterialPageRoute(builder: (_) => PostFullScreenView(post: post)));
+    //     break;
+    //   case 'post_comment':
+    //     String postPid = data['key2'];
+    //     String commentCid = data['key3'];
+    //     SalamSocialPost? post = await SalamSocialAPI().getSpecificPost(postPid);
+    //     Provider.of<SalamSocialProvider>(context, listen: false)
+    //         .setPushNotificationVar(cid: commentCid);
+    //     if (post == null) break;
+    //     print('all good');
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (_) => PostFullScreenView(
+    //           post: post,
+    //         ),
+    //       ),
+    //     );
+    //     break;
+    //   case 'post_reaction':
+    //     String postPid = data['key2'];
+    //     SalamSocialPost? post = await SalamSocialAPI().getSpecificPost(postPid);
+    //     if (post == null) break;
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (_) => PostFullScreenView(
+    //           post: post,
+    //           openReactionSreen: true,
+    //         ),
+    //       ),
+    //     );
+    // }
+  }
 }
