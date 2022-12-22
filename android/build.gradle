@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+       classpath 'com.android.tools.build:gradle:7.1.2'
         // START: FlutterFire Configuration
         classpath 'com.google.gms:google-services:4.3.10'
         // END: FlutterFire Configuration
@@ -34,3 +34,4 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+apply plugin: 'com.google.gms.google-services'

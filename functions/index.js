@@ -13,11 +13,11 @@ exports.notifySubscribers = functions.https.onCall(async (data, _) => {
         title: data.messageTitle,
         body: data.messageBody,
       },
-    //   data: {
-    //     key1: data.value1,
-    //     key2: data.value2,
-    //     key3: data.value3,
-    //   },
+      data: {
+        key1: data.value1,
+        key2: data.value2,
+        key3: data.value3,
+      },
     });
     return true;
   } catch (ex) {

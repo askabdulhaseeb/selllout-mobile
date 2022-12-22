@@ -59,8 +59,9 @@ class PushNotification {
     required List<String> deviceToken,
     required String messageTitle,
     required String messageBody,
+    required List<String> data,
   }) async {
-  
+    String value3 = data.length == 2 ? '' : data[2];
     HttpsCallable func =
         FirebaseFunctions.instance.httpsCallable('notifySubscribers');
     final HttpsCallableResult res = await func.call(
@@ -68,7 +69,9 @@ class PushNotification {
         'targetDevices': deviceToken,
         'messageTitle': messageTitle,
         'messageBody': messageBody,
-        
+        'value1': data[0],
+        'value2': data[1],
+        'value3': value3,
       },
     );
     print(res.data);
@@ -78,15 +81,6 @@ class PushNotification {
       return false;
     }
   }
-
-  // handleNotification(BuildContext context) async {
-  //   RemoteMessage? message =
-  //       await FirebaseMessaging.instance.getInitialMessage();
-  //   if (message != null) _handleNotificationData(message.data, context);
-  //   FirebaseMessaging.onMessageOpenedApp.listen((message) {
-  //     _handleNotificationData(message.data, context);
-  //   });
-  // }
 
   Future<NotificationSettings?> _requestPermission() async {
     try {
@@ -109,52 +103,24 @@ class PushNotification {
     return null;
   }
 
-  static const Map<String, String> _headers = {
-    'Content-Type': 'application/json',
-    'Authorization':
-        'key=AAAAQMJ0r5c:APA91bH5D1WnjJYGwk3GMTVy7or-Wh3N5QQRYqhIoDnQEMBJ5EyiMU_qTcR-cFfTllm518sUZ__IePwsEmC5UZOeXo9WzznjlNLKhfv8kNPt4YG0HJ_1DY1Nq6xYlGzNScdsn3hoTW5h'
-  };
-  Future<void> sendnotification(String token) async {
-    Uri url = Uri.parse('https://fcm.googleapis.com/fcm/send');
-    dynamic bodydata = jsonEncode(<String, dynamic>{
-      'data': {
-        'title': 'New Text Message',
-        'image': 'https://firebase.google.com/images/social.png',
-        'message': 'Hello how are you?'
-      },
-      'to': token
-    });
-    //print('Url = $url');
-    try {
-      final http.Response response =
-          await http.post(url, headers: _headers, body: bodydata);
-      if (response.statusCode == 200) {
-        try {
-          // If server returns an OK response, parse the JSON.
-          //print('ok chal ha');
-          dynamic a = response.body.runtimeType;
-        } catch (e) {
-          return;
-        }
-      } else {
-        return;
-      }
-    } catch (e) {
-      return;
-    }
-  }
- handleNotification(BuildContext context) async {
+  handleNotification(BuildContext context) async {
+    print('es main war giya ha');
     RemoteMessage? message =
         await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) _handleNotificationData(message.data, context);
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('ya message listen chala ha');
+      print('message ' + message.data['Key1']);
       _handleNotificationData(message.data, context);
     });
   }
 
   _handleNotificationData(
       Map<String, dynamic> data, BuildContext context) async {
-    // print('it is clicked');
+    print('it is clicked');
+    print('Key 1 is : ' + data['key1']);
+    if (data['key1'] == 'newpost') {}
+    // if(data['key1'])
     // switch (data['key1']) {
     //   case 'follow_request':
     //     String uid = data['key2'];

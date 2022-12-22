@@ -10,8 +10,19 @@ import '../../../providers/provider.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/product/product_tile.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    print('home khola ha');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +35,14 @@ class HomePage extends StatelessWidget {
           List<String> deviceToken = userPro.deviceToken;
           print(deviceToken[0]);
           await PushNotification().sendNotification(
-              deviceToken: deviceToken,
-              messageBody: 'grthhrh',
-              messageTitle: 'gth');
+            deviceToken: deviceToken,
+            messageBody: 'sellout is the ecommerce social media app',
+            messageTitle: 'notification title',
+            data: <String>[
+              'newpost',
+              '1234',
+            ],
+          );
         },
       ),
       body: Consumer<ProductProvider>(
