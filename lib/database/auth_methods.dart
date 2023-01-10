@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import '../models/app_user.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'user_api.dart';
@@ -31,6 +33,21 @@ class AuthMethods {
   }
 
   Future<void> deleteAccount() async {
+    await FirebaseFirestore.instance.collection('users').doc(uid).delete();
+    final QuerySnapshot<Map<String, dynamic>> products = await FirebaseFirestore
+        .instance
+        .collection('products')
+        .where('uid', isEqualTo: uid)
+        .get();
+    if (products.docs.isNotEmpty) {
+      for (DocumentSnapshot<Map<String, dynamic>> doc in products.docs) {
+        await FirebaseFirestore.instance
+            .collection('products')
+            .doc(doc.data()?['pid'])
+            .delete();
+      }
+      await FirebaseStorage.instance.ref('products/$uid').delete();
+    }
     await _auth.currentUser!.delete();
   }
 
