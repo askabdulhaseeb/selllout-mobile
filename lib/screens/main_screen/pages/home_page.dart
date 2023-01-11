@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../database/auth_methods.dart';
-import '../../../functions/push_notification.dart';
+import '../../../database/notification_service.dart';
 import '../../../functions/user_bottom_sheets.dart';
 import '../../../models/app_user.dart';
 import '../../../models/product/product.dart';
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.notifications_active_outlined),
         onPressed: () async {
           List<String> deviceToken = userPro.deviceToken;
-          await PushNotification().sendNotification(
+          await NotificationsServices().sendSubsceibtionNotification(
               deviceToken: deviceToken,
               messageTitle: 'Notification Test',
               messageBody:

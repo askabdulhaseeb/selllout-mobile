@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
-import '../../functions/push_notification.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
-import '../../utilities/custom_services.dart';
 import '../user_screens/user_blocked_screeb.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
@@ -25,11 +23,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
-    print('toun chcha chlain aien');
-    CustomService.systemUIOverlayStyle();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      PushNotification.instance.handleNotification(context);
-    });
     super.initState();
   }
 

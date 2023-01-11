@@ -1,10 +1,8 @@
 import 'dart:developer';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-// import 'package:timezone/data/latest_all.dart' as tz;
-// import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
@@ -34,29 +32,13 @@ class NotificationsServices {
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse details) {
         onNotification.add(details.payload);
-
-        print('notification payload :${details.payload!} ');
-        // print('notification id :${details.id} ');
-        print('notification payload :${details.id} ');
-        print('notification payload :${details.payload} ');
-        // print('notification input :${details.input} ');
-        // print('notification action id :${details.actionId} ');
-        // print('notification type  :${details.notificationResponseType.name} ');
-        // print('notification detail :${details.toString()} ');
-
-        // if (details.id == 1) {
-        //   print('1 chala ha');
-        // }
+        if (kDebugMode) {
+          print('notification payload :${details.payload!} ');
+          print('notification payload :${details.id} ');
+          print('notification payload :${details.payload} ');
+        }
       },
-      //     onSelectNotification: (String? payload) async {
-      //   debugPrint('notification payload: ' + payload!);
-      // }
     );
-
-    // tz.initializeTimeZones();
-    // final String locationName = await FlutterNativeTimezone.getLocalTimezone();
-    // tz.setLocalLocation(tz.getLocation(locationName));
-
     await localNotificationPlugin
         .resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>()
@@ -66,28 +48,61 @@ class NotificationsServices {
           sound: true,
         );
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-
+      if (kDebugMode) {
+        print('Message data: ${message.data}');
+      }
       if (message.notification != null) {
         _notificationDetails();
         showNotification(
           title: message.notification!.title!,
           body: message.notification!.body!,
-          // payload: message.data['key1'] +
-          //     '-' +
-          //     message.data['key2'] +
-          //     '-' +
-          //     message.data['key3'],
-          // payload: '',
           payload:
               '${message.data['key1']}-${message.data['key2']}-${message.data['key3']}',
         );
-        // print('Message also contained a notification: ${message.notification}');
       }
     });
-    _getToken();
+    getToken();
     log('NOTIFICATION INIT DONE');
+  }
+
+  Future<bool> sendSubsceibtionNotification({
+    required List<String> deviceToken,
+    required String messageTitle,
+    required String messageBody,
+    required List<String> data,
+  }) async {
+    String value3 = data.length == 2 ? '' : data[2];
+    HttpsCallable func =
+        FirebaseFunctions.instance.httpsCallable('notifySubscribers');
+    // ignore: always_specify_types
+    final HttpsCallableResult res = await func.call(
+      <String, dynamic>{
+        'targetDevices': deviceToken,
+        'messageTitle': messageTitle,
+        'messageBody': messageBody,
+        'value1': data[0],
+        'value2': data[1],
+        'value3': value3,
+      },
+    );
+    if (res.data as bool) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<String?> getToken() async {
+    FirebaseMessaging firebaseMessaging =
+        FirebaseMessaging.instance; // Change here
+    final String? dToken =
+        await firebaseMessaging.getToken().then((String? token) {
+      if (kDebugMode) {
+        print('token is $token');
+      }
+      return token;
+    });
+    return dToken;
   }
 
   static NotificationDetails _notificationDetails() {
@@ -105,8 +120,8 @@ class NotificationsServices {
   static showNotification({
     required String title,
     required String body,
-    int id = 0,
     required String payload,
+    int id = 0,
   }) async {
     await localNotificationPlugin.show(id, title, body, _notificationDetails(),
         payload: payload);
@@ -119,12 +134,4 @@ class NotificationsServices {
   static Future<void> cancelAllNotifications() async {
     await localNotificationPlugin.cancelAll();
   }
-}
-
-Future<List<String>?>? _getToken() async {
-  FirebaseMessaging _firebaseMessaging =
-      FirebaseMessaging.instance; // Change here
-  await _firebaseMessaging.getToken().then((token) {
-    print("token is $token");
-  });
 }

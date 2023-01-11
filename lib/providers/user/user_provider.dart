@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../database/auth_methods.dart';
 import '../../database/user_api.dart';
-import '../../functions/push_notification.dart';
 import '../../models/app_user.dart';
 import '../../models/number_details.dart';
 import '../../models/reports/report_user.dart';
@@ -20,17 +19,6 @@ class UserProvider extends ChangeNotifier {
   void init() async {
     if (_user.isNotEmpty) return;
     _user.addAll(await UserAPI().getAllUsers());
-    //log('App_Provider.dart: No of Users: ${_user.length}');
-    for (int i = 0; i < _user.length; i++) {
-      for (int j = 0; j < _user[i].deviceToken!.length; j++) {
-        _deviceToken.add(_user[i].deviceToken![j]);
-      }
-    }
-    List<String> getToken =
-        await PushNotification().init(devicesToken: deviceToken) ?? [];
-    //print('get Token ' + getToken[0]);
-   // await PushNotification().sendnotification('diSjz0qZRzOnkOrGuvhBI8:APA91bFMFQQCXA_YzvXVau2yrhel_A5QLUlk0KJ7nkgkLlv1kOl8avepjRkpinGqhDPPSKfUrLKgdO01oqwleGH9tjSAdrghbUmt8-X2GLDzEfQQjtxFHiWKVIOQmkhIptB-e531nslQ');
-    //print(_deviceToken[0]);
   }
 
   Future<void> refresh() async {
