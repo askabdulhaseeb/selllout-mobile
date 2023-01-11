@@ -55,6 +55,8 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Sellout use your device's camera to do things such as help you to live</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Sellout needs your contact access to display your friends on sellout and to provide a better experience</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Sellout need location on to display your current location and to provide a better experience.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -63,11 +65,12 @@
 	<string>This lets you share the videos, photos, and voice while going live and adding your products.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Sellout needs your photo library access to upload the photos and videos</string>
-	<key>NSContactsUsageDescription</key>  
-	<string>Sellout needs your contact access to display your friends on sellout and to provide a better experience</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Sellout needs notification permission to notify you when you receive new order, new offer, message and keep you up to date about your account</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

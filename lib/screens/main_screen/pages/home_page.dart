@@ -31,18 +31,15 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(title: const Text('Sellout')),
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.notifications_active_outlined),
         onPressed: () async {
           List<String> deviceToken = userPro.deviceToken;
-          print(deviceToken[0]);
           await PushNotification().sendNotification(
-            deviceToken: deviceToken,
-            messageBody: 'sellout is the ecommerce social media app',
-            messageTitle: 'notification title',
-            data: <String>[
-              'newpost',
-              '1234',
-            ],
-          );
+              deviceToken: deviceToken,
+              messageTitle: 'Notification Test',
+              messageBody:
+                  'This is just a test notification to check that notification is working',
+              data: <String>['usman', 'afzal', 'Bajwa']);
         },
       ),
       body: Consumer<ProductProvider>(
