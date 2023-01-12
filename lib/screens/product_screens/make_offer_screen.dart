@@ -116,7 +116,8 @@ class _DigitalKeyboardState extends State<_DigitalKeyboard> {
                         .sendOffer(
                             value: widget.product,
                             amount: double.parse(widget.offer),
-                            chatID: chatID);
+                            chatID: chatID,
+                            context: context);
                     if (!mounted) return;
                     Navigator.of(context)
                         .push(MaterialPageRoute<ProductChatScreen>(
@@ -208,7 +209,8 @@ class _DigitalKeyboardState extends State<_DigitalKeyboard> {
                           .sendOffer(
                               value: widget.product,
                               amount: double.parse(widget.offer),
-                              chatID: chatID);
+                              chatID: chatID,
+                              context: context);
                       await ChatAPI().sendMessage(
                         receiver: user,
                         sender:

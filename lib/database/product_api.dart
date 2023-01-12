@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import '../models/app_user.dart';
 import '../models/product/product.dart';
 import 'auth_methods.dart';
+import 'notification_service.dart';
 
 class ProductAPI {
   static const String _collection = 'products';
@@ -55,24 +57,48 @@ class ProductAPI {
     }
   }
 
-  Future<bool> sendOrder(Product product) async {
+  Future<bool> sendOrder({
+    required Product product,
+    required AppUser sender,
+    required AppUser receiver,
+  }) async {
     try {
       await _instance
           .collection(_collection)
           .doc(product.pid)
           .update(product.sendOrder());
+      if (receiver.deviceToken?.isNotEmpty ?? false) {
+        await NotificationsServices().sendSubsceibtionNotification(
+          deviceToken: receiver.deviceToken ?? <String>[],
+          messageTitle: 'New Product Order',
+          messageBody: 'You receive an Order from ${sender.displayName}',
+          data: <String>['product', 'order', sender.uid],
+        );
+      }
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  Future<bool> sendOffer(Product product) async {
+  Future<bool> sendOffer({
+    required Product product,
+    required AppUser sender,
+    required AppUser receiver,
+  }) async {
     try {
       await _instance
           .collection(_collection)
           .doc(product.pid)
           .update(product.sendOffer());
+      if (receiver.deviceToken?.isNotEmpty ?? false) {
+        await NotificationsServices().sendSubsceibtionNotification(
+          deviceToken: receiver.deviceToken ?? <String>[],
+          messageTitle: 'New Product Order',
+          messageBody: 'You receive an Order from ${sender.displayName}',
+          data: <String>['product', 'order', sender.uid],
+        );
+      }
       return true;
     } catch (e) {
       return false;

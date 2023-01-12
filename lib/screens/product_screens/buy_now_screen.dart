@@ -81,7 +81,7 @@ class BuyNowScreen extends StatelessWidget {
 
   _sendOrder(BuildContext context) async {
     await Provider.of<ProductProvider>(context, listen: false)
-        .sendOrder(product);
+        .sendOrder(context, product);
   }
 }
 

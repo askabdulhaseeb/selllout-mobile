@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
 import '../../database/product_api.dart';
@@ -11,6 +12,7 @@ import '../../models/product/prod_offer.dart';
 import '../../models/product/prod_order.dart';
 import '../../models/product/product.dart';
 import '../../models/product/product_url.dart';
+import '../provider.dart';
 
 class ProductProvider extends ChangeNotifier {
   ProductProvider() {
@@ -39,7 +41,7 @@ class ProductProvider extends ChangeNotifier {
     return (index < 0) ? _null : _products[index];
   }
 
-  Future<void> sendOrder(Product value) async {
+  Future<void> sendOrder(BuildContext context, Product value) async {
     final String me = AuthMethods.uid;
     if (value.uid == me) return;
     final int index = _indexOf(value.pid);
@@ -52,13 +54,22 @@ class ProductProvider extends ChangeNotifier {
       approvalTime: TimeDateFunctions.timestamp,
     );
     _products[index].orders?.add(order);
-    await ProductAPI().sendOrder(_products[index]);
+    final UserProvider userPro = Provider.of(context, listen: false);
+    final AppUser sender = userPro.user(uid: me);
+    final AppUser receiver = userPro.user(uid: value.uid);
+    await ProductAPI().sendOrder(
+      product: _products[index],
+      sender: sender,
+      receiver: receiver,
+    );
   }
 
-  Future<void> sendOffer(
-      {required Product value,
-      required String chatID,
-      required double amount}) async {
+  Future<void> sendOffer({
+    required Product value,
+    required String chatID,
+    required double amount,
+    required BuildContext context,
+  }) async {
     final String me = AuthMethods.uid;
     if (value.uid == me) return;
     final int index = _indexOf(value.pid);
@@ -74,7 +85,14 @@ class ProductProvider extends ChangeNotifier {
       status: ProdOfferStatusEnum.pending,
     );
     _products[index].offers?.add(offer);
-    await ProductAPI().sendOffer(_products[index]);
+    final UserProvider userPro = Provider.of(context, listen: false);
+    final AppUser sender = userPro.user(uid: me);
+    final AppUser receiver = userPro.user(uid: value.uid);
+    await ProductAPI().sendOffer(
+      product: _products[index],
+      sender: sender,
+      receiver: receiver,
+    );
   }
 
   Future<void> updateOffer({
