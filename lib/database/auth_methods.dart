@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/app_user.dart';
+import '../providers/provider.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
+import 'notification_service.dart';
 import 'user_api.dart';
 
 class AuthMethods {
@@ -51,7 +55,12 @@ class AuthMethods {
     await _auth.currentUser!.delete();
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
+    final AppUser me = Provider.of<UserProvider>(context, listen: false)
+        .user(uid: AuthMethods.uid);
+    final String? token = await NotificationsServices.getToken();
+    me.deviceToken!.remove(token ?? '');
+    await UserAPI().setDeviceToken(me.deviceToken ?? <String>[]);
     await _auth.signOut();
   }
 }

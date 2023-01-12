@@ -1,6 +1,13 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../database/auth_methods.dart';
+import '../../database/notification_service.dart';
+import '../../database/user_api.dart';
+import '../../models/app_user.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/provider.dart';
 import '../../widgets/custom_widgets/custom_textformfield.dart';
@@ -58,6 +65,27 @@ class _OTPScreenState extends State<OTPScreen> {
                         (Route<dynamic> route) => false,
                       );
                     } else if (num == 1) {
+                      final String? token =
+                          await NotificationsServices.getToken();
+                      if (!mounted) return;
+                      final AppUser me =
+                          Provider.of<UserProvider>(context, listen: false)
+                              .user(uid: AuthMethods.uid);
+                      if (!(me.deviceToken?.contains(token) ?? false)) {
+                        me.deviceToken!.add(token ?? '');
+                        me.deviceToken!
+                            .removeWhere((String element) => element.isEmpty);
+                        await UserAPI()
+                            .setDeviceToken(me.deviceToken ?? <String>[]);
+                        if (!mounted) return;
+                        await Provider.of<UserProvider>(context, listen: false)
+                            .refresh();
+                        log('New Device Token Added Successfully');
+                        if (kDebugMode) {
+                          print('User Device Token - $token');
+                        }
+                      }
+                      if (!mounted) return;
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         MainScreen.rotueName,
                         (Route<dynamic> route) => false,
@@ -87,7 +115,6 @@ class _OTPScreenState extends State<OTPScreen> {
                         ),
                       ],
                     ),
-              if (_otp.text.length == 6) const ShowLoading(),
             ],
           ),
         );

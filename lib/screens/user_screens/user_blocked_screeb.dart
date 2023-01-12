@@ -83,7 +83,8 @@ class UserBlockedScreen extends StatelessWidget {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () async {
-                  await AuthMethods().signOut();
+                  await AuthMethods().signOut(context);
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       PhoneNumberScreen.routeName,
                       (Route<dynamic> route) => false);

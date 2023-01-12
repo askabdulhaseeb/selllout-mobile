@@ -1,11 +1,14 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl_phone_field/phone_number.dart';
 
 import '../database/auth_methods.dart';
+import '../database/notification_service.dart';
 import '../database/user_api.dart';
 import '../functions/picker_functions.dart';
 import '../functions/time_date_functions.dart';
@@ -33,12 +36,14 @@ class AuthProvider extends ChangeNotifier {
       if (_profilePhoto != null) {
         url = await UserAPI().uploadProfilePhoto(file: _profilePhoto!);
       }
+      final String? token = await NotificationsServices.getToken();
       final AppUser appuser = AppUser(
         uid: AuthMethods.uid,
         displayName: _name.text.trim(),
         username: _username.text.trim(),
         bio: _bio.text.trim(),
         imageURL: url ?? '',
+        deviceToken: <String>[token ?? ''],
         isPublicProfile: _isPublicProfile,
         phoneNumber: NumberDetails(
           countryCode: _phoneNumber!.countryCode,
@@ -48,9 +53,12 @@ class AuthProvider extends ChangeNotifier {
           timestamp: TimeDateFunctions.timestamp,
         ),
       );
-
       final bool added = await UserAPI().register(user: appuser);
       _isRegsiterScreenLoading = false;
+      log('User Registered Successfully');
+      if (kDebugMode) {
+        print('User Device Token - $token');
+      }
       notifyListeners();
       if (added) {
         // ignore: use_build_context_synchronously

@@ -77,7 +77,7 @@ class SettingScreen extends StatelessWidget {
                 icon: Icons.logout,
                 title: 'Log Out',
                 onTap: () async {
-                  await AuthMethods().signOut();
+                  await AuthMethods().signOut(context);
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     PhoneNumberScreen.routeName,
