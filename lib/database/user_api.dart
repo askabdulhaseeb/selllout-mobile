@@ -51,7 +51,7 @@ class UserAPI {
           deviceToken: supporter.deviceToken ?? <String>[],
           messageTitle: user.displayName ?? 'App User',
           messageBody: '${user.displayName} want to start supporting you',
-          data: <String>['support', 'public', user.uid],
+          data: <String>['support', 'request', user.uid],
         );
       }
     } catch (e) {
