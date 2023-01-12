@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../models/app_user.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'auth_methods.dart';
+import 'notification_service.dart';
 
 class UserAPI {
   static const String _collection = 'users';
@@ -22,7 +23,8 @@ class UserAPI {
       CustomToast.errorToast(message: e.toString());
     }
   }
-Future<void> setDeviceToken(List<String> deviceToken) async {
+
+  Future<void> setDeviceToken(List<String> deviceToken) async {
     try {
       await _instance
           .collection(_collection)
@@ -32,8 +34,10 @@ Future<void> setDeviceToken(List<String> deviceToken) async {
       CustomToast.errorToast(message: 'Something Went Wrong');
     }
   }
+
   Future<void> supportRequest({
     required AppUser user,
+    required AppUser supporter,
     required bool alreadyExist,
   }) async {
     if (user.uid == AuthMethods.uid) return;
@@ -42,6 +46,14 @@ Future<void> setDeviceToken(List<String> deviceToken) async {
           .collection(_collection)
           .doc(user.uid)
           .update(user.updateSupportRequest(alreadyExist: alreadyExist));
+      if (!alreadyExist && (supporter.deviceToken?.isNotEmpty ?? false)) {
+        await NotificationsServices().sendSubsceibtionNotification(
+          deviceToken: supporter.deviceToken ?? <String>[],
+          messageTitle: user.displayName ?? 'App User',
+          messageBody: '${user.displayName} want to start supporting you',
+          data: <String>['support', 'public', user.uid],
+        );
+      }
     } catch (e) {
       CustomToast.errorToast(message: e.toString());
     }
@@ -57,6 +69,14 @@ Future<void> setDeviceToken(List<String> deviceToken) async {
           user.updateSupporter(alreadyExist: alreadyExist, uid: me.uid));
       await _instance.collection(_collection).doc(me.uid).update(
           me.updateSupporting(alreadyExist: alreadyExist, uid: user.uid));
+      if (!alreadyExist && (user.deviceToken?.isNotEmpty ?? false)) {
+        await NotificationsServices().sendSubsceibtionNotification(
+          deviceToken: user.deviceToken ?? <String>[],
+          messageTitle: me.displayName ?? 'App User',
+          messageBody: '${me.displayName} start supporting you',
+          data: <String>['support', 'public', me.uid],
+        );
+      }
     } catch (e) {
       CustomToast.errorToast(message: e.toString());
     }

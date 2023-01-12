@@ -135,7 +135,11 @@ class UserProvider extends ChangeNotifier {
     }
     _user[index] = tempUser;
     notifyListeners();
-    await UserAPI().supportRequest(user: tempUser, alreadyExist: alreadyExist);
+    await UserAPI().supportRequest(
+      user: tempUser,
+      supporter: tempUser,
+      alreadyExist: alreadyExist,
+    );
   }
 
   List<AppUser> get users => <AppUser>[..._user];
