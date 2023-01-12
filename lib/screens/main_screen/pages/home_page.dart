@@ -10,19 +10,8 @@ import '../../../providers/provider.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/product/product_tile.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    print('home khola ha');
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

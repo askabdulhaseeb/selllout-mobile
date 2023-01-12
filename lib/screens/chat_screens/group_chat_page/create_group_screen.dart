@@ -63,7 +63,7 @@ class CreateChatGroupScreen extends StatelessWidget {
                       ? const ShowLoading()
                       : CustomElevatedButton(
                           title: 'Create Group',
-                          onTap: () => groupPro.onCreateGroup(),
+                          onTap: () => groupPro.onCreateGroup(context),
                         ),
                 ],
               ),

@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
 
+import '../models/app_user.dart';
 import '../models/chat/chat.dart';
 import '../models/chat/message.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'auth_methods.dart';
+import 'notification_service.dart';
 
 class ChatAPI {
   static final FirebaseFirestore _instance = FirebaseFirestore.instance;
@@ -72,7 +75,11 @@ class ChatAPI {
     });
   }
 
-  Future<void> sendMessage(Chat chat) async {
+  Future<void> sendMessage({
+    required Chat chat,
+    required AppUser receiver,
+    required AppUser sender,
+  }) async {
     final Message? newMessage = chat.lastMessage;
     try {
       if (newMessage != null) {
@@ -87,6 +94,14 @@ class ChatAPI {
           .collection(_collection)
           .doc(chat.chatID)
           .set(chat.toMap());
+      if (receiver.deviceToken?.isNotEmpty ?? false) {
+        await NotificationsServices().sendSubsceibtionNotification(
+          deviceToken: receiver.deviceToken ?? <String>[],
+          messageTitle: sender.displayName ?? 'App User',
+          messageBody: newMessage!.text ?? 'Send you a message',
+          data: <String>['chat', 'message', 'personal'],
+        );
+      }
     } catch (e) {
       CustomToast.errorToast(message: e.toString());
     }
@@ -142,5 +157,10 @@ class ChatAPI {
       CustomToast.errorToast(message: e.toString());
       return null;
     }
+  }
+
+  static List<String> othersUID(List<String> users) {
+    users.remove(AuthMethods.uid);
+    return users;
   }
 }

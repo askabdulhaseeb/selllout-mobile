@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
 import '../../database/chat_api.dart';
@@ -9,18 +10,20 @@ import '../../enums/chat/message_type_enum.dart';
 import '../../functions/picker_functions.dart';
 import '../../functions/time_date_functions.dart';
 import '../../functions/unique_id_functions.dart';
+import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../models/chat/chat_group_info.dart';
 import '../../models/chat/chat_group_member.dart';
 import '../../models/chat/message.dart';
 import '../../models/chat/message_attachment.dart';
 import '../../models/chat/message_read_info.dart';
+import '../user/user_provider.dart';
 
 class GroupChatProvider extends ChangeNotifier {
   //
   // ON CHANGE FUNCTION
   //
-  onCreateGroup() async {
+  onCreateGroup(BuildContext context) async {
     if (_key.currentState!.validate()) {
       _isLoading = true;
       notifyListeners();
@@ -32,6 +35,12 @@ class GroupChatProvider extends ChangeNotifier {
                 .uploadGroupImage(file: _imageFile!, attachmentID: groupID) ??
             '';
       }
+      final UserProvider userPro =
+          // ignore: use_build_context_synchronously
+          Provider.of<UserProvider>(context, listen: false);
+      final String otherUID = ChatAPI.othersUID(_persons)[0];
+      final AppUser receiver = userPro.user(uid: otherUID);
+      final AppUser sender = userPro.user(uid: AuthMethods.uid);
       final ChatGroupInfo info = ChatGroupInfo(
         groupID: groupID,
         name: _name.text.trim(),
@@ -42,7 +51,7 @@ class GroupChatProvider extends ChangeNotifier {
         members: _members,
       );
       await ChatAPI().sendMessage(
-        Chat(
+        chat: Chat(
           chatID: groupID,
           persons: _persons,
           groupInfo: info,
@@ -54,10 +63,14 @@ class GroupChatProvider extends ChangeNotifier {
             type: MessageTypeEnum.announcement,
             attachment: <MessageAttachment>[],
             sendBy: AuthMethods.uid,
-            sendTo: <MessageReadInfo>[],
+            sendTo: <MessageReadInfo>[
+              MessageReadInfo(uid: receiver.uid),
+            ],
             timestamp: time,
           ),
         ),
+        receiver: receiver,
+        sender: sender,
       );
       _reset();
       _isLoading = false;

@@ -1,15 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../database/auth_methods.dart';
 import '../../database/chat_api.dart';
+import '../../database/user_api.dart';
 import '../../enums/chat/message_type_enum.dart';
 import '../../functions/picker_functions.dart';
 import '../../functions/time_date_functions.dart';
+import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../models/chat/message.dart';
 import '../../models/chat/message_attachment.dart';
 import '../../models/chat/message_read_info.dart';
+import '../../providers/provider.dart';
 import '../custom_widgets/asset_video_player.dart';
 
 class ChatTextField extends StatefulWidget {
@@ -194,6 +198,12 @@ class _ChatTextFieldState extends State<ChatTextField> {
                       setState(() {
                         isLoading = true;
                       });
+                      final UserProvider userPro =
+                          Provider.of<UserProvider>(context, listen: false);
+                      final String otherUID =
+                          ChatAPI.othersUID(widget.chat.persons)[0];
+                      final AppUser receiver = userPro.user(uid: otherUID);
+                      final AppUser sender = userPro.user(uid: AuthMethods.uid);
                       final int time = TimeDateFunctions.timestamp;
                       List<MessageAttachment> attachments =
                           <MessageAttachment>[];
@@ -216,7 +226,6 @@ class _ChatTextFieldState extends State<ChatTextField> {
                         files = <File>[];
                         isLoading = false;
                       });
-
                       final Message msg = Message(
                         messageID: time.toString(),
                         text: _text.text.trim(),
@@ -225,13 +234,19 @@ class _ChatTextFieldState extends State<ChatTextField> {
                             : attachments[0].type,
                         attachment: attachments,
                         sendBy: AuthMethods.uid,
-                        sendTo: <MessageReadInfo>[],
+                        sendTo: <MessageReadInfo>[
+                          MessageReadInfo(uid: receiver.uid)
+                        ],
                         timestamp: time,
                       );
                       widget.chat.timestamp = time;
                       widget.chat.lastMessage = msg;
                       _text.clear();
-                      await ChatAPI().sendMessage(widget.chat);
+                      await ChatAPI().sendMessage(
+                        chat: widget.chat,
+                        receiver: receiver,
+                        sender: sender,
+                      );
                     },
                     splashRadius: 16,
                     icon: Icon(
@@ -264,18 +279,24 @@ class _TextHintButton extends StatelessWidget {
     return InkWell(
       onTap: () async {
         final int time = TimeDateFunctions.timestamp;
+        final String otherUID = ChatAPI.othersUID(chat.persons)[0];
+        final UserProvider userPro =
+            Provider.of<UserProvider>(context, listen: false);
+        final AppUser receiver = userPro.user(uid: otherUID);
+        final AppUser sender = userPro.user(uid: AuthMethods.uid);
         final Message msg = Message(
           messageID: time.toString(),
           text: hint,
           type: MessageTypeEnum.text,
           attachment: <MessageAttachment>[],
           sendBy: AuthMethods.uid,
-          sendTo: <MessageReadInfo>[],
+          sendTo: <MessageReadInfo>[MessageReadInfo(uid: receiver.uid)],
           timestamp: time,
         );
         chat.lastMessage = msg;
         chat.timestamp = time;
-        await ChatAPI().sendMessage(chat);
+        await ChatAPI()
+            .sendMessage(chat: chat, receiver: receiver, sender: sender);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

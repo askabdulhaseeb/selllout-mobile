@@ -210,7 +210,12 @@ class _DigitalKeyboardState extends State<_DigitalKeyboard> {
                               amount: double.parse(widget.offer),
                               chatID: chatID);
                       await ChatAPI().sendMessage(
-                        Chat(
+                        receiver: user,
+                        sender:
+                            // ignore: use_build_context_synchronously
+                            Provider.of<UserProvider>(context, listen: false)
+                                .user(uid: AuthMethods.uid),
+                        chat: Chat(
                           chatID: chatID,
                           persons: <String>[AuthMethods.uid, user.uid],
                           lastMessage: Message(
