@@ -33,9 +33,11 @@ class _ContactScreenState extends State<ContactScreen> {
 
   _request() async {
     await Permission.contacts.request();
-    final PermissionStatus status = await Permission.contacts.status;
-    if (status == PermissionStatus.granted) return;
-    await openAppSettings();
+    final bool isOkay = await Permission.contacts.isGranted ||
+        await Permission.contacts.isLimited;
+    if (!isOkay) {
+      await openAppSettings();
+    }
   }
 
   @override

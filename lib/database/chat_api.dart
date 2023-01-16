@@ -161,6 +161,6 @@ class ChatAPI {
 
   static List<String> othersUID(List<String> users) {
     users.remove(AuthMethods.uid);
-    return users;
+    return users.isEmpty ? <String>[''] : users;
   }
 }

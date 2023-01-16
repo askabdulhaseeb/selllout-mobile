@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../database/auth_methods.dart';
+import '../../../database/chat_api.dart';
 import '../../../functions/time_date_functions.dart';
 import '../../../models/app_user.dart';
 import '../../../models/chat/chat.dart';
@@ -16,10 +17,8 @@ class ChatDashboardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
         builder: (BuildContext context, UserProvider userPro, _) {
-      final AppUser user = userPro.user(
-          uid: chat.persons
-              .where((String element) => element != AuthMethods.uid)
-              .first);
+      final AppUser user =
+          userPro.user(uid: ChatAPI.othersUID(chat.persons)[0]);
       return ListTile(
         onTap: () {
           Navigator.of(context).push(
