@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:developer';
-
+import 'package:http/http.dart' as http;
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../utilities/utilities.dart';
 
 class NotificationsServices {
   static final FlutterLocalNotificationsPlugin localNotificationPlugin =
@@ -71,23 +74,52 @@ class NotificationsServices {
     required String messageBody,
     required List<String> data,
   }) async {
-    String value3 = data.length == 2 ? '' : data[2];
-    HttpsCallable func =
-        FirebaseFunctions.instance.httpsCallable('notifySubscribers');
-    // ignore: always_specify_types
-    final HttpsCallableResult res = await func.call(
-      <String, dynamic>{
-        'targetDevices': deviceToken,
-        'messageTitle': messageTitle,
-        'messageBody': messageBody,
-        'value1': data[0],
-        'value2': data[1],
-        'value3': value3,
-      },
-    );
-    if (res.data as bool) {
+    // String value3 = data.length == 2 ? '' : data[2];
+    // HttpsCallable func =
+    //     FirebaseFunctions.instance.httpsCallable('notifySubscribers');
+    // // ignore: always_specify_types
+    // final HttpsCallableResult res = await func.call(
+    //   <String, dynamic>{
+    //     'targetDevices': deviceToken,
+    //     'messageTitle': messageTitle,
+    //     'messageBody': messageBody,
+    //     'value1': data[0],
+    //     'value2': data[1],
+    //     'value3': value3,
+    //   },
+    // );
+    // if (res.data as bool) {
+    //   return true;
+    try {
+      for (int i = 0; i < deviceToken.length; i++) {
+        log('Receiver Devive Token: ${deviceToken[i]}');
+        final Map<String, String> headers = <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=${Utilities.firebaseServerID}',
+        };
+        final http.Request request = http.Request(
+          'POST',
+          Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        );
+        request.body = json.encode(<String, dynamic>{
+          'to': deviceToken[i],
+          'priority': 'high',
+          'notification': <String, String>{
+            'body': messageBody,
+            'title': messageTitle,
+          }
+        });
+        request.headers.addAll(headers);
+        final http.StreamedResponse response = await request.send();
+        if (response.statusCode == 200) {
+          print(await response.stream.bytesToString());
+        } else {
+          log('ERROR in FCM');
+        }
+      }
       return true;
-    } else {
+    } catch (e) {
+      log('ERROR in FCM: ${e.toString()}');
       return false;
     }
   }
