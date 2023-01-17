@@ -7,6 +7,8 @@ import '../../../models/chat/message.dart';
 import '../../../models/product/product.dart';
 import '../../../widgets/chat/chat_message_tile.dart';
 import '../../../widgets/chat/message_tile.dart';
+import '../../../widgets/chat/messages_list.dart';
+import '../../../widgets/chat/no_old_chat_available_widget.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import '../../../widgets/product/prod_urls_slider.dart';
 import '../../product_screens/product_detail_screen.dart';
@@ -42,32 +44,8 @@ class ProductChatScreen extends StatelessWidget {
                       if (snapshot.hasData) {
                         List<Message> messages = snapshot.data ?? <Message>[];
                         return (messages.isEmpty)
-                            ? SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Say Hi!',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      'and start conversation',
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: messages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return MessageTile(message: messages[index]);
-                                },
-                              );
+                            ? const NoOldChatAvailableWidget()
+                            : MessageLists(messages: messages);
                       } else {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,

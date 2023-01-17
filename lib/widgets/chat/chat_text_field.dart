@@ -200,8 +200,8 @@ class _ChatTextFieldState extends State<ChatTextField> {
                       });
                       final UserProvider userPro =
                           Provider.of<UserProvider>(context, listen: false);
-                      final String otherUID =
-                          ChatAPI.othersUID(widget.chat.persons)[0];
+                      final List<String> allUsers = widget.chat.persons;
+                      final String otherUID = ChatAPI.othersUID(allUsers)[0];
                       final AppUser receiver = userPro.user(uid: otherUID);
                       final AppUser sender = userPro.user(uid: AuthMethods.uid);
                       final int time = TimeDateFunctions.timestamp;

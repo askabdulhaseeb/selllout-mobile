@@ -18,26 +18,27 @@ class MessageLists extends StatefulWidget {
 
 class MessageListsState extends State<MessageLists>
     with WidgetsBindingObserver {
-  final ScrollController _controller = ScrollController();
+  // final ScrollController _controller = ScrollController();
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _controller.jumpTo(_controller.position.maxScrollExtent);
-    });
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   _controller.jumpTo(_controller.position.maxScrollExtent);
+    // });
     return Container(
       constraints: const BoxConstraints(
         minWidth: 100,
       ),
       child: ListView.builder(
         shrinkWrap: true,
-        controller: _controller,
+        reverse: true,
+        // controller: _controller,
         itemCount: widget.messages.length,
         itemBuilder: (BuildContext context, int index) =>
             MessageTile(message: widget.messages[index], chat: widget.chat),

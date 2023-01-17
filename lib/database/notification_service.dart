@@ -8,7 +8,11 @@ import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../models/app_user.dart';
+import '../models/device_token.dart';
 import '../utilities/utilities.dart';
+import 'auth_methods.dart';
+import 'user_api.dart';
 
 class NotificationsServices {
   static final FlutterLocalNotificationsPlugin localNotificationPlugin =
@@ -69,7 +73,7 @@ class NotificationsServices {
   }
 
   Future<bool> sendSubsceibtionNotification({
-    required List<String> deviceToken,
+    required List<MyDeviceToken> deviceToken,
     required String messageTitle,
     required String messageBody,
     required List<String> data,
@@ -92,7 +96,7 @@ class NotificationsServices {
     //   return true;
     try {
       for (int i = 0; i < deviceToken.length; i++) {
-        log('Receiver Devive Token: ${deviceToken[i]}');
+        log('Receiver Devive Token: ${deviceToken[i].token}');
         final Map<String, String> headers = <String, String>{
           'Content-Type': 'application/json',
           'Authorization': 'key=${Utilities.firebaseServerID}',
@@ -102,7 +106,7 @@ class NotificationsServices {
           Uri.parse('https://fcm.googleapis.com/fcm/send'),
         );
         request.body = json.encode(<String, dynamic>{
-          'to': deviceToken[i],
+          'to': deviceToken[i].token,
           'priority': 'high',
           'notification': <String, String>{
             'body': messageBody,
@@ -113,6 +117,7 @@ class NotificationsServices {
         final http.StreamedResponse response = await request.send();
         if (response.statusCode == 200) {
           print(await response.stream.bytesToString());
+          log('Notification send to: ${deviceToken[i].token}');
         } else {
           log('ERROR in FCM');
         }
@@ -165,5 +170,32 @@ class NotificationsServices {
 
   static Future<void> cancelAllNotifications() async {
     await localNotificationPlugin.cancelAll();
+  }
+
+  Future<void> verifyTokenIsUnique({
+    required List<AppUser> allUsersValue,
+    required String deviceTokenValue,
+  }) async {
+    final String meUID = AuthMethods.uid;
+    for (AppUser element in allUsersValue) {
+      if (tokenAlreadyExist(
+              devicesValue: (element.deviceToken ?? <MyDeviceToken>[]),
+              tokenValue: deviceTokenValue) &&
+          element.uid != meUID) {
+        element.deviceToken?.removeWhere(
+            (MyDeviceToken element) => element.token == deviceTokenValue);
+        await UserAPI().setDeviceToken(element.deviceToken ?? <MyDeviceToken>[]);
+      }
+    }
+  }
+
+  bool tokenAlreadyExist({
+    required List<MyDeviceToken> devicesValue,
+    required String tokenValue,
+  }) {
+    for (MyDeviceToken element in devicesValue) {
+      if (element.token == tokenValue) return true;
+    }
+    return false;
   }
 }

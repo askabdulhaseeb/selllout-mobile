@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../database/auth_methods.dart';
 import '../enums/gender_type_enum.dart';
+import 'device_token.dart';
 import 'number_details.dart';
 import 'reports/report_user.dart';
 
@@ -47,7 +48,7 @@ class AppUser {
   final List<String>? supporting;
   final List<String>? supporters;
   final List<String>? supportRequest;
-final List<String>? deviceToken;
+  final List<MyDeviceToken>? deviceToken;
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
@@ -66,7 +67,8 @@ final List<String>? deviceToken;
       'supporting': supporting ?? <String>[],
       'supporters': supporters ?? <String>[],
       'support_request': supportRequest ?? <String>[],
-      'devices_token': deviceToken ?? [],
+      'devices_tokens':
+          deviceToken?.map((MyDeviceToken e) => e.toMap()).toList() ?? [],
     };
   }
 
@@ -149,6 +151,12 @@ final List<String>? deviceToken;
   // ignore: sort_constructors_first
   factory AppUser.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     List<ReportUser> reportInfo = <ReportUser>[];
+    List<MyDeviceToken> dtData = <MyDeviceToken>[];
+    if (doc.data()!['devices_tokens'] != null) {
+      doc.data()!['devices_tokens'].forEach((dynamic e) {
+        dtData.add(MyDeviceToken.fromMap(e));
+      });
+    }
     if (doc.data()!['reports'] != null) {
       doc.data()!['reports'].forEach((dynamic e) {
         reportInfo.add(ReportUser.fromMap(e));
@@ -181,7 +189,7 @@ final List<String>? deviceToken;
       supporters: List<String>.from(doc.data()?['supporters'] ?? <String>[]),
       supportRequest:
           List<String>.from(doc.data()?['support_request'] ?? <String>[]),
-          deviceToken: List<String>.from(doc.data()?['devices_token'] ?? []),
+      deviceToken: dtData,
     );
   }
 }

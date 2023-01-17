@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/app_user.dart';
 import '../models/chat/chat.dart';
 import '../models/chat/message.dart';
+import '../models/device_token.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'auth_methods.dart';
 import 'notification_service.dart';
@@ -21,7 +23,7 @@ class ChatAPI {
         .collection(_collection)
         .doc(chatID)
         .collection(_subCollection)
-        .orderBy('timestamp')
+        .orderBy('timestamp', descending: true)
         .snapshots()
         .map((QuerySnapshot<Map<String, dynamic>> event) {
       final List<Message> messages = <Message>[];
@@ -96,7 +98,7 @@ class ChatAPI {
           .set(chat.toMap());
       if (receiver.deviceToken?.isNotEmpty ?? false) {
         await NotificationsServices().sendSubsceibtionNotification(
-          deviceToken: receiver.deviceToken ?? <String>[],
+          deviceToken: receiver.deviceToken ?? <MyDeviceToken>[],
           messageTitle: sender.displayName ?? 'App User',
           messageBody: newMessage!.text ?? 'Send you a message',
           data: <String>['chat', 'message', 'personal'],
@@ -159,8 +161,10 @@ class ChatAPI {
     }
   }
 
-  static List<String> othersUID(List<String> users) {
-    users.remove(AuthMethods.uid);
-    return users.isEmpty ? <String>[''] : users;
+  static List<String> othersUID(List<String> usersValue) {
+    List<String> myUsers = usersValue
+        .where((String element) => element != AuthMethods.uid)
+        .toList();
+    return myUsers.isEmpty ? <String>[''] : myUsers;
   }
 }

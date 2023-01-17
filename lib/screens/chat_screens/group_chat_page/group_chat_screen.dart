@@ -5,6 +5,7 @@ import '../../../models/chat/chat.dart';
 import '../../../models/chat/message.dart';
 import '../../../widgets/chat/chat_message_tile.dart';
 import '../../../widgets/chat/messages_list.dart';
+import '../../../widgets/chat/no_old_chat_available_widget.dart';
 import '../../../widgets/custom_widgets/custom_profile_image.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';
 import 'group_info_screen.dart';
@@ -50,39 +51,23 @@ class GroupChatScreen extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          StreamBuilder<List<Message>>(
-            stream: ChatAPI().messages(chat.chatID),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Message>> snapshot) {
-              if (snapshot.hasError) {
-                return const Center(child: Text('Facinf some error'));
-              } else if (snapshot.hasData) {
-                final List<Message> messages = snapshot.data!;
-                return messages.isEmpty
-                    ? SizedBox(
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Text(
-                              'Say Salam!',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'and start conversation',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      )
-                    : MessageLists(messages: messages, chat: chat);
-              } else {
-                return const ShowLoading();
-              }
-            },
+          Expanded(
+            child: StreamBuilder<List<Message>>(
+              stream: ChatAPI().messages(chat.chatID),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Message>> snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Facing some error'));
+                } else if (snapshot.hasData) {
+                  final List<Message> messages = snapshot.data!;
+                  return messages.isEmpty
+                      ? const NoOldChatAvailableWidget()
+                      : MessageLists(messages: messages, chat: chat);
+                } else {
+                  return const ShowLoading();
+                }
+              },
+            ),
           ),
           ChatMessageTile(chat: chat),
         ],

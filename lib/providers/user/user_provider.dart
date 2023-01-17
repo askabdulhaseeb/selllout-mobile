@@ -14,8 +14,6 @@ class UserProvider extends ChangeNotifier {
     init();
   }
   List<AppUser> _user = <AppUser>[];
-  List<String> _deviceToken = <String>[];
-  List<String> get deviceToken => _deviceToken;
   void init() async {
     if (_user.isNotEmpty) return;
     _user.addAll(await UserAPI().getAllUsers());

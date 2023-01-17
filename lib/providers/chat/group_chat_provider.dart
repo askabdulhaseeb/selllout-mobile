@@ -74,6 +74,8 @@ class GroupChatProvider extends ChangeNotifier {
       );
       _reset();
       _isLoading = false;
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
       notifyListeners();
     }
   }

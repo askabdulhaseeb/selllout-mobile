@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../database/auth_methods.dart';
-import '../../../database/notification_service.dart';
 import '../../../functions/user_bottom_sheets.dart';
 import '../../../models/app_user.dart';
 import '../../../models/product/product.dart';
@@ -15,22 +14,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userPro = Provider.of<UserProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(title: const Text('Sellout')),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.notifications_active_outlined),
-        onPressed: () async {
-          List<String> deviceToken = userPro.deviceToken;
-          await NotificationsServices().sendSubsceibtionNotification(
-              deviceToken: deviceToken,
-              messageTitle: 'Notification Test',
-              messageBody:
-                  'This is just a test notification to check that notification is working',
-              data: <String>['usman', 'afzal', 'Bajwa']);
-        },
-      ),
       body: Consumer<ProductProvider>(
         builder: (BuildContext context, ProductProvider prodPro, _) {
           final List<Product> prods = prodPro.productsByUsers(

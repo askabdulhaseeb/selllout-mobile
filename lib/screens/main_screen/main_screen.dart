@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
+import '../../database/notification_service.dart';
+import '../../database/user_api.dart';
+import '../../models/app_user.dart';
+import '../../models/device_token.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../user_screens/user_blocked_screeb.dart';
@@ -21,11 +27,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   void didChangeDependencies() {
     if (Provider.of<UserProvider>(context, listen: false)
@@ -48,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     int currentIndex = Provider.of<AppProvider>(context).currentTap;
+    log('Current User: ${AuthMethods.uid}');
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: _pages),
       bottomNavigationBar: const MainBottomNavigationBar(),

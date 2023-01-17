@@ -8,6 +8,7 @@ import '../../database/auth_methods.dart';
 import '../../database/notification_service.dart';
 import '../../database/user_api.dart';
 import '../../models/app_user.dart';
+import '../../models/device_token.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/provider.dart';
 import '../../widgets/custom_widgets/custom_textformfield.dart';
@@ -68,18 +69,23 @@ class _OTPScreenState extends State<OTPScreen> {
                       final String? token =
                           await NotificationsServices.getToken();
                       if (!mounted) return;
-                      final AppUser me =
-                          Provider.of<UserProvider>(context, listen: false)
-                              .user(uid: AuthMethods.uid);
-                      if (!(me.deviceToken?.contains(token) ?? false)) {
-                        me.deviceToken!.add(token ?? '');
-                        me.deviceToken!
-                            .removeWhere((String element) => element.isEmpty);
-                        await UserAPI()
-                            .setDeviceToken(me.deviceToken ?? <String>[]);
+                      final UserProvider userPro =
+                          Provider.of<UserProvider>(context, listen: false);
+                      final AppUser me = userPro.user(uid: AuthMethods.uid);
+                      if (!(NotificationsServices().tokenAlreadyExist(
+                          devicesValue: me.deviceToken ?? <MyDeviceToken>[],
+                          tokenValue: token ?? ''))) {
+                        me.deviceToken!.add(MyDeviceToken(token: token ?? ''));
+                        me.deviceToken!.removeWhere(
+                            (MyDeviceToken element) => element.token.isEmpty);
+                        await UserAPI().setDeviceToken(
+                            me.deviceToken ?? <MyDeviceToken>[]);
+                        await NotificationsServices().verifyTokenIsUnique(
+                          allUsersValue: userPro.users,
+                          deviceTokenValue: token ?? '',
+                        );
                         if (!mounted) return;
-                        await Provider.of<UserProvider>(context, listen: false)
-                            .refresh();
+                        await userPro.refresh();
                         log('New Device Token Added Successfully');
                         if (kDebugMode) {
                           print('User Device Token - $token');

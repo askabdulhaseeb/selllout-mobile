@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/app_user.dart';
+import '../models/device_token.dart';
 import '../providers/provider.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'notification_service.dart';
@@ -60,7 +61,7 @@ class AuthMethods {
         .user(uid: AuthMethods.uid);
     final String? token = await NotificationsServices.getToken();
     me.deviceToken!.remove(token ?? '');
-    await UserAPI().setDeviceToken(me.deviceToken ?? <String>[]);
+    await UserAPI().setDeviceToken(me.deviceToken ?? <MyDeviceToken>[]);
     await _auth.signOut();
   }
 }

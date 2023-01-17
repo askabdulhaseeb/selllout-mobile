@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../models/app_user.dart';
+import '../models/device_token.dart';
 import '../models/product/product.dart';
 import 'auth_methods.dart';
 import 'notification_service.dart';
@@ -69,7 +70,7 @@ class ProductAPI {
           .update(product.sendOrder());
       if (receiver.deviceToken?.isNotEmpty ?? false) {
         await NotificationsServices().sendSubsceibtionNotification(
-          deviceToken: receiver.deviceToken ?? <String>[],
+          deviceToken: receiver.deviceToken ?? <MyDeviceToken>[],
           messageTitle: 'New Product Order',
           messageBody: 'You receive an Order from ${sender.displayName}',
           data: <String>['product', 'order', sender.uid],
@@ -93,7 +94,7 @@ class ProductAPI {
           .update(product.sendOffer());
       if (receiver.deviceToken?.isNotEmpty ?? false) {
         await NotificationsServices().sendSubsceibtionNotification(
-          deviceToken: receiver.deviceToken ?? <String>[],
+          deviceToken: receiver.deviceToken ?? <MyDeviceToken>[],
           messageTitle: 'New Product Order',
           messageBody: 'You receive an Order from ${sender.displayName}',
           data: <String>['product', 'order', sender.uid],

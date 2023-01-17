@@ -13,6 +13,7 @@ import '../database/user_api.dart';
 import '../functions/picker_functions.dart';
 import '../functions/time_date_functions.dart';
 import '../models/app_user.dart';
+import '../models/device_token.dart';
 import '../models/number_details.dart';
 import '../screens/auth/phone_number_screen.dart';
 import '../screens/main_screen/main_screen.dart';
@@ -43,7 +44,7 @@ class AuthProvider extends ChangeNotifier {
         username: _username.text.trim(),
         bio: _bio.text.trim(),
         imageURL: url ?? '',
-        deviceToken: <String>[token ?? ''],
+        deviceToken: <MyDeviceToken>[MyDeviceToken(token: token??'')],
         isPublicProfile: _isPublicProfile,
         phoneNumber: NumberDetails(
           countryCode: _phoneNumber!.countryCode,

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../models/app_user.dart';
+import '../models/device_token.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 import 'auth_methods.dart';
 import 'notification_service.dart';
@@ -24,12 +25,14 @@ class UserAPI {
     }
   }
 
-  Future<void> setDeviceToken(List<String> deviceToken) async {
+  Future<void> setDeviceToken(List<MyDeviceToken> deviceToken) async {
     try {
       await _instance
           .collection(_collection)
           .doc(AuthMethods.uid)
-          .update(<String, dynamic>{'devices_token': deviceToken});
+          .update(<String, dynamic>{
+        'devices_tokens': deviceToken.map((e) => e.toMap()).toList()
+      });
     } catch (e) {
       CustomToast.errorToast(message: 'Something Went Wrong');
     }
@@ -48,7 +51,7 @@ class UserAPI {
           .update(user.updateSupportRequest(alreadyExist: alreadyExist));
       if (!alreadyExist && (supporter.deviceToken?.isNotEmpty ?? false)) {
         await NotificationsServices().sendSubsceibtionNotification(
-          deviceToken: supporter.deviceToken ?? <String>[],
+          deviceToken: supporter.deviceToken ?? <MyDeviceToken>[],
           messageTitle: user.displayName ?? 'App User',
           messageBody: '${user.displayName} want to start supporting you',
           data: <String>['support', 'request', user.uid],
@@ -71,7 +74,7 @@ class UserAPI {
           me.updateSupporting(alreadyExist: alreadyExist, uid: user.uid));
       if (!alreadyExist && (user.deviceToken?.isNotEmpty ?? false)) {
         await NotificationsServices().sendSubsceibtionNotification(
-          deviceToken: user.deviceToken ?? <String>[],
+          deviceToken: user.deviceToken ?? <MyDeviceToken>[],
           messageTitle: me.displayName ?? 'App User',
           messageBody: '${me.displayName} start supporting you',
           data: <String>['support', 'public', me.uid],

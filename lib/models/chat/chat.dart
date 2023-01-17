@@ -47,7 +47,6 @@ class Chat {
 
   Map<String, dynamic> sendMesssage() {
     return <String, dynamic>{
-      'chat_id': chatID,
       'last_message': lastMessage!.toMap(),
       'timestamp': timestamp,
     };
