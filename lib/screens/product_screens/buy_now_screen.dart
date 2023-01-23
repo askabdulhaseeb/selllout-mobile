@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
+import 'package:selllout/helper/payment_helper.dart';
+import 'package:selllout/utilities/utilities.dart';
 
 import '../../enums/product/prod_delivery_type.dart';
 import '../../models/product/product.dart';
@@ -15,6 +18,9 @@ class BuyNowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void onApplePayResult(paymentResult) {
+      debugPrint(paymentResult.toString());
+    }
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -39,38 +45,60 @@ class BuyNowScreen extends StatelessWidget {
                   imagePath: AppImages.paypal,
                   title: 'PayPal',
                   onTap: () {
-                    _sendOrder(context);
-                    Navigator.of(context).push(
-                      MaterialPageRoute<PaymentSuccessScreen>(
-                        builder: (_) => const PaymentSuccessScreen(),
-                      ),
+                    PaymentHelper.makePayment(context,
+                      product.price,Utilities.payments[0],
                     );
+                    // _sendOrder(context);
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute<PaymentSuccessScreen>(
+                    //     builder: (_) => const PaymentSuccessScreen(),
+                    //   ),
+                    // );
                   },
                 ),
                 _ImageIconButton(
                   imagePath: AppImages.strip,
                   title: 'Strip',
                   onTap: () {
-                    _sendOrder(context);
-                    Navigator.of(context).push(
-                      MaterialPageRoute<PaymentSuccessScreen>(
-                        builder: (_) => const PaymentSuccessScreen(),
-                      ),
+                     PaymentHelper.makePayment(context,
+                       product.price, Utilities.payments[1],
                     );
+                    // _sendOrder(context);
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute<PaymentSuccessScreen>(
+                    //     builder: (_) => const PaymentSuccessScreen(),
+                    //   ),
+                    // );
                   },
                 ),
-                _ImageIconButton(
-                  imagePath: AppImages.applePay,
-                  title: 'Apple Pay',
-                  onTap: () {
-                    _sendOrder(context);
-                    Navigator.of(context).push(
-                      MaterialPageRoute<PaymentSuccessScreen>(
-                        builder: (_) => const PaymentSuccessScreen(),
-                      ),
-                    );
-                  },
+                ApplePayButton(
+                  paymentConfigurationAsset: 'default_payment_profile_apple_pay.json',
+                  paymentItems: [PaymentItem(
+                    label: 'Total',
+                    amount: product.price.toString(),
+                    status: PaymentItemStatus.final_price,
+                  )
+                  ],
+                  style: ApplePayButtonStyle.black,
+                  type: ApplePayButtonType.buy,
+                  margin: const EdgeInsets.only(top: 15.0),
+                  onPaymentResult: onApplePayResult,
+                  loadingIndicator: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
+                // _ImageIconButton(
+                //   imagePath: AppImages.applePay,
+                //   title: 'Apple Pay',
+                //   onTap: () {
+                //     _sendOrder(context);
+                //     Navigator.of(context).push(
+                //       MaterialPageRoute<PaymentSuccessScreen>(
+                //         builder: (_) => const PaymentSuccessScreen(),
+                //       ),
+                //     );
+                //   },
+                // ),
               ],
             ),
           ],
@@ -190,3 +218,10 @@ class _Product_Info extends StatelessWidget {
     );
   }
 }
+const _paymentItems = [
+  PaymentItem(
+    label: 'Total',
+    amount: '99.99',
+    status: PaymentItemStatus.final_price,
+  )
+];

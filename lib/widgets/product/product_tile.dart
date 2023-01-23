@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:selllout/screens/product_screens/buy_now_screen.dart';
 
 import '../../database/auth_methods.dart';
 import '../../functions/report_bottom_sheets.dart';
@@ -150,25 +151,24 @@ class _ButtonSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: <Widget>[
-                // CustomElevatedButton(
-                //   padding: _padding,
-                //   margin: _margin,
-                //   textStyle: _textStyle,
-                //   title: 'Buy Now',
-                //   onTap: () {
-                //    if (AuthMethods.getCurrentUser == null) {
-                //        Navigator.of(context)
-                //          .pushNamed(PhoneNumberScreen.routeName);
-                //        return;
-                //     }
-                //     Navigator.of(context)
-                //         .push(MaterialPageRoute<ProductChatScreen>(
-                //       builder: (BuildContext context) => BuyNowScreen(
-                //         product: product,
-                //       ),
-                //     ));
-                //   },
-                // ),
+                CustomElevatedButton(
+                  padding: _padding,
+                  margin: _margin,
+                  textStyle: _textStyle,
+                  title: 'Buy Now',
+                  onTap: () {
+                   // if (AuthMethods.getCurrentUser == null) {
+                   //     Navigator.of(context).pushNamed(PhoneNumberScreen.routeName);
+                   //     return;
+                   //  }
+                    Navigator.of(context)
+                        .push(MaterialPageRoute<ProductChatScreen>(
+                      builder: (BuildContext context) => BuyNowScreen(
+                        product: product,
+                      ),
+                    ));
+                  },
+                ),
                 product.acceptOffers
                     ? CustomElevatedButton(
                         padding: _padding,
