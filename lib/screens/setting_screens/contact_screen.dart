@@ -46,7 +46,7 @@ class _ContactScreenState extends State<ContactScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Contacts')),
       body: FutureBuilder<List<Contact>>(
-        future: FastContacts.allContacts,
+        future: FastContacts.getAllContacts(),
         builder: (BuildContext context, AsyncSnapshot<List<Contact>> snapshot) {
           if (snapshot.hasData) {
             return _DisplayContacts(contacts: snapshot.data ?? <Contact>[]);
@@ -125,14 +125,15 @@ class __DisplayContactsState extends State<_DisplayContacts> {
                       itemCount: filtered().length,
                       itemBuilder: (BuildContext context, int index) {
                         final AppUser? user = userPro.userByPhone(
-                            value: filtered()[index].phones[0]);
+                            value: filtered()[index].phones[0].number);
                         return user == null
                             ? ListTile(
                                 dense: true,
                                 contentPadding: const EdgeInsets.all(0),
                                 leading: const Icon(Icons.contacts_outlined),
                                 title: Text(filtered()[index].displayName),
-                                subtitle: Text(filtered()[index].phones[0]),
+                                subtitle:
+                                    Text(filtered()[index].phones[0].number),
                               )
                             : _AppUserContact(
                                 user: user, contact: filtered()[index]);
@@ -171,7 +172,7 @@ class _AppUserContact extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text(contact.phones[0]),
+      subtitle: Text(contact.phones[0].number),
       trailing: SizedBox(
         width: 100,
         height: 50,
