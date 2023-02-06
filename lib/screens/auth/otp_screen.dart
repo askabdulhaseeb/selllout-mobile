@@ -75,8 +75,8 @@ class _OTPScreenState extends State<OTPScreen> {
                       if (!(NotificationsServices().tokenAlreadyExist(
                           devicesValue: me.deviceToken ?? <MyDeviceToken>[],
                           tokenValue: token ?? ''))) {
-                        me.deviceToken!.add(MyDeviceToken(token: token ?? ''));
-                        me.deviceToken!.removeWhere(
+                        me.deviceToken?.add(MyDeviceToken(token: token ?? ''));
+                        me.deviceToken?.removeWhere(
                             (MyDeviceToken element) => element.token.isEmpty);
                         await UserAPI().setDeviceToken(
                             me.deviceToken ?? <MyDeviceToken>[]);
