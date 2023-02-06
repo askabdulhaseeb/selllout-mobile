@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
                     thickness: 4,
                     color: Theme.of(context)
                         .textTheme
-                        .bodyText1!
+                        .bodyLarge!
                         .color!
                         .withOpacity(0.08),
                   ),

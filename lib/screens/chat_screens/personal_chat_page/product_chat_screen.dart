@@ -6,7 +6,6 @@ import '../../../models/chat/chat.dart';
 import '../../../models/chat/message.dart';
 import '../../../models/product/product.dart';
 import '../../../widgets/chat/chat_message_tile.dart';
-import '../../../widgets/chat/message_tile.dart';
 import '../../../widgets/chat/messages_list.dart';
 import '../../../widgets/chat/no_old_chat_available_widget.dart';
 import '../../../widgets/custom_widgets/show_loading.dart';

@@ -32,7 +32,7 @@ class MessageTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .color!
                     .withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),

@@ -60,7 +60,7 @@ class AuthMethods {
     final AppUser me = Provider.of<UserProvider>(context, listen: false)
         .user(uid: AuthMethods.uid);
     final String? token = await NotificationsServices.getToken();
-    me.deviceToken!.remove(token ?? '');
+    me.deviceToken!.remove(token ?? MyDeviceToken(token: token ?? ''));
     await UserAPI().setDeviceToken(me.deviceToken ?? <MyDeviceToken>[]);
     await _auth.signOut();
   }

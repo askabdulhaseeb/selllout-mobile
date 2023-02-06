@@ -15,9 +15,7 @@ import '../../models/product/product_url.dart';
 import '../../utilities/custom_services.dart';
 import '../../utilities/utilities.dart';
 import '../../widgets/custom_widgets/custom_toast.dart';
-import '../app_provider.dart';
 import '../provider.dart';
-import 'product_category_provider.dart';
 
 class AddProductProvider extends ChangeNotifier {
   //

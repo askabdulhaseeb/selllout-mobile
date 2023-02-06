@@ -117,6 +117,7 @@ class GroupInfoScreen extends StatelessWidget {
                                             timestamp: time,
                                           );
                                           await ChatAPI().addMembers(chat);
+                                          // ignore: use_build_context_synchronously
                                           Navigator.of(context)
                                               .pushNamedAndRemoveUntil(
                                                   MainScreen.rotueName,

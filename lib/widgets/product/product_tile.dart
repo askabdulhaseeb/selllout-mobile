@@ -81,7 +81,7 @@ class _InfoCard extends StatelessWidget {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1),
+                Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1),
             offset: const Offset(0, 0),
             blurRadius: 1,
             spreadRadius: 3,

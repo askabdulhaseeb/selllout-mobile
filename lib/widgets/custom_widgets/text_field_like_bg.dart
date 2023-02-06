@@ -23,7 +23,7 @@ class TextFieldLikeBG extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: bgColor ??
-            Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1),
+            Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1),
         borderRadius: borderRadius ?? BorderRadius.circular(12),
       ),
       child: child,

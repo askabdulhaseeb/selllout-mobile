@@ -4,14 +4,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
-import '../../database/chat_api.dart';
 import '../../functions/unique_id_functions.dart';
 import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../providers/provider.dart';
 import '../../widgets/custom_widgets/custom_elevated_button.dart';
 import '../../widgets/custom_widgets/custom_profile_image.dart';
-import '../../widgets/custom_widgets/custom_textformfield.dart';
 import '../../widgets/custom_widgets/show_loading.dart';
 import '../chat_screens/personal_chat_page/personal_chat_screen.dart';
 import '../user_screens/others_profile.dart';
@@ -25,6 +23,7 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
+  String search = '';
   @override
   void initState() {
     _request();
@@ -42,7 +41,6 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String search = '';
     return Scaffold(
       appBar: AppBar(title: const Text('Contacts')),
       body: FutureBuilder<List<Contact>>(
@@ -54,7 +52,7 @@ class _ContactScreenState extends State<ContactScreen> {
             return snapshot.hasError
                 ? Center(
                     child: Column(
-                    children: [
+                    children: <Widget>[
                       const Text('Error while fetching'),
                       TextButton(
                         onPressed: () async => await _request(),
@@ -71,7 +69,7 @@ class _ContactScreenState extends State<ContactScreen> {
 }
 
 class _DisplayContacts extends StatefulWidget {
-  const _DisplayContacts({required this.contacts, super.key});
+  const _DisplayContacts({required this.contacts});
   final List<Contact> contacts;
 
   @override
@@ -101,7 +99,7 @@ class __DisplayContactsState extends State<_DisplayContacts> {
                 borderRadius: BorderRadius.circular(14),
                 color: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .color!
                     .withOpacity(0.15),
                 border: Border.all(color: Colors.grey),

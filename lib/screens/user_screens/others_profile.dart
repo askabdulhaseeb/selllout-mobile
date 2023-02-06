@@ -30,7 +30,7 @@ class OthersProfile extends StatelessWidget {
         title: Text(
           user.username!,
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
@@ -77,10 +77,10 @@ class _SuppoertAndMessageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final BorderRadius borderRadius = BorderRadius.circular(4);
     final Border border = Border.all(
-      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1),
+      color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1),
     );
     final TextStyle textStyle = TextStyle(
-      color: Theme.of(context).textTheme.bodyText1!.color!,
+      color: Theme.of(context).textTheme.bodyLarge!.color!,
       fontSize: 16,
     );
     return Consumer<UserProvider>(

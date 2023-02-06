@@ -109,7 +109,7 @@ class _DeleteAccountWidgetState extends State<DeleteAccountWidget> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.grey),
                       textStyle: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
                         fontSize: 18,
                       ),
                       onTap: () => Navigator.of(context).pop(),

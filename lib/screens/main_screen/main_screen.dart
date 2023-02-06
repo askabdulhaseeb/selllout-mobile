@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
-import '../../database/notification_service.dart';
-import '../../database/user_api.dart';
-import '../../models/app_user.dart';
-import '../../models/device_token.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../user_screens/user_blocked_screeb.dart';

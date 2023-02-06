@@ -38,7 +38,7 @@ class ProfilePage extends StatelessWidget {
                       Text(
                         me.username!,
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),

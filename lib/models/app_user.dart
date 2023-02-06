@@ -68,6 +68,7 @@ class AppUser {
       'supporters': supporters ?? <String>[],
       'support_request': supportRequest ?? <String>[],
       'devices_tokens':
+          // ignore: always_specify_types
           deviceToken?.map((MyDeviceToken e) => e.toMap()).toList() ?? [],
     };
   }

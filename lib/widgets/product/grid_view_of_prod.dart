@@ -39,7 +39,7 @@ class GridViewOfProducts extends StatelessWidget {
                   BoxShadow(
                     color: Theme.of(context)
                         .textTheme
-                        .bodyText1!
+                        .bodyLarge!
                         .color!
                         .withOpacity(0.1),
                     offset: const Offset(0, 0),

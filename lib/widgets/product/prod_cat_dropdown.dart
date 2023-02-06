@@ -33,7 +33,7 @@ class ProdCatDropdown extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: color ??
-            Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
+            Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.15),
         borderRadius:
             borderRadius ?? BorderRadius.circular(Utilities.borderRadius),
         border: Border.all(color: Colors.grey),

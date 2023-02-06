@@ -44,7 +44,7 @@ class AuthProvider extends ChangeNotifier {
         username: _username.text.trim(),
         bio: _bio.text.trim(),
         imageURL: url ?? '',
-        deviceToken: <MyDeviceToken>[MyDeviceToken(token: token??'')],
+        deviceToken: <MyDeviceToken>[MyDeviceToken(token: token ?? '')],
         isPublicProfile: _isPublicProfile,
         phoneNumber: NumberDetails(
           countryCode: _phoneNumber!.countryCode,
@@ -58,7 +58,7 @@ class AuthProvider extends ChangeNotifier {
       _isRegsiterScreenLoading = false;
       log('User Registered Successfully');
       if (kDebugMode) {
-        print('User Device Token - $token');
+        debugPrint('User Device Token - $token');
       }
       notifyListeners();
       if (added) {
