@@ -12,6 +12,7 @@ import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../screens/auth/phone_number_screen.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
+import '../../screens/product_screens/buy_now_screen.dart';
 import '../../screens/product_screens/make_offer_screen.dart';
 import '../../screens/product_screens/prod_stats_info_screen.dart';
 import '../../screens/product_screens/product_detail_screen.dart';
@@ -27,40 +28,58 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute<ProductDetailScreen>(
-          builder: (BuildContext context) =>
-              ProductDetailScreen(product: product),
-        ));
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _Header(product: product),
-          AspectRatio(
-            aspectRatio: Utilities.imageAspectRatio,
-            child: ProductURLsSlider(urls: product.prodURL),
+    return Container(
+      margin: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 4.0, // soften the shadow
+            spreadRadius: 1.0, //extend the shadow
+            offset: const Offset(
+              2.0, // Move to right 5  horizontally
+              2.0, // Move to bottom 5 Vertically
+            ),
           ),
-          if (product.uid == AuthMethods.uid)
-            InkWell(
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute<ProductStatsInfoScreen>(
-                  builder: (BuildContext context) =>
-                      ProductStatsInfoScreen(product: product),
-                ));
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Orders: ${product.orders?.length}, Offer: ${product.offers?.length}',
+        ],
+      ),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute<ProductDetailScreen>(
+            builder: (BuildContext context) =>
+                ProductDetailScreen(product: product),
+          ));
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _Header(product: product),
+            AspectRatio(
+              aspectRatio: Utilities.imageAspectRatio,
+              child: ProductURLsSlider(urls: product.prodURL),
+            ),
+            if (product.uid == AuthMethods.uid)
+              InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<ProductStatsInfoScreen>(
+                    builder: (BuildContext context) =>
+                        ProductStatsInfoScreen(product: product),
+                  ));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Orders: ${product.orders?.length}, Offer: ${product.offers?.length}',
+                  ),
                 ),
               ),
-            ),
-          _InfoCard(product: product),
-          _ButtonSection(product: product),
-        ],
+            _InfoCard(product: product),
+            _ButtonSection(product: product),
+          ],
+        ),
       ),
     );
   }
@@ -72,61 +91,58 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color:
-                Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1),
-            offset: const Offset(0, 0),
-            blurRadius: 1,
-            spreadRadius: 3,
-          ),
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               Expanded(
-                child: Text(
-                  product.title,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      product.title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 18
+                      ),
+                    ),
+                    Row(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.grey,
+                          size: 12,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          'Location here',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
+              const SizedBox(width: 16),
               Text(
                 product.price.toString(),
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 4),
-          Row(
-            children: const <Widget>[
-              Icon(
-                Icons.location_on,
-                color: Colors.grey,
-                size: 12,
-              ),
-              SizedBox(width: 4),
-              Text(
-                'Location here',
-                style: TextStyle(color: Colors.grey, fontSize: 12),
-              )
-            ],
-          ),
-          const SizedBox(height: 8),
+          if (product.description.isNotEmpty) const SizedBox(height: 10),
           Text(
             product.description,
-            maxLines: 3,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           )
         ],
@@ -147,50 +163,59 @@ class _ButtonSection extends StatelessWidget {
     return product.uid == AuthMethods.uid
         ? const SizedBox()
         : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Column(
               children: <Widget>[
-                // CustomElevatedButton(
-                //   padding: _padding,
-                //   margin: _margin,
-                //   textStyle: _textStyle,
-                //   title: 'Buy Now',
-                //   onTap: () {
-                //    if (AuthMethods.getCurrentUser == null) {
-                //        Navigator.of(context)
-                //          .pushNamed(PhoneNumberScreen.routeName);
-                //        return;
-                //     }
-                //     Navigator.of(context)
-                //         .push(MaterialPageRoute<ProductChatScreen>(
-                //       builder: (BuildContext context) => BuyNowScreen(
-                //         product: product,
-                //       ),
-                //     ));
-                //   },
-                // ),
-                product.acceptOffers
-                    ? CustomElevatedButton(
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: CustomElevatedButton(
                         padding: _padding,
                         margin: _margin,
                         textStyle: _textStyle,
-                        title: 'Make Offer',
+                        title: 'Buy Now',
                         onTap: () {
                           if (AuthMethods.getCurrentUser == null) {
                             Navigator.of(context)
                                 .pushNamed(PhoneNumberScreen.routeName);
-                          } else {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute<ProductChatScreen>(
-                              builder: (BuildContext context) =>
-                                  MakeOfferScreen(
-                                product: product,
-                              ),
-                            ));
+                            return;
                           }
+                          Navigator.of(context)
+                              .push(MaterialPageRoute<ProductChatScreen>(
+                            builder: (BuildContext context) => BuyNowScreen(
+                              product: product,
+                            ),
+                          ));
                         },
+                      ),
+                    ),
+                    if (product.acceptOffers) const SizedBox(width: 16),
+                    if (product.acceptOffers)
+                      Expanded(
+                        child: CustomElevatedButton(
+                          padding: _padding,
+                          margin: _margin,
+                          textStyle: _textStyle,
+                          title: 'Make Offer',
+                          onTap: () {
+                            if (AuthMethods.getCurrentUser == null) {
+                              Navigator.of(context)
+                                  .pushNamed(PhoneNumberScreen.routeName);
+                            } else {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute<ProductChatScreen>(
+                                builder: (BuildContext context) =>
+                                    MakeOfferScreen(
+                                  product: product,
+                                ),
+                              ));
+                            }
+                          },
+                        ),
                       )
-                    : const SizedBox(),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 CustomElevatedButton(
                   padding: _padding,
                   margin: _margin,
