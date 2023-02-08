@@ -50,38 +50,40 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     int currentIndex = Provider.of<AppProvider>(context).currentTap;
     log('Current User: ${AuthMethods.uid}');
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        leading: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Image.asset(AppImages.logo),
-        ),
-        title: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(12),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          leading: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Image.asset(AppImages.logo),
           ),
-          child: const Icon(CupertinoIcons.search, color: Colors.grey),
-        ),
-        actions: <Widget>[
-          Container(
+          title: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(
-              Icons.notifications_active_outlined,
-              color: Colors.grey,
-            ),
+            child: const Icon(CupertinoIcons.search, color: Colors.grey),
           ),
-          const SizedBox(width: 16),
-        ],
+          actions: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.notifications_active_outlined,
+                color: Colors.grey,
+              ),
+            ),
+            const SizedBox(width: 16),
+          ],
+        ),
+        body: IndexedStack(index: currentIndex, children: _pages),
+        bottomNavigationBar: const MainBottomNavigationBar(),
       ),
-      body: IndexedStack(index: currentIndex, children: _pages),
-      bottomNavigationBar: const MainBottomNavigationBar(),
     );
   }
 }
