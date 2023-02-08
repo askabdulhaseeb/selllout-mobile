@@ -75,7 +75,7 @@ class _Attachment extends StatelessWidget {
                 onTap: () {},
                 child: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).primaryColor.withOpacity(0.2),
                 ),
               ),
             ),
@@ -88,7 +88,7 @@ class _Attachment extends StatelessWidget {
                 onTap: () {},
                 child: Icon(
                   Icons.arrow_forward_ios_outlined,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).primaryColor.withOpacity(0.2),
                 ),
               ),
             ),

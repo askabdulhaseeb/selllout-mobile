@@ -11,7 +11,7 @@ import '../../utilities/app_image.dart';
 import '../user_screens/user_blocked_screeb.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
-import 'pages/cart_page.dart';
+import 'pages/explore_page.dart';
 import 'pages/chat_page.dart';
 import 'pages/home_page.dart';
 import 'pages/live_page.dart';
@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static const List<Widget> _pages = <Widget>[
     HomePage(),
-    CartPage(),
+    ExplorePage(),
     LivePage(),
     AddProductPage(),
     ChatPage(),
