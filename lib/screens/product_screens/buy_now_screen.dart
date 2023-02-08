@@ -142,15 +142,12 @@ class _Product_Info extends StatelessWidget {
           SizedBox(
             width: imageSize,
             height: imageSize,
-            child: Hero(
-              tag: product.pid,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: ProductURLsSlider(
-                  urls: product.prodURL,
-                  width: imageSize,
-                  height: imageSize,
-                ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: ProductURLsSlider(
+                urls: product.prodURL,
+                width: imageSize,
+                height: imageSize,
               ),
             ),
           ),

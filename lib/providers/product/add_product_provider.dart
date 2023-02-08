@@ -48,7 +48,7 @@ class AddProductProvider extends ChangeNotifier {
   Future<void> fetchMedia() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      type: FileType.media,
+      type: FileType.image,
     );
     if (result == null) return;
     _files.clear();

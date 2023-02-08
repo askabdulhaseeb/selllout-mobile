@@ -14,6 +14,8 @@ class UserProvider extends ChangeNotifier {
     init();
   }
   List<AppUser> _user = <AppUser>[];
+  String _searchText = '';
+
   void init() async {
     if (_user.isNotEmpty) return;
     _user.addAll(await UserAPI().getAllUsers());
@@ -138,6 +140,19 @@ class UserProvider extends ChangeNotifier {
       supporter: tempUser,
       alreadyExist: alreadyExist,
     );
+  }
+
+  List<AppUser> filterProduct() {
+    return _user
+        .where((AppUser element) => (element.displayName ?? 'null')
+            .toLowerCase()
+            .contains(_searchText.toLowerCase()))
+        .toList();
+  }
+
+  onSearch(String? value) {
+    _searchText = value ?? '';
+    notifyListeners();
   }
 
   List<AppUser> get users => <AppUser>[..._user];

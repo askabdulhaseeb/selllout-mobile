@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../models/product/product.dart';
+import '../../screens/product_screens/product_detail_screen.dart';
 import '../../screens/product_screens/user_products_screen.dart';
 import '../custom_widgets/custom_network_image.dart';
 import '../custom_widgets/network_video_player.dart';
 
 class GridViewOfProducts extends StatelessWidget {
-  const GridViewOfProducts({required this.posts, Key? key}) : super(key: key);
+  const GridViewOfProducts({
+    required this.posts,
+    this.isProfileWidget = true,
+    Key? key,
+  }) : super(key: key);
   final List<Product> posts;
+  final bool isProfileWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +31,15 @@ class GridViewOfProducts extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute<UserProductsScreen>(
-                builder: (_) =>
-                    UserProductsScreen(products: posts, selectedIndex: index),
-              ),
+              isProfileWidget
+                  ? MaterialPageRoute<UserProductsScreen>(
+                      builder: (_) => UserProductsScreen(
+                          products: posts, selectedIndex: index),
+                    )
+                  : MaterialPageRoute<ProductDetailScreen>(
+                      builder: (_) =>
+                          ProductDetailScreen(product: posts[index]),
+                    ),
             );
           },
           child: Container(
@@ -53,23 +64,20 @@ class GridViewOfProducts extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Expanded(
-                  child: Hero(
-                    tag: posts[index].pid,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: SizedBox(
-                        height: double.infinity,
-                        width: double.infinity,
-                        child: posts[index].prodURL[0].isVideo
-                            ? NetworkVideoPlayer(
-                                url: posts[index].prodURL[0].url,
-                                isMute: true,
-                              )
-                            : CustomNetworkImage(
-                                imageURL: posts[index].prodURL[0].url,
-                                fit: BoxFit.cover,
-                              ),
-                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: posts[index].prodURL[0].isVideo
+                          ? NetworkVideoPlayer(
+                              url: posts[index].prodURL[0].url,
+                              isMute: true,
+                            )
+                          : CustomNetworkImage(
+                              imageURL: posts[index].prodURL[0].url,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 ),

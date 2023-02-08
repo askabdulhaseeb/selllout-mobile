@@ -8,13 +8,14 @@ import '../../database/auth_methods.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../utilities/app_image.dart';
+import '../live_screens/bid_page/bid_page.dart';
+import '../user_screens/search_user_screen.dart';
 import '../user_screens/user_blocked_screeb.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
 import 'pages/explore_page.dart';
 import 'pages/chat_page.dart';
 import 'pages/home_page.dart';
-import 'pages/live_page.dart';
 import 'pages/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     ExplorePage(),
-    LivePage(),
+    BidPage(),
     AddProductPage(),
     ChatPage(),
     ProfilePage(),
@@ -58,13 +59,18 @@ class _MainScreenState extends State<MainScreen> {
             padding: const EdgeInsets.all(8),
             child: Image.asset(AppImages.logo),
           ),
-          title: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(12),
+          title: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(SearchUserScreen.routeName);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(CupertinoIcons.search, color: Colors.grey),
             ),
-            child: const Icon(CupertinoIcons.search, color: Colors.grey),
           ),
           actions: <Widget>[
             Container(

@@ -46,7 +46,10 @@ class ExplorePage extends StatelessWidget {
                         Expanded(
                           child: CupertinoSearchTextField(
                             prefixIcon: const Icon(CupertinoIcons.search),
-                            onChanged: (String? value) {},
+                            onChanged: (String? value) =>
+                                Provider.of<ProductProvider>(context,
+                                        listen: false)
+                                    .onSearch(value),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -59,7 +62,9 @@ class ExplorePage extends StatelessWidget {
                       ],
                     ),
                     GridViewOfProducts(
-                      posts: Provider.of<ProductProvider>(context).products,
+                      posts:
+                          Provider.of<ProductProvider>(context).filterProduct(),
+                      isProfileWidget: false,
                     ),
                   ],
                 ),
