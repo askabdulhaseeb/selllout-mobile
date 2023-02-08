@@ -24,46 +24,48 @@ class OthersProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isSupporter =
         user.supporters?.contains(AuthMethods.uid) ?? false;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          user.username!,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyLarge!.color,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text(
+            user.username!,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
           ),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () => ReportBottomSheets()
+                  .otherUserProfileMoreButton(context, user),
+              splashRadius: 16,
+              icon: const Icon(Icons.more_vert_rounded),
+            )
+          ],
         ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () =>
-                ReportBottomSheets().otherUserProfileMoreButton(context, user),
-            splashRadius: 16,
-            icon: const Icon(Icons.more_vert_rounded),
-          )
-        ],
-      ),
-      body: Consumer<ProductProvider>(
-        builder: (BuildContext context, ProductProvider prodPro, _) {
-          final List<Product> prods = prodPro.userProducts(user.uid);
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ProfileHeaderWidget(user: user),
-              ProfileScoreWidget(uid: user.uid, posts: prods),
-              _SuppoertAndMessageButton(user: user),
-              Expanded(
-                child: (isSupporter || (user.isPublicProfile))
-                    ? GridViewOfProducts(posts: prods)
-                    : const SizedBox(
-                        width: double.infinity,
-                        child: PrivateAccountWidget(),
-                      ),
+        body: Consumer<ProductProvider>(
+          builder: (BuildContext context, ProductProvider prodPro, _) {
+            final List<Product> prods = prodPro.userProducts(user.uid);
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ProfileHeaderWidget(user: user),
+                  ProfileScoreWidget(uid: user.uid, posts: prods),
+                  _SuppoertAndMessageButton(user: user),
+                  (isSupporter || (user.isPublicProfile))
+                      ? GridViewOfProducts(posts: prods)
+                      : const SizedBox(
+                          width: double.infinity,
+                          child: PrivateAccountWidget(),
+                        ),
+                ],
               ),
-            ],
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

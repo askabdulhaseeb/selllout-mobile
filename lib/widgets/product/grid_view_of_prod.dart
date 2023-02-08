@@ -12,11 +12,11 @@ class GridViewOfProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
+        crossAxisCount: 2,
+        crossAxisSpacing: 6,
+        mainAxisSpacing: 6,
       ),
-      primary: true,
+      primary: false,
       shrinkWrap: true,
       itemCount: posts.length,
       itemBuilder: (BuildContext context, int index) => ClipRRect(
@@ -32,48 +32,88 @@ class GridViewOfProducts extends StatelessWidget {
             );
           },
           child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .color!
-                        .withOpacity(0.1),
-                    offset: const Offset(0, 0),
-                    blurRadius: 1,
-                    spreadRadius: 3,
-                  )
-                ]),
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .color!
+                      .withOpacity(0.1),
+                  offset: const Offset(0, 0),
+                  blurRadius: 1,
+                  spreadRadius: 3,
+                )
+              ],
+            ),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Hero(
-                  tag: posts[index].pid,
-                  child: AspectRatio(
-                    aspectRatio: 4 / 3,
-                    child: posts[index].prodURL[0].isVideo
-                        ? NetworkVideoPlayer(
-                            url: posts[index].prodURL[0].url,
-                            isMute: true,
-                          )
-                        : CustomNetworkImage(
-                            imageURL: posts[index].prodURL[0].url,
-                            fit: BoxFit.cover,
-                          ),
+                Expanded(
+                  child: Hero(
+                    tag: posts[index].pid,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: SizedBox(
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: posts[index].prodURL[0].isVideo
+                            ? NetworkVideoPlayer(
+                                url: posts[index].prodURL[0].url,
+                                isMute: true,
+                              )
+                            : CustomNetworkImage(
+                                imageURL: posts[index].prodURL[0].url,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                  child: Text(
-                    ' ${posts[index].price} - ${posts[index].title}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            ' ${posts[index].price} - ${posts[index].title}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                      ],
+                    ),
+                    Text(
+                      posts[index].price.toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    Row(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.grey,
+                          size: 12,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          'Location here',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

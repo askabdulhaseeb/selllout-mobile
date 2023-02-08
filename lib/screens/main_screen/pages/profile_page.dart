@@ -24,14 +24,16 @@ class ProfilePage extends StatelessWidget {
       ) {
         final AppUser me = userPro.user(uid: AuthMethods.uid);
         final List<Product> prods = prodPro.userProducts(AuthMethods.uid);
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 20),
-            ProfileHeaderWidget(user: me),
-            ProfileScoreWidget(uid: me.uid, posts: prods),
-            Expanded(child: GridViewOfProducts(posts: prods)),
-          ],
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 20),
+              ProfileHeaderWidget(user: me),
+              ProfileScoreWidget(uid: me.uid, posts: prods),
+              GridViewOfProducts(posts: prods),
+            ],
+          ),
         );
       },
     );
