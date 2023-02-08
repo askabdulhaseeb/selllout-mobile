@@ -26,50 +26,44 @@ class AddProductPage extends StatelessWidget {
       _,
     ) {
       final AppUser me = userPro.user(uid: AuthMethods.uid);
-      return Scaffold(
-        key: addPro.scaffoldKey,
-        appBar: AppBar(
-          title: const Text('Start Selling'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Form(
-            key: addPro.key,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      CustomProfileImage(imageURL: me.imageURL ?? ''),
-                      const SizedBox(width: 10),
-                      Flexible(
-                        child: CustomTextFormField(
-                          controller: addPro.title,
-                          hint: 'What are you selling...?',
-                          validator: (String? value) =>
-                              CustomValidator.lessThen3(value),
-                        ),
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Form(
+          key: addPro.key,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    CustomProfileImage(imageURL: me.imageURL ?? ''),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: CustomTextFormField(
+                        controller: addPro.title,
+                        hint: 'What are you selling...?',
+                        validator: (String? value) =>
+                            CustomValidator.lessThen3(value),
                       ),
-                    ],
-                  ),
-                  //
-                  // IMAGES
-                  //
-                  GetProductAttachments(
-                    file: addPro.files,
-                    onTap: () async => await addPro.fetchMedia(),
-                  ),
-                  const AddProdBasicInfo(),
-                  const AddProdAdditionalInfo(),
-                  addPro.isloading
-                      ? const ShowLoading()
-                      : CustomElevatedButton(
-                          title: 'Post',
-                          onTap: () => addPro.onPost(context: context),
-                        ),
-                  const SizedBox(height: 40),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                //
+                // IMAGES
+                //
+                GetProductAttachments(
+                  file: addPro.files,
+                  onTap: () async => await addPro.fetchMedia(),
+                ),
+                const AddProdBasicInfo(),
+                const AddProdAdditionalInfo(),
+                addPro.isloading
+                    ? const ShowLoading()
+                    : CustomElevatedButton(
+                        title: 'Post',
+                        onTap: () => addPro.onPost(context: context),
+                      ),
+                const SizedBox(height: 40),
+              ],
             ),
           ),
         ),

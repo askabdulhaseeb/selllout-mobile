@@ -15,23 +15,11 @@ class LivePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: _tabs.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: TabBar(
-            indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-            unselectedLabelColor: Theme.of(context).iconTheme.color,
-            labelColor: Theme.of(context).primaryColor,
-            automaticIndicatorColorAdjustment: true,
-            indicatorSize: TabBarIndicatorSize.tab,
-            tabs: _tabs,
-          ),
-        ),
-        body: const TabBarView(
-          children: <Widget>[
-            BidPage(),
-            Center(child: Text('Explore Page')),
-          ],
-        ),
+      child: const TabBarView(
+        children: <Widget>[
+          BidPage(),
+          Center(child: Text('Explore Page')),
+        ],
       ),
     );
   }

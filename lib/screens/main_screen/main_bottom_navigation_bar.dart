@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../database/auth_methods.dart';
@@ -29,6 +30,11 @@ class MainBottomNavigationBar extends StatelessWidget {
           icon: Icon(Icons.home_outlined),
           activeIcon: Icon(Icons.home_rounded),
           label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.cart),
+          activeIcon: Icon(CupertinoIcons.cart_fill),
+          label: 'Cart',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.video_camera_front_outlined),

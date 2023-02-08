@@ -18,60 +18,49 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatPageProvider page = Provider.of<ChatPageProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Messenger',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).primaryColor,
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: <Widget>[
+              ChatPersonSearch(
+                onChanged: (String? value) {},
+              ),
+              const SizedBox(width: 10),
+              IconButton(
+                onPressed: () {
+                  if (page.currentTab == MessageTabBarEnum.chat) {
+                    final List<AppUser> suppters =
+                        Provider.of<UserProvider>(context, listen: false)
+                            .supporters(uid: AuthMethods.uid);
+                    UserBottomSheets().showNewChatPersons(
+                      context: context,
+                      users: suppters,
+                    );
+                  } else if (page.currentTab == MessageTabBarEnum.group) {
+                    Navigator.of(context)
+                        .pushNamed(CreateChatGroupScreen.routeName);
+                  }
+                  // else {
+                  //   Navigator.of(context)
+                  //       .pushNamed(AddMediaStoryScreen.routeName);
+                  // }
+                },
+                splashRadius: 16,
+                padding: const EdgeInsets.all(0),
+                icon: const Icon(Icons.forum_rounded),
+              ),
+            ],
           ),
         ),
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: <Widget>[
-                ChatPersonSearch(
-                  onChanged: (String? value) {},
-                ),
-                const SizedBox(width: 10),
-                IconButton(
-                  onPressed: () {
-                    if (page.currentTab == MessageTabBarEnum.chat) {
-                      final List<AppUser> suppters =
-                          Provider.of<UserProvider>(context, listen: false)
-                              .supporters(uid: AuthMethods.uid);
-                      UserBottomSheets().showNewChatPersons(
-                        context: context,
-                        users: suppters,
-                      );
-                    } else if (page.currentTab == MessageTabBarEnum.group) {
-                      Navigator.of(context)
-                          .pushNamed(CreateChatGroupScreen.routeName);
-                    }
-                    // else {
-                    //   Navigator.of(context)
-                    //       .pushNamed(AddMediaStoryScreen.routeName);
-                    // }
-                  },
-                  splashRadius: 16,
-                  padding: const EdgeInsets.all(0),
-                  icon: const Icon(Icons.forum_rounded),
-                ),
-              ],
-            ),
-          ),
-          _TabBar(page: page),
-          Expanded(
-            child: (page.currentTab == MessageTabBarEnum.chat)
-                ? const PersonalChatDashboard()
-                : const GroupChatDashboard(),
-          ),
-        ],
-      ),
+        _TabBar(page: page),
+        Expanded(
+          child: (page.currentTab == MessageTabBarEnum.chat)
+              ? const PersonalChatDashboard()
+              : const GroupChatDashboard(),
+        ),
+      ],
     );
   }
 }
