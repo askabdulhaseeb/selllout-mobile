@@ -33,6 +33,7 @@ class BidAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isBroadcaster = auction.coAuthors.contains(AuthMethods.uid) ||
         auction.author == AuthMethods.uid;
+    ;
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       stream: AuctionAPI().streamAuction(auction: auction),
       builder: (
@@ -186,7 +187,7 @@ class BidAppBar extends StatelessWidget {
               muted ? Icons.mic_off : Icons.mic,
               color: muted
                   ? Colors.white
-                  : Theme.of(context).textTheme.bodyLarge!.color,
+                  : Theme.of(context).textTheme.bodyText1!.color,
               size: 18.0,
             ),
           ),
@@ -202,7 +203,7 @@ class BidAppBar extends StatelessWidget {
               Icons.switch_camera,
               color: muted
                   ? Colors.white
-                  : Theme.of(context).textTheme.bodyLarge!.color,
+                  : Theme.of(context).textTheme.bodyText1!.color,
               size: 18.0,
             ),
           ),

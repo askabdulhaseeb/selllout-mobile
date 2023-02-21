@@ -66,7 +66,7 @@ class _UserProductsScreenState extends State<UserProductsScreen> {
         separatorBuilder: (BuildContext context, int index) => Divider(
           thickness: 4,
           color:
-              Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.08),
+              Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.08),
         ),
         itemBuilder: (BuildContext context, int index) => ProductTile(
           product: widget.products[index],

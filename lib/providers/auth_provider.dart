@@ -20,9 +20,7 @@ import '../screens/main_screen/main_screen.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
 
 class AuthProvider extends ChangeNotifier {
-  //
-  // REGISTER FUNCTIONS
-  //
+
   Future<void> onRegister(BuildContext context) async {
     if (_phoneNumber == null || AuthMethods.getCurrentUser == null) {
       CustomToast.errorToast(message: 'Enter Phone Number again');
@@ -44,7 +42,7 @@ class AuthProvider extends ChangeNotifier {
         username: _username.text.trim(),
         bio: _bio.text.trim(),
         imageURL: url ?? '',
-        deviceToken: <MyDeviceToken>[MyDeviceToken(token: token ?? '')],
+        deviceToken: <MyDeviceToken>[MyDeviceToken(token: token??'')],
         isPublicProfile: _isPublicProfile,
         phoneNumber: NumberDetails(
           countryCode: _phoneNumber!.countryCode,
@@ -58,7 +56,7 @@ class AuthProvider extends ChangeNotifier {
       _isRegsiterScreenLoading = false;
       log('User Registered Successfully');
       if (kDebugMode) {
-        debugPrint('User Device Token - $token');
+        print('User Device Token - $token');
       }
       notifyListeners();
       if (added) {
@@ -103,8 +101,8 @@ class AuthProvider extends ChangeNotifier {
         _verificationId = phoneAuthCredential.verificationId;
       },
       verificationFailed: (FirebaseAuthException verificationFailed) async {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(verificationFailed.message!)));
+        print('bangla===>${verificationFailed.message}');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(verificationFailed.message!)));
       },
       codeSent: (String verificationId, int? resendingToken) async {
         _verificationId = verificationId;

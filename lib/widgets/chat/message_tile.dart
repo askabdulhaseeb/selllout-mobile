@@ -32,7 +32,7 @@ class MessageTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context)
                     .textTheme
-                    .bodyLarge!
+                    .bodyText1!
                     .color!
                     .withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
@@ -62,7 +62,7 @@ class MessageTile extends StatelessWidget {
                       ),
                     ],
                     color: isMe
-                        ? Theme.of(context).primaryColor.withOpacity(0.6)
+                        ? Theme.of(context).primaryColor
                         : Theme.of(context).scaffoldBackgroundColor,
                   ),
                   alignment:
@@ -121,12 +121,12 @@ class MessageTile extends StatelessWidget {
                                 ),
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 2),
+                                      const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                                   child: SelectableText(
                                     message.text ?? 'no message',
                                     textAlign: TextAlign.left,
                                     style: isMe
-                                        ? const TextStyle(color: Colors.black)
+                                        ? const TextStyle(color: Colors.white)
                                         : null,
                                   ),
                                 ),
@@ -135,7 +135,7 @@ class MessageTile extends StatelessWidget {
                         ),
                         Text(
                           TimeDateFunctions.timeInDigits(message.timestamp),
-                          style: const TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Theme.of(context).cardColor.withOpacity(.75)),
                         )
                       ],
                     ),

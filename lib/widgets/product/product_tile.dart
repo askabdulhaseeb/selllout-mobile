@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:selllout/screens/product_screens/buy_now_screen.dart';
 
 import '../../database/auth_methods.dart';
 import '../../functions/report_bottom_sheets.dart';
@@ -12,11 +13,11 @@ import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
 import '../../screens/auth/phone_number_screen.dart';
 import '../../screens/chat_screens/personal_chat_page/product_chat_screen.dart';
-import '../../screens/product_screens/buy_now_screen.dart';
 import '../../screens/product_screens/make_offer_screen.dart';
 import '../../screens/product_screens/prod_stats_info_screen.dart';
 import '../../screens/product_screens/product_detail_screen.dart';
 import '../../screens/user_screens/others_profile.dart';
+import '../../utilities/dimensions.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/custom_elevated_button.dart';
 import '../custom_widgets/custom_profile_image.dart';
@@ -28,58 +29,39 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 4.0, // soften the shadow
-            spreadRadius: 1.0, //extend the shadow
-            offset: const Offset(
-              2.0, // Move to right 5  horizontally
-              2.0, // Move to bottom 5 Vertically
-            ),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute<ProductDetailScreen>(
+          builder: (BuildContext context) => ProductDetailScreen(product: product),
+        ));
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _Header(product: product),
+          AspectRatio(
+            aspectRatio: Utilities.imageAspectRatio,
+            child: ProductURLsSlider(urls: product.prodURL),
           ),
-        ],
-      ),
-      child: InkWell(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute<ProductDetailScreen>(
-            builder: (BuildContext context) =>
-                ProductDetailScreen(product: product),
-          ));
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _Header(product: product),
-            AspectRatio(
-              aspectRatio: Utilities.imageAspectRatio,
-              child: ProductURLsSlider(urls: product.prodURL),
-            ),
-            if (product.uid == AuthMethods.uid)
-              InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute<ProductStatsInfoScreen>(
-                    builder: (BuildContext context) =>
-                        ProductStatsInfoScreen(product: product),
-                  ));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Orders: ${product.orders?.length}, Offer: ${product.offers?.length}',
-                  ),
+          if (product.uid == AuthMethods.uid)
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute<ProductStatsInfoScreen>(
+                  builder: (BuildContext context) =>
+                      ProductStatsInfoScreen(product: product),
+                ));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Orders: ${product.orders?.length}, Offer: ${product.offers?.length}',
                 ),
               ),
-            _InfoCard(product: product),
-            _ButtonSection(product: product),
-          ],
-        ),
+            ),
+          _InfoCard(product: product),
+          _ButtonSection(product: product),
+        ],
       ),
     );
   }
@@ -91,58 +73,49 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      margin: const EdgeInsets.all(8),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      product.title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 18
-                      ),
-                    ),
-                    Row(
-                      children: const <Widget>[
-                        Icon(
-                          Icons.location_on,
-                          color: Colors.grey,
-                          size: 12,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          'Location here',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        )
-                      ],
-                    ),
-                  ],
+                child: Text(
+                  product.title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),
-              const SizedBox(width: 16),
               Text(
                 product.price.toString(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          if (product.description.isNotEmpty) const SizedBox(height: 10),
+          const SizedBox(height: 4),
+          Row(
+            children: const <Widget>[
+              Icon(
+                Icons.location_on,
+                color: Colors.grey,
+                size: 12,
+              ),
+              SizedBox(width: 4),
+              Text(
+                'Location here',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
           Text(
             product.description,
-            maxLines: 2,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
           )
         ],
@@ -163,59 +136,57 @@ class _ButtonSection extends StatelessWidget {
     return product.uid == AuthMethods.uid
         ? const SizedBox()
         : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: CustomElevatedButton(
-                        padding: _padding,
-                        margin: _margin,
-                        textStyle: _textStyle,
-                        title: 'Buy Now',
-                        onTap: () {
-                          if (AuthMethods.getCurrentUser == null) {
-                            Navigator.of(context)
-                                .pushNamed(PhoneNumberScreen.routeName);
-                            return;
-                          }
+                Row(children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      padding: _padding,
+                      margin: _margin,
+                      textStyle: _textStyle,
+                      title: 'Buy Now',
+                      onTap: () {
+                        if (AuthMethods.getCurrentUser == null) {
+                          Navigator.of(context).pushNamed(PhoneNumberScreen.routeName);
+                          return;
+                        }
+                        Navigator.of(context)
+                            .push(MaterialPageRoute<ProductChatScreen>(
+                          builder: (BuildContext context) => BuyNowScreen(
+                            product: product,
+                          ),
+                        ));
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: Dimensions.paddingSizeDefault,),
+                  product.acceptOffers
+                      ? Expanded(
+                        child: CustomElevatedButton(
+                    padding: _padding,
+                    margin: _margin,
+                    textStyle: _textStyle,
+                    title: 'Make Offer',
+                    onTap: () {
+                        if (AuthMethods.getCurrentUser == null) {
+                          Navigator.of(context)
+                              .pushNamed(PhoneNumberScreen.routeName);
+                        } else {
                           Navigator.of(context)
                               .push(MaterialPageRoute<ProductChatScreen>(
-                            builder: (BuildContext context) => BuyNowScreen(
-                              product: product,
-                            ),
-                          ));
-                        },
-                      ),
-                    ),
-                    if (product.acceptOffers) const SizedBox(width: 16),
-                    if (product.acceptOffers)
-                      Expanded(
-                        child: CustomElevatedButton(
-                          padding: _padding,
-                          margin: _margin,
-                          textStyle: _textStyle,
-                          title: 'Make Offer',
-                          onTap: () {
-                            if (AuthMethods.getCurrentUser == null) {
-                              Navigator.of(context)
-                                  .pushNamed(PhoneNumberScreen.routeName);
-                            } else {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute<ProductChatScreen>(
-                                builder: (BuildContext context) =>
-                                    MakeOfferScreen(
+                            builder: (BuildContext context) =>
+                                MakeOfferScreen(
                                   product: product,
                                 ),
-                              ));
-                            }
-                          },
-                        ),
+                          ));
+                        }
+                    },
+                  ),
                       )
-                  ],
-                ),
-                const SizedBox(height: 8),
+                      : const SizedBox(),
+                ],),
+                const SizedBox(height : Dimensions.paddingSizeDefault,),
                 CustomElevatedButton(
                   padding: _padding,
                   margin: _margin,
@@ -277,15 +248,10 @@ class _Header extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             user.uid == AuthMethods.uid
-                ? Provider.of<AppProvider>(context, listen: false)
-                    .onTabTapped(4)
-                : Navigator.of(context).push(
-                    MaterialPageRoute<OthersProfile>(
-                      builder: (BuildContext context) =>
-                          OthersProfile(user: user),
-                    ),
-                  );
-          },
+                ? Provider.of<AppProvider>(context, listen: false).onTabTapped(4)
+                : Navigator.of(context).push(MaterialPageRoute<OthersProfile>(
+                      builder: (BuildContext context) => OthersProfile(user: user)));
+            },
           child: Row(
             children: <Widget>[
               CustomProfileImage(imageURL: user.imageURL ?? ''),
@@ -311,7 +277,7 @@ class _Header extends StatelessWidget {
                 onPressed: () {
                   ReportBottomSheets().productReport(context, product);
                 },
-                icon: Icon(Icons.adaptive.more),
+                icon: const Icon(Icons.more_vert_rounded),
               )
             ],
           ),

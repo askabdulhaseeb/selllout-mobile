@@ -69,7 +69,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: widget.color ??
-            Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.15),
+            Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
         border: Border.all(color: Colors.grey),
       ),
       child: TextFormField(
@@ -95,7 +95,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
         cursorColor: Theme.of(context).colorScheme.secondary,
         decoration: InputDecoration(
           fillColor: widget.color ??
-              Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.15),
+              Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
           hintText: widget.hint,
           hintStyle: widget.hint!.length > 15
               ? const TextStyle(fontSize: 14)

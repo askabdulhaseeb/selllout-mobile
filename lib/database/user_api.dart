@@ -31,8 +31,7 @@ class UserAPI {
           .collection(_collection)
           .doc(AuthMethods.uid)
           .update(<String, dynamic>{
-        'devices_tokens':
-            deviceToken.map((MyDeviceToken e) => e.toMap()).toList()
+        'devices_tokens': deviceToken.map((e) => e.toMap()).toList()
       });
     } catch (e) {
       CustomToast.errorToast(message: 'Something Went Wrong');

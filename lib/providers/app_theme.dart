@@ -23,7 +23,7 @@ class AppThemeProvider extends ChangeNotifier {
 }
 
 class AppThemes {
-  static const Color _primary = Color(0xffBF1017);
+  static const Color _primary = Color(0xFFBF1017);
   static const Color _secondary = Color.fromRGBO(2, 122, 190, 1);
   //
   // Dark
@@ -31,6 +31,8 @@ class AppThemes {
   static final ThemeData dark = ThemeData(
     useMaterial3: true,
     appBarTheme: const AppBarTheme(
+      color: Colors.transparent,
+      elevation: 0,
       centerTitle: false,
       titleTextStyle: TextStyle(
         color: _primary,
@@ -60,6 +62,8 @@ class AppThemes {
   static final ThemeData light = ThemeData(
     useMaterial3: true,
     appBarTheme: const AppBarTheme(
+      color: Colors.transparent,
+      elevation: 0,
       centerTitle: false,
       titleTextStyle: TextStyle(
         color: _primary,

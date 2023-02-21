@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../database/auth_methods.dart';
+import '../../utilities/app_image.dart';
+import '../../utilities/dimensions.dart';
+import '../../widgets/custom_widgets/custom_app_bar.dart';
+import '../../widgets/custom_widgets/sub_app_bar.dart';
 import '../../widgets/settings/delete_account_widget.dart';
+import '../auth/login_screen.dart';
 import '../auth/phone_number_screen.dart';
+import '../bids/bids_page.dart';
+import '../notification/notification_screen.dart';
 import 'contact_screen.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -20,26 +27,55 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: const CustomAppBar(showBackButton: true,),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault,0),
           child: Column(
             children: <Widget>[
+              const SubAppBar(title: 'Setting'),
               _Tile(
-                icon: Icons.contacts_rounded,
+                icon: AppImages.contactIcon,
                 title: 'Contacts',
                 onTap: () {
                   Navigator.of(context).pushNamed(ContactScreen.routeName);
                 },
               ),
+
+
               _Tile(
-                icon: Icons.shop,
+                icon: AppImages.orderIcon,
                 title: 'Orders and Receipts',
                 onTap: () async {},
               ),
+
               _Tile(
-                icon: Icons.privacy_tip,
+                icon: AppImages.purchaseIcon,
+                title: 'Purchases',
+                onTap: () async {},
+              ),
+              _Tile(
+                icon: AppImages.bidsWon,
+                title: 'Bids Won',
+                onTap: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> BidsPage()));
+                },
+              ),
+              _Tile(
+                icon: AppImages.paymentIcon,
+                title: 'Payment',
+                onTap: () async {},
+              ),
+
+              _Tile(
+                icon: AppImages.notificationIcon,
+                title: 'Notifications',
+                onTap: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> NotificationPage()));
+                },
+              ),
+              _Tile(
+                icon: AppImages.orderIcon,
                 title: 'Privacy Policy',
                 onTap: () async {
                   await _launchUrl(
@@ -47,7 +83,7 @@ class SettingScreen extends StatelessWidget {
                 },
               ),
               _Tile(
-                icon: Icons.contact_support_rounded,
+                icon: AppImages.supportIcon,
                 title: 'Support',
                 onTap: () async {
                   await _launchUrl(
@@ -55,14 +91,14 @@ class SettingScreen extends StatelessWidget {
                 },
               ),
               _Tile(
-                icon: Icons.e_mobiledata_rounded,
+                icon: AppImages.aboutIcon,
                 title: 'About Us',
                 onTap: () async {
                   await _launchUrl(webURL: 'https://selll-out.firebaseapp.com');
                 },
               ),
               _Tile(
-                icon: Icons.delete_sweep_sharp,
+                icon: AppImages.logoutIcon,
                 title: 'Delete Account',
                 onTap: () async {
                   showDialog(
@@ -74,15 +110,16 @@ class SettingScreen extends StatelessWidget {
                 },
               ),
               _Tile(
-                icon: Icons.logout,
-                title: 'Log Out',
+                icon: AppImages.logoutIcon,
+                title: 'LogIn',
                 onTap: () async {
-                  await AuthMethods().signOut(context);
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    PhoneNumberScreen.routeName,
-                    (Route<dynamic> route) => false,
-                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> const LoginScreen()));
+                  // await AuthMethods().signOut(context);
+                  // // ignore: use_build_context_synchronously
+                  // Navigator.of(context).pushNamedAndRemoveUntil(
+                  //   PhoneNumberScreen.routeName,
+                  //   (Route<dynamic> route) => false,
+                  // );
                 },
               ),
             ],
@@ -101,23 +138,35 @@ class _Tile extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final IconData icon;
+  final String icon;
   final String title;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        dense: true,
-        leading: Icon(icon, color: Theme.of(context).iconTheme.color),
-        title: Text(title),
-        trailing: const Icon(
-          Icons.arrow_forward_ios_sharp,
-          color: Colors.grey,
-          size: 18,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(.3), spreadRadius: 1, blurRadius: 1, offset: Offset(0,1))]
         ),
-        onTap: onTap,
+        child: ListTile(
+          dense: true,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeSmall),
+            child: Image.asset(icon, color: Theme.of(context).iconTheme.color),
+          ),
+          title: Text(title),
+          trailing: const Icon(
+            Icons.arrow_forward_ios_sharp,
+            color: Colors.grey,
+            size: 18,
+          ),
+          onTap: onTap,
+        ),
       ),
     );
   }

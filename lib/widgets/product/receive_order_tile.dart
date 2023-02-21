@@ -49,7 +49,7 @@ class ReceivedOrderTile extends StatelessWidget {
                 style: TextStyle(
                   color: Theme.of(context)
                       .textTheme
-                      .bodyLarge!
+                      .bodyText1!
                       .color!
                       .withOpacity(0.4),
                 ),

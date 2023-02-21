@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
 import '../../models/chat/chat.dart';
 import '../../models/chat/message.dart';
 import 'message_tile.dart';

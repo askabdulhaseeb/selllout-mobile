@@ -6,8 +6,9 @@ import '../../functions/user_bottom_sheets.dart';
 import '../../models/app_user.dart';
 import '../../models/product/product.dart';
 import '../../providers/user/user_provider.dart';
-import '../../screens/coming_soon_screen.dart';
+import '../../screens/wallet_screen.dart';
 import '../../screens/product_screens/user_products_screen.dart';
+import '../../utilities/dimensions.dart';
 import '../custom_widgets/custom_icon_button.dart';
 import '../custom_widgets/custom_toast.dart';
 
@@ -34,60 +35,71 @@ class ProfileScoreWidget extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              CustomIconButton(
-                height: boxWidth - 10,
-                width: boxWidth,
-                icon: Icons.account_balance,
-                onTap: () {
-                  // TODO: on wallet click
-                  Navigator.of(context).pushNamed(ComingSoonScreen.routeName);
-                },
+              Expanded(
+                child: CustomIconButton(
+                  height: boxWidth - 10,
+                  width: boxWidth,
+                  icon: Icons.account_balance,
+                  onTap: () {
+                    // TODO: on wallet click
+                    Navigator.of(context).pushNamed(WalletScreen.routeName);
+                  },
+                ),
               ),
-              _CustomScoreButton(
-                score: posts.length.toString(),
-                title: 'Posts',
-                height: boxWidth - 10,
-                width: boxWidth,
-                onTap: () {
-                  if (user.isPublicProfile == false &&
-                      !(user.supporters?.contains(AuthMethods.uid) ?? true)) {
-                    CustomToast.errorToast(
-                        message: 'Only Supports can view posts');
-                    return;
-                  }
-                  Navigator.of(context).push(
-                    MaterialPageRoute<UserProductsScreen>(
-                      builder: (_) =>
-                          UserProductsScreen(products: posts, selectedIndex: 0),
-                    ),
-                  );
-                },
+              SizedBox(width: Dimensions.paddingSizeDefault,),
+              Expanded(
+                child: _CustomScoreButton(
+                  score: posts.length.toString(),
+                  title: 'Posts',
+                  height: boxWidth - 10,
+                  width: boxWidth,
+                  onTap: () {
+                    if (user.isPublicProfile == false &&
+                        !(user.supporters?.contains(AuthMethods.uid) ?? true)) {
+                      CustomToast.errorToast(
+                          message: 'Only Supports can view posts');
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute<UserProductsScreen>(
+                        builder: (_) =>
+                            UserProductsScreen(products: posts, selectedIndex: 0),
+                      ),
+                    );
+                  },
+                ),
               ),
-              _CustomScoreButton(
-                score: user.supporting?.length.toString() ?? '0',
-                title: 'Supporting',
-                height: boxWidth - 10,
-                width: boxWidth,
-                onTap: () => _isClickable(user)
-                    ? UserBottomSheets().showUsersBottomSheet(
-                        context: context,
-                        title: 'Supportings',
-                        users: user.supporting ?? <String>[],
-                      )
-                    : () {},
+              SizedBox(width: Dimensions.paddingSizeDefault,),
+              Expanded(
+                child: _CustomScoreButton(
+                  score: user.supporting?.length.toString() ?? '0',
+                  title: 'Supporting',
+                  height: boxWidth - 10,
+                  width: boxWidth,
+                  onTap: () => _isClickable(user)
+                      ? UserBottomSheets().showUsersBottomSheet(
+                          context: context,
+                          title: 'Supportings',
+                          users: user.supporting ?? <String>[],
+                        )
+                      : () {},
+                ),
               ),
-              _CustomScoreButton(
-                score: user.supporters?.length.toString() ?? '0',
-                title: 'Supporters',
-                height: boxWidth - 10,
-                width: boxWidth,
-                onTap: () => _isClickable(user)
-                    ? UserBottomSheets().showUsersBottomSheet(
-                        title: 'Supporters',
-                        context: context,
-                        users: user.supporters ?? <String>[],
-                      )
-                    : () {},
+              SizedBox(width: Dimensions.paddingSizeDefault,),
+              Expanded(
+                child: _CustomScoreButton(
+                  score: user.supporters?.length.toString() ?? '0',
+                  title: 'Supporters',
+                  height: boxWidth - 10,
+                  width: boxWidth,
+                  onTap: () => _isClickable(user)
+                      ? UserBottomSheets().showUsersBottomSheet(
+                          title: 'Supporters',
+                          context: context,
+                          users: user.supporters ?? <String>[],
+                        )
+                      : () {},
+                ),
               ),
             ],
           );
@@ -126,13 +138,12 @@ class _CustomScoreButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: borderRadius ?? BorderRadius.circular(10),
+        borderRadius: borderRadius ?? BorderRadius.circular(15),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Theme.of(context).hintColor.withOpacity(.5),
             spreadRadius: 1,
-            blurRadius: 2,
-            offset: const Offset(0, 2),
+            blurRadius: 5,
           ),
         ],
       ),

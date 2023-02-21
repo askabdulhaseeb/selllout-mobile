@@ -1,5 +1,6 @@
 import '../../enums/product/prod_delivery_type.dart';
 import '../../enums/product/prod_offer_status.dart';
+import '../../functions/unique_id_functions.dart';
 
 class ProdOffer {
   ProdOffer({

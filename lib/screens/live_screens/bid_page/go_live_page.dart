@@ -165,7 +165,6 @@ class _GoLivePageState extends State<GoLivePage> {
         _isLoading = false;
       });
       if (started) {
-        if (!mounted) return;
         CustomToast.successSnackBar(
           context: context,
           text: 'Auction started successfully',
@@ -175,7 +174,6 @@ class _GoLivePageState extends State<GoLivePage> {
         Provider.of<AppProvider>(context, listen: false).onTabTapped(0);
         await <Permission>[Permission.camera, Permission.microphone].request();
         debugPrint('Joing channel: $id');
-        if (!mounted) return;
         Navigator.of(context).push(
           MaterialPageRoute<BroadcastPage>(
             builder: (_) => BroadcastPage(auction: auction),

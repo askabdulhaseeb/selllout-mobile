@@ -110,7 +110,6 @@ class ProductProvider extends ChangeNotifier {
   }
 
   List<Product> _products = <Product>[];
-  String _searchText = '';
   bool _isLoading = true;
 
   List<Product> get products => _products;
@@ -134,18 +133,6 @@ class ProductProvider extends ChangeNotifier {
       }
     }
     return tempProd.isEmpty ? _products : tempProd;
-  }
-
-  List<Product> filterProduct() {
-    return _products
-        .where((Product element) =>
-            element.title.toLowerCase().contains(_searchText.toLowerCase()))
-        .toList();
-  }
-
-  onSearch(String? value) {
-    _searchText = value ?? '';
-    notifyListeners();
   }
 
   Future<void> init() async {

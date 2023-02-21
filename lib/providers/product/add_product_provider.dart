@@ -15,7 +15,9 @@ import '../../models/product/product_url.dart';
 import '../../utilities/custom_services.dart';
 import '../../utilities/utilities.dart';
 import '../../widgets/custom_widgets/custom_toast.dart';
+import '../app_provider.dart';
 import '../provider.dart';
+import 'product_category_provider.dart';
 
 class AddProductProvider extends ChangeNotifier {
   //
@@ -48,7 +50,7 @@ class AddProductProvider extends ChangeNotifier {
   Future<void> fetchMedia() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      type: FileType.image,
+      type: FileType.media,
     );
     if (result == null) return;
     _files.clear();

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../database/auth_methods.dart';
 import '../../providers/app_provider.dart';
+import '../../utilities/app_image.dart';
 import '../auth/phone_number_screen.dart';
 
 class MainBottomNavigationBar extends StatelessWidget {
   const MainBottomNavigationBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double iconSize = 25;
     AppProvider navBar = Provider.of<AppProvider>(context);
     return BottomNavigationBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -19,41 +21,42 @@ class MainBottomNavigationBar extends StatelessWidget {
       unselectedItemColor: Colors.grey,
       currentIndex: navBar.currentTap,
       onTap: (int index) {
-        if (AuthMethods.getCurrentUser == null && (index != 0 && index != 1)) {
-          Navigator.of(context).pushNamed(PhoneNumberScreen.routeName);
-        } else {
-          navBar.onTabTapped(index);
-        }
+        navBar.onTabTapped(index);
+        // if (AuthMethods.getCurrentUser == null && (index != 0 && index != 1)) {
+        //   Navigator.of(context).pushNamed(PhoneNumberScreen.routeName);
+        // } else {
+        //   navBar.onTabTapped(index);
+        // }
       },
-      items: const <BottomNavigationBarItem>[
+      items:  <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          activeIcon: Icon(Icons.home_rounded),
+          icon: SizedBox(width: iconSize,child: Image.asset(AppImages.homeOutline)),
+          activeIcon: SizedBox(width: iconSize,child: Image.asset(AppImages.homeActive)),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.cart),
-          activeIcon: Icon(CupertinoIcons.cart_fill),
+          icon: SizedBox(width: iconSize, child: Image.asset(AppImages.cartOutline)),
+          activeIcon: SizedBox(width: iconSize, child: Image.asset(AppImages.cartActive)),
           label: 'Cart',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.video_camera_front_outlined),
-          activeIcon: Icon(Icons.video_camera_front),
+          icon: SizedBox(width: iconSize,child: Image.asset(AppImages.videoOutline)),
+          activeIcon: SizedBox(width: iconSize, child: Image.asset(AppImages.videoActive)),
           label: 'Live',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_box_outlined),
-          activeIcon: Icon(Icons.add_box),
+          icon: SizedBox(width: iconSize, child: Image.asset(AppImages.addOutline)),
+          activeIcon: SizedBox(width: iconSize, child: Image.asset(AppImages.addActive)),
           label: 'Add',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat_outlined),
-          activeIcon: Icon(Icons.chat),
+          icon: SizedBox(width: iconSize, child: Image.asset(AppImages.messageOutline)),
+          activeIcon: SizedBox(width: iconSize, child: Image.asset(AppImages.messageActive)),
           label: 'chat',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_box_outlined),
-          activeIcon: Icon(Icons.account_box),
+          icon: SizedBox(width: iconSize, child: Image.asset(AppImages.profileOutline)),
+          activeIcon: SizedBox(width: iconSize, child: Image.asset(AppImages.profileActive)),
           label: 'Profile',
         ),
       ],

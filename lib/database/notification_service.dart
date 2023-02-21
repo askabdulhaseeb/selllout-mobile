@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
@@ -39,9 +40,9 @@ class NotificationsServices {
       onDidReceiveNotificationResponse: (NotificationResponse details) {
         onNotification.add(details.payload);
         if (kDebugMode) {
-          debugPrint('notification payload :${details.payload!} ');
-          debugPrint('notification payload :${details.id} ');
-          debugPrint('notification payload :${details.payload} ');
+          print('notification payload :${details.payload!} ');
+          print('notification payload :${details.id} ');
+          print('notification payload :${details.payload} ');
         }
       },
     );
@@ -55,7 +56,7 @@ class NotificationsServices {
         );
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (kDebugMode) {
-        debugPrint('Message data: ${message.data}');
+        print('Message data: ${message.data}');
       }
       if (message.notification != null) {
         _notificationDetails();
@@ -115,9 +116,7 @@ class NotificationsServices {
         request.headers.addAll(headers);
         final http.StreamedResponse response = await request.send();
         if (response.statusCode == 200) {
-          if (kDebugMode) {
-            debugPrint(await response.stream.bytesToString());
-          }
+          print(await response.stream.bytesToString());
           log('Notification send to: ${deviceToken[i].token}');
         } else {
           log('ERROR in FCM');
@@ -136,7 +135,7 @@ class NotificationsServices {
     final String? dToken =
         await firebaseMessaging.getToken().then((String? token) {
       if (kDebugMode) {
-        debugPrint('token is $token');
+        print('token is $token');
       }
       return token;
     });
@@ -185,8 +184,7 @@ class NotificationsServices {
           element.uid != meUID) {
         element.deviceToken?.removeWhere(
             (MyDeviceToken element) => element.token == deviceTokenValue);
-        await UserAPI()
-            .setDeviceToken(element.deviceToken ?? <MyDeviceToken>[]);
+        await UserAPI().setDeviceToken(element.deviceToken ?? <MyDeviceToken>[]);
       }
     }
   }

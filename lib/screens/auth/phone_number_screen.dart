@@ -68,6 +68,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   },
                 ),
               ),
+
               TextButton(
                 onPressed: () => Navigator.canPop(context)
                     ? Navigator.of(context).pop()

@@ -10,13 +10,14 @@ import '../providers/product/product_provider.dart';
 import '../providers/user/user_provider.dart';
 import '../widgets/custom_widgets/custom_elevated_button.dart';
 import '../widgets/custom_widgets/custom_toast.dart';
-import 'time_date_functions.dart';
+import 'time_date_functions.dart'; 
 
 class ReportBottomSheets {
   otherUserProfileMoreButton(BuildContext context, AppUser user) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
+        print(user.uid);
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -247,7 +248,7 @@ _showreportcompletedbottom(
           RichText(
             text: TextSpan(
               style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge!.color),
+                  color: Theme.of(context).textTheme.bodyText1!.color),
               children: <TextSpan>[
                 const TextSpan(text: 'You have reported this post with reason'),
                 TextSpan(
@@ -330,7 +331,7 @@ _reportConfirmSheet(
           RichText(
             text: TextSpan(
               style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge!.color),
+                  color: Theme.of(context).textTheme.bodyText1!.color),
               children: <TextSpan>[
                 const TextSpan(text: 'Sre you sure to '),
                 TextSpan(
@@ -395,7 +396,7 @@ class _Handle extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1),
+        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1),
       ),
     );
   }

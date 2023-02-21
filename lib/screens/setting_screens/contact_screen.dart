@@ -4,12 +4,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/auth_methods.dart';
+import '../../database/chat_api.dart';
 import '../../functions/unique_id_functions.dart';
 import '../../models/app_user.dart';
 import '../../models/chat/chat.dart';
 import '../../providers/provider.dart';
+import '../../utilities/dimensions.dart';
+import '../../widgets/custom_widgets/custom_button.dart';
 import '../../widgets/custom_widgets/custom_elevated_button.dart';
+import '../../widgets/custom_widgets/custom_image.dart';
 import '../../widgets/custom_widgets/custom_profile_image.dart';
+import '../../widgets/custom_widgets/custom_textformfield.dart';
 import '../../widgets/custom_widgets/show_loading.dart';
 import '../chat_screens/personal_chat_page/personal_chat_screen.dart';
 import '../user_screens/others_profile.dart';
@@ -23,7 +28,6 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
-  String search = '';
   @override
   void initState() {
     _request();
@@ -41,6 +45,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String search = '';
     return Scaffold(
       appBar: AppBar(title: const Text('Contacts')),
       body: FutureBuilder<List<Contact>>(
@@ -52,7 +57,7 @@ class _ContactScreenState extends State<ContactScreen> {
             return snapshot.hasError
                 ? Center(
                     child: Column(
-                    children: <Widget>[
+                    children: [
                       const Text('Error while fetching'),
                       TextButton(
                         onPressed: () async => await _request(),
@@ -69,7 +74,7 @@ class _ContactScreenState extends State<ContactScreen> {
 }
 
 class _DisplayContacts extends StatefulWidget {
-  const _DisplayContacts({required this.contacts});
+  const _DisplayContacts({required this.contacts, super.key});
   final List<Contact> contacts;
 
   @override
@@ -99,7 +104,7 @@ class __DisplayContactsState extends State<_DisplayContacts> {
                 borderRadius: BorderRadius.circular(14),
                 color: Theme.of(context)
                     .textTheme
-                    .bodyLarge!
+                    .bodyText1!
                     .color!
                     .withOpacity(0.15),
                 border: Border.all(color: Colors.grey),
@@ -116,23 +121,81 @@ class __DisplayContactsState extends State<_DisplayContacts> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: Dimensions.paddingSizeSmall,
+            ),
             Expanded(
               child: filtered().isEmpty
                   ? const Center(child: Text('No Contacts available'))
-                  : ListView.builder(
+                  : GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              childAspectRatio: 1.5),
                       itemCount: filtered().length,
                       itemBuilder: (BuildContext context, int index) {
                         final AppUser? user = userPro.userByPhone(
                             value: filtered()[index].phones[0].number);
                         return user == null
-                            ? ListTile(
-                                dense: true,
-                                contentPadding: const EdgeInsets.all(0),
-                                leading: const Icon(Icons.contacts_outlined),
-                                title: Text(filtered()[index].displayName),
-                                subtitle:
+                            ? Container(
+                                padding: const EdgeInsets.all(
+                                    Dimensions.paddingSizeSmall),
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).cardColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Theme.of(context)
+                                              .hintColor
+                                              .withOpacity(.1),
+                                          blurRadius: 3,
+                                          spreadRadius: 3)
+                                    ]),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CustomImage(
+                                            image: '', width: 20, height: 20),
+                                        const SizedBox(
+                                          width: Dimensions.paddingSizeSmall,
+                                        ),
+                                        Text(filtered()[index].displayName),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: Dimensions.paddingSizeExtraSmall,
+                                    ),
                                     Text(filtered()[index].phones[0].number),
+                                    const SizedBox(
+                                      height: Dimensions.paddingSizeDefault,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                          width: 90,
+                                          child: CustomButton(
+                                            buttonText: 'Add',
+                                            icon: Icons.person_add,
+                                            onPressed: () {},
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               )
+                            // ListTile(
+                            //         dense: true,
+                            //         contentPadding: const EdgeInsets.all(0),
+                            //         leading: const Icon(Icons.contacts_outlined),
+                            //         title: Text(filtered()[index].displayName),
+                            //         subtitle: Text(filtered()[index].phones[0]),
+                            //       )
                             : _AppUserContact(
                                 user: user, contact: filtered()[index]);
                       },

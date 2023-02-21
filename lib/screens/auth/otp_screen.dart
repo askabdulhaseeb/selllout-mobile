@@ -9,6 +9,7 @@ import '../../database/notification_service.dart';
 import '../../database/user_api.dart';
 import '../../models/app_user.dart';
 import '../../models/device_token.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/provider.dart';
 import '../../widgets/custom_widgets/custom_textformfield.dart';
 import '../../widgets/custom_widgets/show_loading.dart';
@@ -74,8 +75,8 @@ class _OTPScreenState extends State<OTPScreen> {
                       if (!(NotificationsServices().tokenAlreadyExist(
                           devicesValue: me.deviceToken ?? <MyDeviceToken>[],
                           tokenValue: token ?? ''))) {
-                        me.deviceToken?.add(MyDeviceToken(token: token ?? ''));
-                        me.deviceToken?.removeWhere(
+                        me.deviceToken!.add(MyDeviceToken(token: token ?? ''));
+                        me.deviceToken!.removeWhere(
                             (MyDeviceToken element) => element.token.isEmpty);
                         await UserAPI().setDeviceToken(
                             me.deviceToken ?? <MyDeviceToken>[]);
@@ -87,7 +88,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         await userPro.refresh();
                         log('New Device Token Added Successfully');
                         if (kDebugMode) {
-                          debugPrint('User Device Token - $token');
+                          print('User Device Token - $token');
                         }
                       }
                       if (!mounted) return;

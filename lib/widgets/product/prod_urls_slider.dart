@@ -66,32 +66,6 @@ class _Attachment extends StatelessWidget {
                     child: CustomNetworkImage(imageURL: url.url),
                   ),
           ),
-          if (totalLength > 1 && url.index != 0)
-            Positioned(
-              top: 0,
-              bottom: 0,
-              left: 6,
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
-                ),
-              ),
-            ),
-          if (totalLength > 1 && url.index < (totalLength - 1))
-            Positioned(
-              top: 0,
-              bottom: 0,
-              right: 6,
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
-                ),
-              ),
-            ),
           if (totalLength > 1)
             Container(
               padding: const EdgeInsets.symmetric(

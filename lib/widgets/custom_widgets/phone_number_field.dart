@@ -24,7 +24,7 @@ class _PhoneNumberFieldState extends State<PhoneNumberField> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: widget.bgColor ??
-            Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.15),
+            Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
       ),
       child: IntlPhoneField(
         textInputAction: TextInputAction.done,

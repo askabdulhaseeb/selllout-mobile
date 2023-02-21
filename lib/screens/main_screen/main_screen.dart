@@ -1,21 +1,22 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:selllout/screens/cart/cart_screen.dart';
 
 import '../../database/auth_methods.dart';
+import '../../database/notification_service.dart';
+import '../../database/user_api.dart';
+import '../../models/app_user.dart';
+import '../../models/device_token.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user/user_provider.dart';
-import '../../utilities/app_image.dart';
-import '../live_screens/bid_page/bid_page.dart';
-import '../user_screens/search_user_screen.dart';
 import '../user_screens/user_blocked_screeb.dart';
 import 'main_bottom_navigation_bar.dart';
 import 'pages/add_product_page.dart';
-import 'pages/explore_page.dart';
 import 'pages/chat_page.dart';
 import 'pages/home_page.dart';
+import 'pages/live_page.dart';
 import 'pages/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
@@ -41,8 +42,8 @@ class _MainScreenState extends State<MainScreen> {
 
   static const List<Widget> _pages = <Widget>[
     HomePage(),
-    ExplorePage(),
-    BidPage(),
+    CartPage(),
+    LivePage(),
     AddProductPage(),
     ChatPage(),
     ProfilePage(),
@@ -51,45 +52,9 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     int currentIndex = Provider.of<AppProvider>(context).currentTap;
     log('Current User: ${AuthMethods.uid}');
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          leading: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Image.asset(AppImages.logo),
-          ),
-          title: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(SearchUserScreen.routeName);
-            },
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(CupertinoIcons.search, color: Colors.grey),
-            ),
-          ),
-          actions: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(
-                Icons.notifications_active_outlined,
-                color: Colors.grey,
-              ),
-            ),
-            const SizedBox(width: 16),
-          ],
-        ),
-        body: IndexedStack(index: currentIndex, children: _pages),
-        bottomNavigationBar: const MainBottomNavigationBar(),
-      ),
+    return Scaffold(
+      body: IndexedStack(index: currentIndex, children: _pages),
+      bottomNavigationBar: const MainBottomNavigationBar(),
     );
   }
 }

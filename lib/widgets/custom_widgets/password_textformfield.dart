@@ -36,7 +36,7 @@ class PasswordTextFormFieldState extends State<PasswordTextFormField> {
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.15),
+        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
         border: Border.all(color: Colors.grey),
       ),
       child: TextFormField(

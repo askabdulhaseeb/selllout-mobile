@@ -13,6 +13,8 @@ import '../../../../widgets/custom_widgets/show_loading.dart';
 import '../../../../widgets/product/add_prod_basic_info.dart';
 import '../../../../widgets/product/add_product_additional_info.dart';
 import '../../../../widgets/product/pick_product_attachments.dart';
+import '../../../widgets/custom_widgets/custom_app_bar.dart';
+import '../../../widgets/custom_widgets/sub_app_bar.dart';
 
 class AddProductPage extends StatelessWidget {
   const AddProductPage({Key? key}) : super(key: key);
@@ -26,44 +28,52 @@ class AddProductPage extends StatelessWidget {
       _,
     ) {
       final AppUser me = userPro.user(uid: AuthMethods.uid);
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Form(
-          key: addPro.key,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    CustomProfileImage(imageURL: me.imageURL ?? ''),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: CustomTextFormField(
-                        controller: addPro.title,
-                        hint: 'What are you selling...?',
-                        validator: (String? value) =>
-                            CustomValidator.lessThen3(value),
+      return Scaffold(
+        key: addPro.scaffoldKey,
+        appBar: const CustomAppBar(showBackButton: false),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Form(
+            key: addPro.key,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SubAppBar(title: 'Start selling', back: false,),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      CustomProfileImage(imageURL: me.imageURL ?? ''),
+                      const SizedBox(width: 10),
+                      Flexible(
+                        child: CustomTextFormField(
+                          controller: addPro.title,
+                          hint: 'What are you selling...?',
+                          validator: (String? value) =>
+                              CustomValidator.lessThen3(value),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                //
-                // IMAGES
-                //
-                GetProductAttachments(
-                  file: addPro.files,
-                  onTap: () async => await addPro.fetchMedia(),
-                ),
-                const AddProdBasicInfo(),
-                const AddProdAdditionalInfo(),
-                addPro.isloading
-                    ? const ShowLoading()
-                    : CustomElevatedButton(
-                        title: 'Post',
-                        onTap: () => addPro.onPost(context: context),
-                      ),
-                const SizedBox(height: 40),
-              ],
+                    ],
+                  ),
+                  //
+                  // IMAGES
+                  //
+                  GetProductAttachments(
+                    file: addPro.files,
+                    onTap: () async => await addPro.fetchMedia(),
+                  ),
+                  const AddProdBasicInfo(),
+                  const AddProdAdditionalInfo(),
+                  addPro.isloading
+                      ? const ShowLoading()
+                      : CustomElevatedButton(
+                          title: 'Post',
+                          onTap: () => addPro.onPost(context: context),
+                        ),
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
           ),
         ),

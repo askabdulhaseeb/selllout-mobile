@@ -5,7 +5,6 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 // ignore: library_prefixes
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../database/auction_api.dart';
@@ -120,32 +119,24 @@ class _BroadcastPageState extends State<BroadcastPage>
 
   /// Add agora event handlers
   void _addAgoraEventHandlers() {
-    if (kDebugMode) {
-      debugPrint('INFO Handler');
-    }
+    print('INFO Handler');
     _engine!.setEventHandler(RtcEngineEventHandler(
       activeSpeaker: (int uid) {
         final String info = 'INFO Active speaker: $uid';
-        if (kDebugMode) {
-          debugPrint(info);
-        }
+        print(info);
       },
       error: (ErrorCode code) {
         setState(() {
           final String info = 'INFO onError: $code';
           _infoStrings.add(info);
-          if (kDebugMode) {
-            debugPrint(info);
-          }
+          print(info);
         });
       },
       joinChannelSuccess: (String channel, int uid, int elapsed) {
         setState(() {
           final String info = 'INFO onJoinChannel: $channel, uid: $uid';
           _infoStrings.add(info);
-          if (kDebugMode) {
-            debugPrint(info);
-          }
+          print(info);
         });
       },
       leaveChannel: (RtcStats stats) {
@@ -153,9 +144,7 @@ class _BroadcastPageState extends State<BroadcastPage>
           const String info = 'INFO leaveChannel:';
           _infoStrings.add('onLeaveChannel');
           _users.clear();
-          if (kDebugMode) {
-            debugPrint(info);
-          }
+          print(info);
         });
       },
       userJoined: (int uid, int elapsed) {
@@ -164,11 +153,9 @@ class _BroadcastPageState extends State<BroadcastPage>
         setState(() {
           _users.add(uid);
         });
-        if (kDebugMode) {
-          debugPrint(info);
-        }
+        print(info);
         // if (_users.length >= 5) {
-        //   debugPrint('Fallback to Low quality video stream');
+        //   print('Fallback to Low quality video stream');
         //   _engine?.setRemoteDefaultVideoStreamType(VideoStreamType.Low);
         // }
       },
@@ -178,9 +165,9 @@ class _BroadcastPageState extends State<BroadcastPage>
         setState(() {
           _users.remove(uid);
         });
-        debugPrint(info);
+        print(info);
         // if (_users.length <= 3) {
-        //   debugPrint('Go back to High quality video stream');
+        //   print('Go back to High quality video stream');
         //   _engine?.setRemoteDefaultVideoStreamType(VideoStreamType.High);
         // }
       },
@@ -267,8 +254,8 @@ class _BroadcastPageState extends State<BroadcastPage>
       case 2:
         return Column(
           children: <Widget>[
-            _expandedVideoRow(<Widget>[views[0]]),
-            _expandedVideoRow(<Widget>[views[1]])
+            _expandedVideoRow([views[0]]),
+            _expandedVideoRow([views[1]])
           ],
         );
       case 3:
@@ -302,7 +289,7 @@ class _BroadcastPageState extends State<BroadcastPage>
       list.add(RtcRemoteView.SurfaceView(
           channelId: widget.auction.auctionID, uid: uid));
     }
-    debugPrint('Users: $_users');
+    print('Users: $_users');
     setState(() {
       _users;
     });
@@ -310,7 +297,7 @@ class _BroadcastPageState extends State<BroadcastPage>
   }
 
   /// Video view wrapper
-  Widget _videoView(Widget view) {
+  Widget _videoView(view) {
     return Expanded(child: Container(child: view));
   }
 
@@ -324,10 +311,10 @@ class _BroadcastPageState extends State<BroadcastPage>
     );
   }
 
-  // void _onCallEnd(BuildContext context) {
-  //   widget.auction.isActive = false;
-  //   Navigator.pop(context);
-  // }
+  void _onCallEnd(BuildContext context) {
+    widget.auction.isActive = false;
+    Navigator.pop(context);
+  }
 
   void _onToggleMute() {
     setState(() {

@@ -24,48 +24,46 @@ class OthersProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isSupporter =
         user.supporters?.contains(AuthMethods.uid) ?? false;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Text(
-            user.username!,
-            style: TextStyle(
-              color: Theme.of(context).textTheme.bodyLarge!.color,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text(
+          user.username!,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1!.color,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => ReportBottomSheets()
-                  .otherUserProfileMoreButton(context, user),
-              splashRadius: 16,
-              icon: const Icon(Icons.more_vert_rounded),
-            )
-          ],
         ),
-        body: Consumer<ProductProvider>(
-          builder: (BuildContext context, ProductProvider prodPro, _) {
-            final List<Product> prods = prodPro.userProducts(user.uid);
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ProfileHeaderWidget(user: user),
-                  ProfileScoreWidget(uid: user.uid, posts: prods),
-                  _SuppoertAndMessageButton(user: user),
-                  (isSupporter || (user.isPublicProfile))
-                      ? GridViewOfProducts(posts: prods)
-                      : const SizedBox(
-                          width: double.infinity,
-                          child: PrivateAccountWidget(),
-                        ),
-                ],
+        actions: <Widget>[
+          IconButton(
+            onPressed: () =>
+                ReportBottomSheets().otherUserProfileMoreButton(context, user),
+            splashRadius: 16,
+            icon: const Icon(Icons.more_vert_rounded),
+          )
+        ],
+      ),
+      body: Consumer<ProductProvider>(
+        builder: (BuildContext context, ProductProvider prodPro, _) {
+          final List<Product> prods = prodPro.userProducts(user.uid);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ProfileHeaderWidget(user: user),
+              ProfileScoreWidget(uid: user.uid, posts: prods),
+              _SuppoertAndMessageButton(user: user),
+              Expanded(
+                child: (isSupporter || (user.isPublicProfile))
+                    ? GridViewOfProducts(posts: prods)
+                    : const SizedBox(
+                        width: double.infinity,
+                        child: PrivateAccountWidget(),
+                      ),
               ),
-            );
-          },
-        ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -79,10 +77,10 @@ class _SuppoertAndMessageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final BorderRadius borderRadius = BorderRadius.circular(4);
     final Border border = Border.all(
-      color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1),
+      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.1),
     );
     final TextStyle textStyle = TextStyle(
-      color: Theme.of(context).textTheme.bodyLarge!.color!,
+      color: Theme.of(context).textTheme.bodyText1!.color!,
       fontSize: 16,
     );
     return Consumer<UserProvider>(

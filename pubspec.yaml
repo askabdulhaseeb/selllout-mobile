@@ -63,6 +63,10 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   firebase_analytics: ^10.1.0
 
+  flutter_stripe:
+  pay:
+  webview_flutter:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

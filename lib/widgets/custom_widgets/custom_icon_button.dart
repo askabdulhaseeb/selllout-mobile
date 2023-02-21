@@ -29,19 +29,19 @@ class CustomIconButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius:
-            borderRadius ?? BorderRadius.circular(Utilities.borderRadius / 3),
+            borderRadius ?? BorderRadius.circular(15),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Theme.of(context).hintColor.withOpacity(.5),
             spreadRadius: 1,
-            blurRadius: 2,
-            offset: const Offset(0, 2),
+            blurRadius: 5,
+
           ),
         ],
       ),
       child: Material(
         borderRadius:
-            borderRadius ?? BorderRadius.circular(Utilities.borderRadius / 3),
+            borderRadius ?? BorderRadius.circular(15),
         color: bgColor ?? Theme.of(context).scaffoldBackgroundColor,
         child: InkWell(
           onTap: onTap,

@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../database/auction_api.dart';
 import '../../models/auction/auction.dart';
@@ -14,10 +14,7 @@ class AuctionProvider extends ChangeNotifier {
   init() async {
     if (_auctions.isNotEmpty) return;
     await _load();
-    if (kDebugMode) {
-      debugPrint(
-          'Print: Auction Provider, No. of Auction: ${_auctions.length}');
-    }
+    print('Print: Auction Provider, No. of Auction: ${_auctions.length}');
   }
 
   Future<void> refresh() async {

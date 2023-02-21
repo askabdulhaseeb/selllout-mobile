@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../database/auth_methods.dart';
 import '../../database/chat_api.dart';
+import '../../database/user_api.dart';
 import '../../enums/chat/message_type_enum.dart';
 import '../../functions/picker_functions.dart';
 import '../../functions/time_date_functions.dart';

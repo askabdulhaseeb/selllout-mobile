@@ -31,7 +31,7 @@ class _ProductStatsInfoScreenState extends State<ProductStatsInfoScreen>
         child: Text(
           'Offers',
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyLarge!.color,
+            color: Theme.of(context).textTheme.bodyText1!.color,
             fontSize: 18,
           ),
         ),
@@ -40,7 +40,7 @@ class _ProductStatsInfoScreenState extends State<ProductStatsInfoScreen>
         child: Text(
           'Orders',
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyLarge!.color,
+            color: Theme.of(context).textTheme.bodyText1!.color,
             fontSize: 18,
           ),
         ),
