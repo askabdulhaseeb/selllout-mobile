@@ -792,14 +792,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
-  pay:
-    dependency: "direct main"
-    description:
-      name: pay
-      sha256: "0a28ac09ddcf892efba7c6ce1c92d0a84ec7e12ff15d2a43c88cd23b075e0480"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   pedantic:
     dependency: transitive
     description:

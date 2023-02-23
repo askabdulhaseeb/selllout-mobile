@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
 import 'package:selllout/helper/payment_helper.dart';
 import 'package:selllout/utilities/utilities.dart';
