@@ -36,7 +36,7 @@ class _NotificationPageState extends State<NotificationPage>  with TickerProvide
     _tabController = TabController(length: 4,
         initialIndex: 0,vsync: this);
 
-    _tabController?.addListener((){
+    _tabController.addListener((){
       print('my index is${_tabController.index}');
     });
   }

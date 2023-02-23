@@ -36,7 +36,7 @@ class _BidsPageState extends State<BidsPage>  with TickerProviderStateMixin{
     _tabController = TabController(length: 2,
         initialIndex: 0,vsync: this);
 
-    _tabController?.addListener((){
+    _tabController.addListener((){
       print('my index is${_tabController.index}');
     });
   }
